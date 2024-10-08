@@ -1,5 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Dropdown } from 'bootstrap';
+
+
+let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+let dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+    return new Dropdown(dropdownToggleEl);
+});
 
 const Header = () => {
     return (

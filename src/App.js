@@ -7,6 +7,8 @@ import Header from "./components/property/Header";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from "./components/property/Footer";
 import './App.css';
+import RegisterForm from "./components/user/Register";
+
 const App = () => {
     return (
         <Router>
@@ -16,6 +18,7 @@ const App = () => {
                     <Route path="/home" element={<PropertyList />} />
                     <Route path="/properties/:id" element={<PropertyDetail />} />
                     <Route path="/post" element={<PostForm />} />
+                    <Route path="/register" element={<RegisterForm />} />
                 </Routes>
                 <Footer></Footer>
             </div>
