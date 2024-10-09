@@ -12,7 +12,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { AuthProvider } from "./components/auth/AuthContext";
 import HostDashboard from "./components/host/HostDashboard";
-import AdminDashboard from "./components/admin/AdminDashboard"; // Import AdminDashboard component
+import AdminDashboard from "./components/admin/AdminDashboard";
+import ListMyHomestay from "./components/host/ListMyHomestay"; // Import AdminDashboard component
 
 const App = () => {
     return (
@@ -27,6 +28,8 @@ const App = () => {
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Route for Admin */}
+                        <Route path="/host/listMyHome" element={<ListMyHomestay />} />
+
                     </Routes>
                     <Footer />
                 </div>
