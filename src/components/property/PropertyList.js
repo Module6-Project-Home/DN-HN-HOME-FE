@@ -19,16 +19,16 @@ const PropertyList = () => {
     const [maxBathrooms, setMaxBathrooms] = useState('');
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
+
+
     const [propertyTypes, setPropertyTypes] = useState([]); // Danh sách loại tài sản từ API
     const [roomTypes, setRoomTypes] = useState([]); // Danh sách loại tài sản từ API
+
     useEffect(() => {
         const fetchPropertyTypes = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/property-types');
                 setPropertyTypes(response.data); // Giả sử API trả về danh sách loại tài sản
-                // if (response.data.length > 0) {
-                //     setPropertyType(response.data[0].name); // Chọn loại tài sản đầu tiên làm mặc định
-                // }
             } catch (error) {
                 console.error('Error fetching property types:', error);
             }
@@ -38,9 +38,6 @@ const PropertyList = () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/room-types');
                 setRoomTypes(response.data); // Giả sử API trả về danh sách loại phòng
-                // if (response.data.length > 0) {
-                //     setRoomType(response.data[0].name); // Chọn loại phòng đầu tiên làm mặc định
-                // }
             } catch (error) {
                 console.error('Error fetching room types:', error);
             }
@@ -137,8 +134,6 @@ const PropertyList = () => {
                                                 ))}
                                             </select>
                                         </div>
-                                            {/*<input type="text" className="form-control mb-2" placeholder="Loại nhà" value={propertyType} onChange={(e) => setPropertyType(e.target.value)} />*/}
-                                            {/*<input type="text" className="form-control mb-2" placeholder="Loại phòng" value={roomType} onChange={(e) => setRoomType(e.target.value)} />*/}
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="bedroom" className="mr-2 mb-2 fw-bold">Phòng Ngủ: </label>
                                             <input type="number" className="form-control mb-2"
@@ -149,7 +144,7 @@ const PropertyList = () => {
                                                    onChange={(e) => setMaxBedrooms(e.target.value)}/>
                                         </div>
                                         <div className="form-group mr-2 mb-3">
-                                        <label htmlFor="bathroom" className="mr-2 mb-2 fw-bold">Phòng Tắm: </label>
+                                            <label htmlFor="bathroom" className="mr-2 mb-2 fw-bold">Phòng Tắm: </label>
                                             <input type="number" className="form-control mb-2"
                                                    placeholder="Số phòng tắm tối thiểu" value={minBathrooms}
                                                    onChange={(e) => setMinBathrooms(e.target.value)}/>
@@ -174,9 +169,10 @@ const PropertyList = () => {
                                                    placeholder="Ngày check-out" value={checkOutDate}
                                                    onChange={(e) => setCheckOutDate(e.target.value)}/>
                                         </div>
-                                            <button type="submit" className="btn btn-primary">Tìm kiếm</button>
+                                        <button type="submit" className="btn btn-primary">Tìm kiếm</button>
                                     </form>
                                 </div>
+
                             </div>
 
                             <div className="col-lg-9">
@@ -188,19 +184,23 @@ const PropertyList = () => {
                                             <div className="col-md-6 col-lg-6 col-xl-4" key={property.id}>
                                                 <div className="rounded position-relative fruite-item">
                                                     <div className="fruite-img">
-                                                        <a href={`/properties/detail/${property.id}`}>
+                                                        <a href={`/property/detail/${property.id}`}>
                                                             <img
                                                                 style={{
                                                                     width: '100%',
                                                                     height: '200px',
                                                                     objectFit: 'cover'
                                                                 }}
-                                                                src={property.imageUrls[0]}
-                                                                alt={property.name}
+                                                                // Kiểm tra xem có ảnh không, nếu không thì sử dụng ảnh mặc định
+                                                                src={property.imageUrls && property.imageUrls.length > 0
+                                                                    ? property.imageUrls[0]
+                                                                    : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-16.jpg?alt=media&token=54e09e02-b770-4977-a60a-63bbaa83b0ae"}
+                                                                alt="Property Image"
                                                                 className="img-fluid w-100 rounded-top"
                                                             />
                                                         </a>
                                                     </div>
+
                                                     <div
                                                         className="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                                         style={{top: '10px', left: '10px'}}>
