@@ -27,10 +27,16 @@ const Header = () => {
         }
     }, [login, user]);
 
+
+
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:8080/api/logout');
-            logout(); // Clear username in context
+            await axios.post('http://localhost:8080/api/logout', {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Adjust if needed
+                }
+            });
+            logout(); // Call your logout function to clear local storage
             navigate('/login');
         } catch (error) {
             console.error('Logout failed', error);
@@ -81,9 +87,14 @@ const Header = () => {
                                             </li>
                                         </>
                                     ) : (
-                                        <li>
-                                            <Link to="/login" className="dropdown-item">Đăng nhập</Link>
-                                        </li>
+                                        <>
+                                            <li>
+                                                <Link to="/login" className="dropdown-item">Đăng nhập</Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/register" className="dropdown-item">Đăng ký</Link>
+                                            </li>
+                                        </>
                                     )}
                                 </ul>
                             </div>

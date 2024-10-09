@@ -23,12 +23,14 @@ const PropertyList = () => {
 
     const [propertyTypes, setPropertyTypes] = useState([]); // Danh sách loại tài sản từ API
     const [roomTypes, setRoomTypes] = useState([]); // Danh sách loại tài sản từ API
-
     useEffect(() => {
         const fetchPropertyTypes = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/property-types');
-                setPropertyTypes(response.data);
+                setPropertyTypes(response.data); // Giả sử API trả về danh sách loại tài sản
+                if (response.data.length > 0) {
+                    setPropertyType(response.data[0].name); // Chọn loại tài sản đầu tiên làm mặc định
+                }
             } catch (error) {
                 console.error('Error fetching property types:', error);
             }
@@ -37,7 +39,10 @@ const PropertyList = () => {
         const fetchRoomTypes = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/room-types');
-                setRoomTypes(response.data);
+                setRoomTypes(response.data); // Giả sử API trả về danh sách loại phòng
+                if (response.data.length > 0) {
+                    setRoomType(response.data[0].name); // Chọn loại phòng đầu tiên làm mặc định
+                }
             } catch (error) {
                 console.error('Error fetching room types:', error);
             }
@@ -200,9 +205,9 @@ const PropertyList = () => {
                                                                 alt="Property Image"
                                                                 className="img-fluid w-100 rounded-top"
                                                             />
+
                                                         </a>
                                                     </div>
-
                                                     <div
                                                         className="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                                         style={{top: '10px', left: '10px'}}>
