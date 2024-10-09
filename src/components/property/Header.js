@@ -86,9 +86,14 @@ const Header = () => {
                                             </li>
                                         </>
                                     ) : (
-                                        <li>
-                                            <Link to="/login" className="dropdown-item">Đăng nhập</Link>
-                                        </li>
+                                        <>
+                                            <li>
+                                                <Link to="/login" className="dropdown-item">Đăng nhập</Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/register" className="dropdown-item">Đăng ký</Link>
+                                            </li>
+                                        </>
                                     )}
                                 </ul>
                             </div>

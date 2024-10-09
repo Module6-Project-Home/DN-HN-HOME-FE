@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterForm = () => {
     const [formValues, setFormValues] = useState({
@@ -9,10 +12,8 @@ const RegisterForm = () => {
         phoneNumber: ''
     });
 
-    // Khai báo serverResponse để lưu thông báo từ server
-    const [serverResponse, setServerResponse] = useState('');
-
     const [formErrors, setFormErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -59,7 +60,6 @@ const RegisterForm = () => {
         e.preventDefault();
 
         if (validateForm()) {
-            //console.log('Form data: ', formValues);
             // Thực hiện logic khi form hợp lệ (ví dụ: gửi dữ liệu lên server)
             fetch('http://localhost:8080/api/users/register', {
                 method: 'POST',
@@ -68,14 +68,21 @@ const RegisterForm = () => {
                 },
                 body: JSON.stringify(formValues) // Dữ liệu gửi đi
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        return response.text().then((text) => { throw new Error(text); });
+                    }
+                })
                 .then(data => {
-                    // Xử lý phản hồi từ backend
-                    setServerResponse(data.message);
-                    console.log('Success:', data);
+                    toast.success("Đăng ký thành công!");
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 2000);
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
+                    toast.error(`Đăng ký thất bại: ${error.message}`);
                 });
         }
     };
@@ -83,6 +90,8 @@ const RegisterForm = () => {
     return (
         <div className="container-fluid container-md custom-margin">
             <div className="mt-5">
+                {/* Toast container để hiển thị thông báo */}
+                <ToastContainer />
                 <form className="mt-5 " onSubmit={handleSubmit}>
                     <div className="form-group col-md-3">
                         <label>Tên người dùng</label>
@@ -147,8 +156,7 @@ const RegisterForm = () => {
 
                     <button type="submit" className="btn btn-primary mt-3">Đăng ký</button>
                 </form>
-                {/* Hiển thị phản hồi từ server */}
-                {serverResponse && <p>{serverResponse}</p>}
+
             </div>
         </div>
     );
