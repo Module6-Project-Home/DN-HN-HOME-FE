@@ -18,14 +18,17 @@ const Header = () => {
         const storedUsername = localStorage.getItem('username');
         const storedRoles = localStorage.getItem('roles');
 
-        if (storedUsername && storedRoles) {
+        if (storedUsername && storedRoles && !user) {
             try {
                 login(storedUsername, JSON.parse(storedRoles)); // Parse lại roles từ JSON nếu nó tồn tại
             } catch (error) {
                 console.error('Error parsing roles from localStorage:', error);
             }
         }
-    }, []);
+
+    }, [login, user]);
+
+
 
 
     const handleLogout = async () => {
@@ -86,9 +89,14 @@ const Header = () => {
                                             </li>
                                         </>
                                     ) : (
-                                        <li>
-                                            <Link to="/login" className="dropdown-item">Đăng nhập</Link>
-                                        </li>
+                                        <>
+                                            <li>
+                                                <Link to="/login" className="dropdown-item">Đăng nhập</Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/register" className="dropdown-item">Đăng ký</Link>
+                                            </li>
+                                        </>
                                     )}
                                 </ul>
                             </div>

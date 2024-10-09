@@ -1,5 +1,3 @@
-// src/App.js
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PropertyList from './components/property/PropertyList';
@@ -10,10 +8,13 @@ import Header from './components/property/Header';
 import Footer from './components/property/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { AuthProvider } from './components/auth/AuthContext';
-import HostDashboard from './components/host/HostDashboard';
-import AdminDashboard from './components/admin/AdminDashboard';
+import { AuthProvider } from "./components/auth/AuthContext";
+import HostDashboard from "./components/host/HostDashboard";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import ListMyHomestay from "./components/host/ListMyHomestay"; // Import AdminDashboard component
+import RegisterForm from "./components/user/Register";
 import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute
+
 
 const App = () => {
     return (
@@ -26,15 +27,18 @@ const App = () => {
                         <Route path="/properties/:id" element={<PropertyDetail />} />
                         <Route path="/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
-
+                        <Route path="/host/dashboard" element={<HostDashboard />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Route for Admin */}
+                        <Route path="/register" element={<RegisterForm />} />
+                        <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         {/* Routes protected by roles */}
                         <Route
                             path="/host/*"
-                            element={<PrivateRoute element={<HostDashboard />} requiredRole="ROLE_HOST" />}
+                            element={<PrivateRoute requiredRole="ROLE_HOST" />}
                         />
                         <Route
                             path="/admin/*"
-                            element={<PrivateRoute element={<AdminDashboard />} requiredRole="ROLE_ADMIN" />}
+                            element={<PrivateRoute requiredRole="ROLE_ADMIN" />}
                         />
                     </Routes>
                     <Footer />
