@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
+    const [topBookingProperties, setTopBookingProperties] = useState([]); // State cho danh sách 5 property có lượt booking cao nhất
 
     // Tạo các state cho từng tham số tìm kiếm
     const [name, setName] = useState('');
@@ -20,7 +21,6 @@ const PropertyList = () => {
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
 
-
     const [propertyTypes, setPropertyTypes] = useState([]); // Danh sách loại tài sản từ API
     const [roomTypes, setRoomTypes] = useState([]); // Danh sách loại tài sản từ API
 
@@ -28,7 +28,7 @@ const PropertyList = () => {
         const fetchPropertyTypes = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/property-types');
-                setPropertyTypes(response.data); // Giả sử API trả về danh sách loại tài sản
+                setPropertyTypes(response.data);
             } catch (error) {
                 console.error('Error fetching property types:', error);
             }
@@ -37,14 +37,24 @@ const PropertyList = () => {
         const fetchRoomTypes = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/room-types');
-                setRoomTypes(response.data); // Giả sử API trả về danh sách loại phòng
+                setRoomTypes(response.data);
             } catch (error) {
                 console.error('Error fetching room types:', error);
             }
         };
 
-        fetchPropertyTypes(); // Gọi hàm fetchPropertyTypes
-        fetchRoomTypes(); // Gọi hàm fetchRoomTypes
+        const fetchTopBookingProperties = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/properties/top-booking');
+                setTopBookingProperties(response.data); // Lấy danh sách property có lượt booking cao nhất
+            } catch (error) {
+                console.error('Error fetching top booking properties:', error);
+            }
+        };
+
+        fetchPropertyTypes();
+        fetchRoomTypes();
+        fetchTopBookingProperties(); // Gọi API lấy danh sách 5 property có lượt booking cao nhất
         fetchProperties(); // Gọi hàm fetchProperties để lấy danh sách nhà
     }, []);
 
@@ -79,7 +89,40 @@ const PropertyList = () => {
 
     return (
         <div className="container-fluid fruite py-5">
-            <HeroBanner></HeroBanner>
+            <HeroBanner />
+            {/* Danh sách 5 property có lượt booking cao nhất */}
+            <div className="container py-5">
+                <h2 className="text-center mb-5">Top 5 Nhà Được Đặt Nhiều Nhất</h2>
+                <div className="row g-4 justify-content-center">
+                    {topBookingProperties.map((property) => (
+                        <div className="col-md-2" key={property.id}>
+                            <div className="rounded position-relative fruite-item">
+                                <div className="fruite-img">
+                                    <a href={`/property/detail/${property.id}`}>
+                                        <img
+                                            style={{
+                                                width: '100%',
+                                                height: '150px',
+                                                objectFit: 'cover'
+                                            }}
+                                            src={property.images?property.images: "https://via.placeholder.com/200"} // Đặt ảnh mặc định nếu không có ảnh
+                                            alt="Property Image"
+                                            className="img-fluid w-100 rounded"
+                                        />
+                                    </a>
+                                </div>
+                                <div className="p-2 border border-secondary border-top-0 rounded-bottom">
+                                    <h5 className="property-name">{property.name}</h5>
+                                    <h6 className="property-name">{property.address}</h6>
+                                    <p className="text-muted">{property.pricePerNight.toLocaleString()} VNĐ/Đêm</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Form tìm kiếm và danh sách property */}
             <div className="container py-5">
                 <div className="row g-4 mb-5">
                     <div className="col-lg-12">
@@ -90,38 +133,33 @@ const PropertyList = () => {
                                         <h5>Tìm kiếm theo thông tin nhà</h5>
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="name" className="mr-2 mb-2 fw-bold">Tên Homestay: </label>
-                                            <input id={"name"} type="text" className="form-control mb-2"
+                                            <input id="name" type="text" className="form-control mb-2"
                                                    placeholder="Tên" value={name}
-                                                   onChange={(e) => setName(e.target.value)}/>
+                                                   onChange={(e) => setName(e.target.value)} />
                                         </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="address" className="mr-2 mb-2 fw-bold">Địa chỉ: </label>
-                                            <input id={"address"} type="text" className="form-control mb-2" placeholder="Địa chỉ"
-                                                   value={address} onChange={(e) => setAddress(e.target.value)}/>
-                                        </div>
+                                        {/* Các trường form tìm kiếm khác */}
+                                        {/* Loại Nhà */}
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="propertyType" className="mr-2 mb-2 fw-bold">Loại Nhà: </label>
-                                            {/* Chọn Loại Nhà */}
                                             <select
-                                                id={"propertyType"}
+                                                id="propertyType"
                                                 className="form-control mb-2"
                                                 value={propertyType}
                                                 onChange={(e) => setPropertyType(e.target.value)}
                                             >
-                                                <option value="">-- Chọn loại nhà--</option>
+                                                <option value="">-- Chọn loại nhà --</option>
                                                 {propertyTypes.map((type) => (
                                                     <option key={type.id} value={type.id}>
                                                         {type.name}
                                                     </option>
                                                 ))}
-
                                             </select>
                                         </div>
+                                        {/* Loại Phòng */}
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="roomType" className="mr-2 mb-2 fw-bold">Loại Phòng: </label>
-                                            {/* Chọn Loại Phòng */}
                                             <select
-                                                id={"roomType"}
+                                                id="roomType"
                                                 className="form-control mb-2"
                                                 value={roomType}
                                                 onChange={(e) => setRoomType(e.target.value)}
@@ -134,45 +172,10 @@ const PropertyList = () => {
                                                 ))}
                                             </select>
                                         </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="bedroom" className="mr-2 mb-2 fw-bold">Phòng Ngủ: </label>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng ngủ tối thiểu" value={minBedrooms}
-                                                   onChange={(e) => setMinBedrooms(e.target.value)}/>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng ngủ tối đa" value={maxBedrooms}
-                                                   onChange={(e) => setMaxBedrooms(e.target.value)}/>
-                                        </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="bathroom" className="mr-2 mb-2 fw-bold">Phòng Tắm: </label>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng tắm tối thiểu" value={minBathrooms}
-                                                   onChange={(e) => setMinBathrooms(e.target.value)}/>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng tắm tối đa" value={maxBathrooms}
-                                                   onChange={(e) => setMaxBathrooms(e.target.value)}/>
-                                        </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="price" className="mr-2 mb-2 fw-bold">Giá: </label>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Giá tối thiểu" value={minPrice}
-                                                   onChange={(e) => setMinPrice(e.target.value)}/>
-                                            <input type="number" className="form-control mb-2" placeholder="Giá tối đa"
-                                                   value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
-                                        </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="checkInDate" className="mr-2 mb-2 fw-bold">Khoảng thời gian: </label>
-                                            <input type="date" className="form-control mb-2" placeholder="Ngày check-in"
-                                                   value={checkInDate}
-                                                   onChange={(e) => setCheckInDate(e.target.value)}/>
-                                            <input type="date" className="form-control mb-2"
-                                                   placeholder="Ngày check-out" value={checkOutDate}
-                                                   onChange={(e) => setCheckOutDate(e.target.value)}/>
-                                        </div>
+                                        {/* Các trường tìm kiếm khác */}
                                         <button type="submit" className="btn btn-primary">Tìm kiếm</button>
                                     </form>
                                 </div>
-
                             </div>
 
                             <div className="col-lg-9">
@@ -191,10 +194,9 @@ const PropertyList = () => {
                                                                     height: '200px',
                                                                     objectFit: 'cover'
                                                                 }}
-                                                                // Kiểm tra xem có ảnh không, nếu không thì sử dụng ảnh mặc định
                                                                 src={property.imageUrls && property.imageUrls.length > 0
                                                                     ? property.imageUrls[0]
-                                                                    : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-16.jpg?alt=media&token=54e09e02-b770-4977-a60a-63bbaa83b0ae"}
+                                                                    : "https://via.placeholder.com/200"}
                                                                 alt="Property Image"
                                                                 className="img-fluid w-100 rounded-top"
                                                             />

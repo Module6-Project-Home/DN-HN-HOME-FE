@@ -8,29 +8,42 @@ export const AuthProvider = ({ children }) => {
         const storedRoles = localStorage.getItem('roles');
         return storedRoles ? JSON.parse(storedRoles) : [];
     }); // Khôi phục roles từ localStorage
+    const [token, setToken] = useState(() => localStorage.getItem('jwtToken') || null); // Khôi phục token từ localStorage
 
-    // Hàm login, lưu username và roles vào state và localStorage
-    const login = (username, roles) => {
-        // Kiểm tra nếu user và roles đã được thiết lập, tránh gọi setState liên tục
-        if (user !== username || JSON.stringify(roles) !== JSON.stringify(roles)) {
-            setUser(username);
-            localStorage.setItem('username', username);
-            setRoles(roles);
-            localStorage.setItem('roles', JSON.stringify(roles));
-        }
+    // Hàm login, lưu username, roles, và token vào state và localStorage
+    const login = (username, roles, token) => {
+        setUser(username);
+        localStorage.setItem('username', username);
+
+        setRoles(roles);
+        localStorage.setItem('roles', JSON.stringify(roles));
+
+        setToken(token);
+        localStorage.setItem('jwtToken', token); // Lưu token vào localStorage
     };
 
-    // Hàm logout, xóa dữ liệu user và roles từ state và localStorage
+    // Hàm logout, xóa dữ liệu user, roles, và token từ state và localStorage
     const logout = () => {
         setUser(null);
         setRoles([]);
+        setToken(null);
+
         localStorage.removeItem('jwtToken'); // Xóa token khi đăng xuất
         localStorage.removeItem('username');
         localStorage.removeItem('roles'); // Xóa vai trò khi đăng xuất
     };
 
+    // Kiểm tra token khi component được mount
+    useEffect(() => {
+        const storedToken = localStorage.getItem('jwtToken');
+        if (storedToken) {
+            console.log('Token found:', storedToken);
+            // Có thể kiểm tra token với API ở đây nếu cần
+        }
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ user, roles, login, logout }}>
+        <AuthContext.Provider value={{ user, roles, token, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

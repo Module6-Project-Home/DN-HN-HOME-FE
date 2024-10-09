@@ -36,7 +36,7 @@ const BookingForm = ({ pricePerNight }) => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            alert(`Đặt phòng thành công!`);
+            alert(`Đặt phòng thành công! bạn đã đặt ${totalDays} ngày tổng tiền của bạn là ${totalPrice}`);
         } catch (error) {
             console.error('Error creating booking:', error);
             if (error.response && error.response.data) {
