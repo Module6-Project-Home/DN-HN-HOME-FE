@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PropertyList from './components/property/PropertyList';
 import PropertyDetail from './components/property/PropertyDetail';
 import PostForm from './components/property/PostForm';
+
 import Login from './components/auth/Login'; // import the login component
 import Header from "./components/property/Header"; // Bỏ comment để import Header
 import Footer from "./components/property/Footer";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { AuthProvider } from "./components/auth/AuthContext";
@@ -30,6 +32,7 @@ const App = () => {
                 </div>
             </Router>
         </AuthProvider>
+
     );
 };
 
