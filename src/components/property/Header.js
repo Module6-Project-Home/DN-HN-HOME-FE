@@ -20,14 +20,12 @@ const Header = () => {
 
         if (storedUsername && storedRoles && !user) {
             try {
-                login(storedUsername, JSON.parse(storedRoles)); // Parse lại roles từ JSON nếu nó tồn tại
+                login(storedUsername, JSON.parse(storedRoles));
             } catch (error) {
                 console.error('Error parsing roles from localStorage:', error);
             }
         }
-
     }, [login, user]);
-
 
 
 
