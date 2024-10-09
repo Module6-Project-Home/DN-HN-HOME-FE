@@ -194,10 +194,11 @@ const PropertyList = () => {
                                                                     height: '200px',
                                                                     objectFit: 'cover'
                                                                 }}
-                                                                src={property.imageUrls[0]}
+                                                                src={property.imageUrls && property.imageUrls.length > 0 ? property.imageUrls[0] : 'https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-18.jpg?alt=media&token=cbae316d-e877-4cef-bc31-1ec1ee27595c'}
                                                                 alt={property.name}
                                                                 className="img-fluid w-100 rounded-top"
                                                             />
+
                                                         </a>
                                                     </div>
                                                     <div
