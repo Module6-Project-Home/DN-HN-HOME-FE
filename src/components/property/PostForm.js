@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import HeroBanner from "./HeroBanner";
-import { uploadImageToFirebase } from "../uploadImageToFirebase";
 import { useAuth } from '../auth/AuthContext';
-import {useNavigate} from "react-router-dom"; // Import context để lấy token
+import {useNavigate} from "react-router-dom";
+import {uploadImageToFirebase} from "../firebaseUpload"; // Import context để lấy token
 
 const AddProperty = () => {
     const { user } = useAuth(); // Lấy user và token từ context
