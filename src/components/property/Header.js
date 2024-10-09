@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext';
-import { Dropdown } from 'bootstrap';
 
+
+import { Dropdown } from 'bootstrap';
 let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
 let dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
     return new Dropdown(dropdownToggleEl);
@@ -26,10 +27,15 @@ const Header = () => {
         }
     }, []);
 
+
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:8080/api/logout');
-            logout(); // Clear username in context
+            await axios.post('http://localhost:8080/api/logout', {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Adjust if needed
+                }
+            });
+            logout(); // Call your logout function to clear local storage
             navigate('/login');
         } catch (error) {
             console.error('Logout failed', error);
