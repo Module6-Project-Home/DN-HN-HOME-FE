@@ -44,13 +44,22 @@ const Header = () => {
 
         if (storedUsername && storedRoles && !user) {
             try {
+<<<<<<< HEAD
                 login(storedUsername, JSON.parse(storedRoles), storedUserId);
+=======
+                login(storedUsername, JSON.parse(storedRoles));
+>>>>>>> 2b55b7c9825d5e810da83984156ea1b6679fcaac
             } catch (error) {
                 console.error('Error parsing roles from localStorage:', error);
             }
         }
     }, [login, user]);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 2b55b7c9825d5e810da83984156ea1b6679fcaac
     const handleLogout = async () => {
         try {
             await axios.post('http://localhost:8080/api/logout', {}, {
