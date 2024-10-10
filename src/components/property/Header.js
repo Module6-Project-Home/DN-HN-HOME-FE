@@ -71,7 +71,7 @@ const Header = () => {
                                                 <span className="font-weight-bold">{`Chào mừng, ${user}!`}</span>
                                             </li>
                                             <li>
-                                                <Link className="dropdown-item" to="/home/detail_user/1">Quản lý tài khoản</Link>
+                                                <Link className="dropdown-item" to="/home/account-management">Quản lý tài khoản</Link>
                                             </li>
                                             <li>
                                                 <Link className="dropdown-item" to="/property/history">Lịch sử thuê nhà</Link>
