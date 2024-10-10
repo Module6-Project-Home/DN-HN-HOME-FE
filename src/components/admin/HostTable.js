@@ -85,8 +85,8 @@ const  HostTable = () => {
                             <td></td>
                             <td>{user.status}</td>
                             <td>
-                                <button type="button" className="btn btn-info"
-                                        onClick={() => handleInfoClick(user)}>Info
+                                <button type="button" className="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"
+                                        onClick={() => handleInfoClick(user)}>i
                                 </button>
                                 {user.status === 'ACTIVE' ? (
                                     <button type="button" className="btn btn-danger" onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</button>

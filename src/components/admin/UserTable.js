@@ -66,10 +66,11 @@ const  UserTable = () => {
 
     return (
         <div>
+            <div>
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <table className="table table-hover">
+                <table className="table table-striped table-hover">
                     <thead>
                     <tr>
                         <th>Họ & Tên</th>
@@ -85,11 +86,11 @@ const  UserTable = () => {
                             <td>{user.phoneNumber}</td>
                             <td>{user.status}</td>
                             <td>
-                                <button type="button" className="btn btn-info"
-                                        onClick={() => handleInfoClick(user)}>Info
+                                <button type="button" className="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"
+                                        onClick={() => handleInfoClick(user)}>i
                                 </button>
                                 {user.status === 'ACTIVE' ? (
-                                    <button type="button" className="btn btn-danger"
+                                    <button type="button" className="btn btn-danger btn-rounded"
                                             onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</button>
                                 ) : (
                                     <button type="button" className="btn btn-success"
@@ -101,6 +102,8 @@ const  UserTable = () => {
                     </tbody>
                 </table>
             )}
+            </div>
+            <div>
             <ReactPaginate
                 previousLabel={'Previous'}
                 nextLabel={'Next'}
@@ -119,7 +122,7 @@ const  UserTable = () => {
                 nextLinkClassName={'page-link'}
                 activeClassName={'active'}
                 disabledClassName={'disabled'}
-            />
+            /></div>
             {selectedUser && (
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Header closeButton>
