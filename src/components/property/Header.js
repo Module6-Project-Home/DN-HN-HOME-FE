@@ -1,47 +1,158 @@
-import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext';
-
-
-import { Dropdown } from 'bootstrap';
-let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-let dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-    return new Dropdown(dropdownToggleEl);
-});
+import { Dropdown } from 'react-bootstrap';
+import { useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Header = () => {
-    const { user, logout, login } = useAuth(); // Sử dụng user thay vì username
+    const { user, roles, logout, login } = useAuth();
     const navigate = useNavigate();
+
+    const handleUpgradeRequest = async () => {
+        if (!user || !user.id) {
+            console.error('User is not defined or user ID is missing.');
+            toast.error('Bạn cần đăng nhập để thực hiện yêu cầu này.');
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('jwtToken');
+            const response = await axios.put('http://localhost:8080/api/users/request-upgrade', null, {
+                params: { userId: user.id },
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            if (response.status === 200) {
+                toast.success('Yêu cầu nâng cấp của bạn đã được gửi thành công!');
+                navigate('/success-page');
+            }
+        } catch (error) {
+            console.error('Error sending upgrade request:', error.response ? error.response.data : error.message);
+            toast.error('Đã xảy ra lỗi, vui lòng thử lại sau.');
+        }
+    };
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
         const storedRoles = localStorage.getItem('roles');
+        const storedUserId = localStorage.getItem('userId');
 
         if (storedUsername && storedRoles && !user) {
             try {
-                login(storedUsername, JSON.parse(storedRoles)); // Parse lại roles từ JSON nếu nó tồn tại
+                login(storedUsername, JSON.parse(storedRoles), storedUserId);
             } catch (error) {
                 console.error('Error parsing roles from localStorage:', error);
             }
         }
-
     }, [login, user]);
-
-
-
 
     const handleLogout = async () => {
         try {
             await axios.post('http://localhost:8080/api/logout', {}, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Adjust if needed
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
                 }
             });
-            logout(); // Call your logout function to clear local storage
+            logout();
+            toast.success('Đăng xuất thành công!');
             navigate('/login');
         } catch (error) {
             console.error('Logout failed', error);
+            toast.error('Đăng xuất không thành công.');
+        }
+    };
+
+    const renderDropdownMenu = () => {
+        if (!user) {
+            return (
+                <>
+                    <li>
+                        <Link to="/login" className="dropdown-item">Đăng nhập</Link>
+                    </li>
+                    <li>
+                        <Link to="/register" className="dropdown-item">Đăng ký</Link>
+                    </li>
+                </>
+            );
+        }
+
+        // Admin Menu
+        if (roles.includes('ROLE_ADMIN')) {
+            return (
+                <>
+                    <li className="text-center my-3">
+                        <span className="font-weight-bold">{`Chào mừng, ${user.username}!`}</span>
+                    </li>
+                    <li>
+                        <Link className="dropdown-item" to="/admin/dashboard">Trang quản trị</Link>
+                    </li>
+                    <li>
+                        <Link className="dropdown-item" to="/admin/property">Danh sách nhà cho thuê</Link>
+                    </li>
+                    <li>
+                        <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                        <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
+                    </li>
+                </>
+            );
+        }
+
+        // Host Menu
+        if (roles.includes('ROLE_HOST')) {
+            return (
+                <>
+                    <li className="text-center my-3">
+                        <span className="font-weight-bold">{`Chào mừng, ${user.username}!`}</span>
+                    </li>
+                    <li>
+                        <Link className="dropdown-item" to="/host/properties">Quản lý Homestay</Link>
+                    </li>
+                    <li>
+                        <Link className="dropdown-item" to="/host/history">Lịch sử thuê nhà</Link>
+                    </li>
+                    <li>
+                        <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                        <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
+                    </li>
+                </>
+            );
+        }
+
+        // Regular User Menu
+        if (!roles.includes('ROLE_ADMIN') && !roles.includes('ROLE_HOST')) {
+            return (
+                <>
+                    <li className="text-center my-3">
+                        <span className="font-weight-bold">{`Chào mừng, ${user.username}!`}</span>
+                    </li>
+                    <li>
+                        <Link className="dropdown-item" to="/account-manager">Quản lý tài khoản</Link>
+                    </li>
+                    <li>
+                        <Link className="dropdown-item" to="/property/history">Lịch sử thuê nhà</Link>
+                    </li>
+                    <li>
+                        <button type="button" className="dropdown-item" onClick={handleUpgradeRequest}>
+                            Trở thành chủ nhà
+                        </button>
+                    </li>
+                    <li>
+                        <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                        <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
+                    </li>
+                </>
+            );
         }
     };
 
@@ -62,48 +173,28 @@ const Header = () => {
                             <Link to="/home/about" className="nav-item nav-link">Về chúng tôi</Link>
                         </div>
                         <div className="d-flex m-3 me-0">
-                            <div className="dropdown my-auto">
-                                <a className="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <Dropdown>
+                                <Dropdown.Toggle id="dropdownMenuLink" variant="link" className="nav-link">
                                     <i className="fas fa-user fa-2x"></i>
-                                </a>
-                                <ul className="dropdown-menu dropdown-menu-end p-1" aria-labelledby="dropdownMenuLink" style={{ minWidth: '300px' }}>
-                                    {user ? (
-                                        <>
-                                            <li className="text-center my-3">
-                                                <span className="font-weight-bold">{`Chào mừng, ${user}!`}</span>
-                                            </li>
-                                            <li>
-                                                <Link className="dropdown-item" to="/home/detail_user/1">Quản lý tài khoản</Link>
-                                            </li>
-                                            <li>
-                                                <Link className="dropdown-item" to="/property/history">Lịch sử thuê nhà</Link>
-                                            </li>
-                                            <li>
-                                                <Link className="dropdown-item" to="/admin/property">Danh sách nhà cho thuê</Link>
-                                            </li>
-                                            <li>
-                                                <hr className="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
-                                            </li>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <li>
-                                                <Link to="/login" className="dropdown-item">Đăng nhập</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/register" className="dropdown-item">Đăng ký</Link>
-                                            </li>
-                                        </>
-                                    )}
-                                </ul>
-                            </div>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu align="end" style={{ minWidth: '300px' }}>
+                                    {renderDropdownMenu()}
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
                     </div>
                 </nav>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     );
 };

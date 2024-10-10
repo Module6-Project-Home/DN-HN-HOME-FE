@@ -1,58 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext'; // Import AuthContext
+import { useAuth } from './AuthContext';
 
 const Login = () => {
-    const { login } = useAuth(); // Access login function from context
+    const { login } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false); // State for loading
-    const [loginMessage, setLoginMessage] = useState(''); // State for login message
+    const [loading, setLoading] = useState(false);
+    const [loginMessage, setLoginMessage] = useState('');
     const navigate = useNavigate();
 
-    // Retrieve message from local storage and clear it
     useEffect(() => {
         const message = localStorage.getItem('authMessage') || localStorage.getItem('loginMessage');
         if (message) {
-            setLoginMessage(message); // Set login message from local storage
-            localStorage.removeItem('authMessage'); // Clear the message after displaying it
-            localStorage.removeItem('loginMessage'); // Clear login-specific messages too
+            setLoginMessage(message);
+            localStorage.removeItem('authMessage');
+            localStorage.removeItem('loginMessage');
         }
     }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(''); // Clear previous error message
+        setError('');
 
-        // Simple validation
         if (!username || !password) {
             setError('Vui lòng nhập tên người dùng và mật khẩu');
             return;
         }
 
-        setLoading(true); // Set loading to true
+        setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/login', {
-                username,
-                password,
-            });
+            const response = await axios.post('http://localhost:8080/api/login', { username, password });
+            const { id, token, authorities } = response.data;
+            const roles = authorities.map(auth => auth.authority);
 
-            const { token, authorities } = response.data; // Get authorities from the response
-            const roles = authorities.map((auth) => auth.authority); // Extract roles
-
-            // Save data to local storage
+            // Lưu trữ token và thông tin người dùng
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('username', username);
-            localStorage.setItem('roles', JSON.stringify(roles)); // Store roles
+            localStorage.setItem('userId', id);
+            localStorage.setItem('roles', JSON.stringify(roles));
 
-            // Call login from context
-            login(username, roles);
-            setPassword(''); // Clear password after successful login
+            // Gọi hàm login từ AuthContext với đầy đủ thông tin
+            login(username, roles, id);
 
-            // Redirect based on role
+            setPassword('');
+
+            // Điều hướng dựa trên vai trò
             if (roles.includes('ROLE_HOST')) {
                 navigate('/host/dashboard');
             } else if (roles.includes('ROLE_ADMIN')) {
@@ -61,12 +57,10 @@ const Login = () => {
                 navigate('/home');
             }
         } catch (error) {
-            // Display error message
             setError('Tài khoản hoặc mật khẩu không đúng');
-            // Optionally, you can set a login message to local storage for future notifications
             localStorage.setItem('loginMessage', 'Tài khoản hoặc mật khẩu không đúng');
         } finally {
-            setLoading(false); // Set loading to false after the request
+            setLoading(false);
         }
     };
 
@@ -74,7 +68,7 @@ const Login = () => {
         <div className="login-container d-flex justify-content-center align-items-center vh-100">
             <form onSubmit={handleLogin} className="p-4 border rounded shadow">
                 <h2 className="text-center mb-4">Đăng Nhập</h2>
-                {loginMessage && <div className="alert alert-danger">{loginMessage}</div>} {/* Display login message */ }
+                {loginMessage && <div className="alert alert-danger">{loginMessage}</div>}
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Tên người dùng</label>
                     <input
@@ -85,7 +79,7 @@ const Login = () => {
                         value={username}
                         onChange={(e) => {
                             setUsername(e.target.value);
-                            setError(''); // Clear error when user starts typing
+                            setError('');
                         }}
                         required
                     />
@@ -100,15 +94,15 @@ const Login = () => {
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
-                            setError(''); // Clear error when user starts typing
+                            setError('');
                         }}
                         required
                     />
                 </div>
                 <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-                    {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'} {/* Change button text when loading */ }
+                    {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
                 </button>
-                {error && <p className="text-danger text-center mt-2">{error}</p>} {/* Display error message */ }
+                {error && <p className="text-danger text-center mt-2">{error}</p>}
             </form>
         </div>
     );
