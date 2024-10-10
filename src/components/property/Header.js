@@ -81,8 +81,11 @@ const Header = () => {
             );
         }
 
+        // Check if roles is an array
+        const userRoles = Array.isArray(roles) ? roles : [];
+
         // Admin Menu
-        if (roles.includes('ROLE_ADMIN')) {
+        if (userRoles.includes('ROLE_ADMIN')) {
             return (
                 <>
                     <li className="text-center my-3">
@@ -105,7 +108,7 @@ const Header = () => {
         }
 
         // Host Menu
-        if (roles.includes('ROLE_HOST')) {
+        if (userRoles.includes('ROLE_HOST')) {
             return (
                 <>
                     <li className="text-center my-3">
@@ -128,7 +131,7 @@ const Header = () => {
         }
 
         // Regular User Menu
-        if (!roles.includes('ROLE_ADMIN') && !roles.includes('ROLE_HOST')) {
+        if (!userRoles.includes('ROLE_ADMIN') && !userRoles.includes('ROLE_HOST')) {
             return (
                 <>
                     <li className="text-center my-3">
