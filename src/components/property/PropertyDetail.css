@@ -1,0 +1,137 @@
+/* Toàn bộ container full màn hình */
+.property-detail-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100vw; /* Full màn hình ngang */
+    min-height: 100vh; /* Full chiều cao màn hình */
+    background-color: #f8f9fa;
+}
+
+/* Cột bên trái chứa thông tin nhà */
+.property-info {
+    display: flex;
+    flex-direction: column;
+    width: 75%; /* Chiếm 60% chiều rộng màn hình */
+    margin-right: 20px;
+}
+
+.property-images {
+    display: flex;
+    flex-direction: row; /* Sắp xếp theo hàng ngang */
+    margin-bottom: 20px;
+}
+
+/* Ảnh chính (kích thước lớn hơn) */
+.main-property-image {
+    width: 50%; /* Chiếm 60% chiều rộng */
+    height: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ảnh phụ (kích thước nhỏ hơn) */
+.small-property-images {
+    flex-direction: row; /* Sắp xếp các ảnh phụ theo cột */
+    margin-left: 10px; /* Khoảng cách với ảnh chính */
+}
+
+.small-property-image {
+    width: 190px; /* Chiếm 50% chiều rộng của ảnh chính */
+    height: 190px; /* Tự động điều chỉnh chiều cao để giữ tỷ lệ */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    margin-right: 10px/* Khoảng cách giữa các ảnh nhỏ */
+}
+
+/* Thông tin chi tiết của property */
+.property-details {
+    margin-top: 0px;
+    font-size: 16px;
+    margin-bottom:0px ;
+}
+
+.rooms-info {
+    margin-top: 0px;
+    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử trên cùng một hàng */
+    gap: 10px; /* Khoảng cách giữa các phần tử trong hàng */
+}
+
+.rooms-info p {
+    margin: 0; /* Loại bỏ khoảng cách mặc định của thẻ p */
+}
+
+.property-details h4 {
+    margin-bottom: 0px;
+    font-size: 24px;
+    color: #333;
+}
+
+.property-details p {
+    margin-bottom: 0px;
+}
+
+/* Cột bên phải chứa form đặt phòng */
+.booking-form {
+    width: 20%; /* Chiếm 35% chiều rộng màn hình */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Các form-group trong form đặt phòng */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Hiển thị tổng tiền */
+.total-price {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.total-price p {
+    margin: 5px 0;
+}
+
+/* Nút đặt phòng */
+.booking-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.booking-button:hover {
+    background-color: #218838;
+}
+
+.error-message {
+    color: red; /* Đặt màu chữ thành đỏ */
+    font-size: 14px; /* Có thể điều chỉnh kích thước chữ nếu cần */
+    margin-top: 5px; /* Thêm khoảng cách phía trên nếu cần */
+}
