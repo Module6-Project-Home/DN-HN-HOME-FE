@@ -27,7 +27,19 @@ const Header = () => {
         }
     }, [login, user]);
 
-
+    // const handleViewUserProfile = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:8080/api/users/me', {
+    //             headers: {
+    //                 'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+    //             }
+    //         });
+    //         const userProfile = response.data;
+    //         navigate('/home/view-profile', { state: { userProfile } }); // Chuyển userProfile vào state khi điều hướng
+    //     } catch (error) {
+    //         console.error('Error fetching user profile:', error);
+    //     }
+    // };
 
     const handleLogout = async () => {
         try {
@@ -71,7 +83,7 @@ const Header = () => {
                                                 <span className="font-weight-bold">{`Chào mừng, ${user}!`}</span>
                                             </li>
                                             <li>
-                                                <Link className="dropdown-item" to="/home/account-management">Quản lý tài khoản</Link>
+                                                <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
                                             </li>
                                             <li>
                                                 <Link className="dropdown-item" to="/property/history">Lịch sử thuê nhà</Link>

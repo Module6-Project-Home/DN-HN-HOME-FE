@@ -15,6 +15,7 @@ import HostDashboard from "./components/host/HostDashboard";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import ListMyHomestay from "./components/host/ListMyHomestay"; // Import AdminDashboard component
 import RegisterForm from "./components/user/Register";
+import ViewUserProfile from "./components/user/ViewUserProfile"
 
 const App = () => {
     return (
@@ -32,6 +33,7 @@ const App = () => {
                         <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Route for Admin */}
                         <Route path="/register" element={<RegisterForm />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
+                        <Route path="/user/view-profile" element={<ViewUserProfile />} /> {/* Route for Account Management */}
 
                     </Routes>
                     <Footer />

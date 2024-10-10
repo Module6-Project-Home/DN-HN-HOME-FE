@@ -32,9 +32,10 @@ const Login = () => {
             });
 
             const { token, authorities } = response.data; // Lấy authorities từ phản hồi
+            console.log("token: "+ token);
             const roles = authorities.map(auth => auth.authority); // Trích xuất vai trò
 
-            localStorage.setItem('jwtToken', token); // Save JWT token in local storage
+            localStorage.setItem('jwtToken', token ); // Save JWT token in local storage
             localStorage.setItem('username', username);
             localStorage.setItem('roles', JSON.stringify(roles)); // Lưu vai trò vào local storage
             login(username, roles); // Call login from context
@@ -49,6 +50,7 @@ const Login = () => {
                 navigate('/home');
             }
         } catch (error) {
+            console.log(error);
             // You may want to inspect error.response to handle specific cases
             setError('Tài khoản hoặc mật khẩu không đúng');
         } finally {
