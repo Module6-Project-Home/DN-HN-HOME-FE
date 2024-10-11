@@ -25,6 +25,7 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
+        // Validate input fields
         if (!username || !password) {
             setError('Vui lòng nhập tên người dùng và mật khẩu');
             return;
@@ -37,18 +38,18 @@ const Login = () => {
             const { id, token, authorities } = response.data;
             const roles = authorities.map(auth => auth.authority);
 
-            // Lưu trữ token và thông tin người dùng
+            // Store token and user information
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('username', username);
             localStorage.setItem('userId', id);
             localStorage.setItem('roles', JSON.stringify(roles));
 
-            // Gọi hàm login từ AuthContext với đầy đủ thông tin
-            login(username, roles, id);
+            // Call login function from AuthContext with full information
+            login(username, roles, id, token);
 
             setPassword('');
 
-            // Điều hướng dựa trên vai trò
+            // Redirect based on role
             if (roles.includes('ROLE_HOST')) {
                 navigate('/host/dashboard');
             } else if (roles.includes('ROLE_ADMIN')) {
@@ -57,6 +58,7 @@ const Login = () => {
                 navigate('/home');
             }
         } catch (error) {
+            console.error(error);
             setError('Tài khoản hoặc mật khẩu không đúng');
             localStorage.setItem('loginMessage', 'Tài khoản hoặc mật khẩu không đúng');
         } finally {
@@ -64,11 +66,16 @@ const Login = () => {
         }
     };
 
+    const handleGoogleLogin = () => {
+        window.location.href = 'http://localhost:8080/auth/v1/SSO/google';
+    };
+
     return (
         <div className="login-container d-flex justify-content-center align-items-center vh-100">
             <form onSubmit={handleLogin} className="p-4 border rounded shadow">
                 <h2 className="text-center mb-4">Đăng Nhập</h2>
                 {loginMessage && <div className="alert alert-danger">{loginMessage}</div>}
+                {error && <p className="text-danger text-center">{error}</p>}
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Tên người dùng</label>
                     <input
@@ -79,7 +86,7 @@ const Login = () => {
                         value={username}
                         onChange={(e) => {
                             setUsername(e.target.value);
-                            setError('');
+                            setError(''); // Clear error on input change
                         }}
                         required
                     />
@@ -94,15 +101,20 @@ const Login = () => {
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
-                            setError('');
+                            setError(''); // Clear error on input change
                         }}
                         required
                     />
                 </div>
                 <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-                    {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
+                    {loading ? (
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    ) : 'Đăng Nhập'}
                 </button>
-                {error && <p className="text-danger text-center mt-2">{error}</p>}
+                <hr />
+                <button type="button" className="btn btn-danger w-100" onClick={handleGoogleLogin}>
+                    Đăng Nhập bằng Google
+                </button>
             </form>
         </div>
     );
