@@ -1,8 +1,11 @@
-// src/components/UserTable.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ReactPaginate from 'react-paginate';
-import {Button, Modal} from "react-bootstrap";
+// import ReactPaginate from 'react-paginate';
+// import {Button, Modal} from "react-bootstrap";
+import {Button, Modal, Pagination} from "antd";
+import {ExclamationCircleOutlined, InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
+import ReactPaginate from "react-paginate";
+
 
 
 const  HostTable = () => {
@@ -35,6 +38,8 @@ const  HostTable = () => {
         setPage(data.selected);
         fetchUsers(data.selected);
     };
+
+
 
     const handleStatusChange = async (userId, newStatus) => {
         try {
@@ -79,19 +84,24 @@ const  HostTable = () => {
                     <tbody>
                     {users.map((user) => (
                         <tr key={user.userId}>
-                            <td>{user.fullName}</td>
+                            <td>{user.fullName}
+                                <Button color="default" variant="text" style={{marginLeft: '10px'}}
+                                        onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined />}>
+                                </Button>
+                            </td>
                             <td>{user.phoneNumber}</td>
                             <td></td>
                             <td></td>
                             <td>{user.status}</td>
                             <td>
-                                <button type="button" className="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"
-                                        onClick={() => handleInfoClick(user)}>i
-                                </button>
-                                {user.status === 'ACTIVE' ? (
-                                    <button type="button" className="btn btn-danger" onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</button>
+
+                            {user.status === 'ACTIVE' ? (
+                                    <Button type="primary" icon={<LockOutlined />} style={{backgroundColor: 'indianred'}}
+                                            onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</Button>
                                 ) : (
-                                    <button type="button" className="btn btn-success" onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở Khoá</button>
+                                    <Button type="primary" icon={<UnlockOutlined />} style={{backgroundColor: 'cornflowerblue'}}
+                                            onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở
+                                        Khoá</Button>
                                 )}
                             </td>
                         </tr>
@@ -99,31 +109,37 @@ const  HostTable = () => {
                     </tbody>
                 </table>
             )}
-            <ReactPaginate
-                previousLabel={'Previous'}
-                nextLabel={'Next'}
-                breakLabel={'...'}
-                breakClassName={'page-item'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination justify-content-center'}
-                pageClassName={'page-item'}
-                pageLinkClassName={'page-link'}
-                previousClassName={'page-item'}
-                previousLinkClassName={'page-link'}
-                nextClassName={'page-item'}
-                nextLinkClassName={'page-link'}
-                activeClassName={'active'}
-                disabledClassName={'disabled'}
-            />
+            <div>
+                <ReactPaginate
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                    breakLabel={'...'}
+                    breakClassName={'page-item'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination justify-content-center'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link '}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    disabledClassName={'disabled'}
+                />
+            </div>
+            <Modal
+                title="Thông tin chi tiết"
+                open={showModal}
+                onCancel={() => setShowModal(false)}
+                footer={[
+                    <Button key="close" onClick={() => setShowModal(false)}>Đóng</Button>
+                ]}
+            >
             {selectedUser && (
-                <Modal show={showModal} onHide={() => setShowModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Thông tin chi tiết</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
+                <div>
                         <div className="text-center">
                             <img src={selectedUser.avatar} alt="Avatar" className="img-thumbnail" style={{ width: '150px', height: '150px' }} />
                         </div>
@@ -134,12 +150,9 @@ const  HostTable = () => {
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
                         <p><strong>Tổng doanh thu:</strong> </p>
                         <p><strong>Danh sách nhà đang cho thuê:</strong> </p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowModal(false)}>Đóng</Button>
-                    </Modal.Footer>
-                </Modal>
+                </div>
             )}
+                </Modal>
         </div>
     );
 };
