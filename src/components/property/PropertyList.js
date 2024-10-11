@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import HeroBanner from "./HeroBanner";
+import {useLocation} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
+import {useAuth} from "../auth/AuthContext";
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
@@ -18,6 +21,33 @@ const PropertyList = () => {
     const [checkOutDate, setCheckOutDate] = useState('');
     const [propertyTypes, setPropertyTypes] = useState([]);
     const [roomTypes, setRoomTypes] = useState([]);
+    const { login } = useAuth();
+    const location = useLocation();
+
+    // Hàm để lấy tham số từ query string
+    const getQueryParams = (urlSearchParams) => {
+        const params = new URLSearchParams(urlSearchParams);
+        return params.get('token'); // Lấy giá trị của token
+    };
+
+    const tokenFromParams = getQueryParams(location.search);
+    console.log('tokenFromParams', tokenFromParams);
+
+    // TODO: Decode token để lấy thông tin username, sau đó gọi API lấy full thông tin user theo username
+
+    useEffect(() => {
+        const fetchUser = async  () => {
+            const decoded = jwtDecode(tokenFromParams);
+            const username = decoded.sub;
+            const response = await axios.get("http://localhost:8080/api/users/findByUsername?username=" + username);
+            console.log(response.data, 'response');
+            const {roles, id} = response.data;
+            login(username, roles, id, tokenFromParams);
+        }
+        if (tokenFromParams) {
+            fetchUser();
+        }
+    }, [tokenFromParams])
 
     useEffect(() => {
         const fetchPropertyTypes = async () => {
