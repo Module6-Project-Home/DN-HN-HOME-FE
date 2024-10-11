@@ -13,10 +13,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from "./components/auth/AuthContext";
 import HostDashboard from "./components/host/HostDashboard";
 import AdminDashboard from "./components/admin/AdminDashboard";
-import ListMyHomestay from "./components/host/ListMyHomestay"; // Import AdminDashboard component
+import ListMyHomestay from "./components/host/ListMyHomestay";
 import RegisterForm from "./components/user/Register";
-import UserTable from "./components/admin/UserTable";
-import HostTable from "./components/admin/HostTable";
+import PrivateRoute from './components/PrivateRoute';
+import SuccessPage from './components/user/SuccessPage'; // Import SuccessPage
 
 const App = () => {
     return (
@@ -31,12 +31,19 @@ const App = () => {
                         <Route path="/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Route for Admin */}
-                        {/*<Route path="/admin/users" element={<UserTable />} />*/}
-                        {/*<Route path="/admin/hosts" element={<HostTable />} />*/}
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
-
+                        <Route path="/success-page" element={<SuccessPage />} /> {/* Route for Success Page */}
+                        {/* Routes protected by roles */}
+                        <Route
+                            path="/host/*"
+                            element={<PrivateRoute requiredRole="ROLE_HOST" />}
+                        />
+                        <Route
+                            path="/admin/*"
+                            element={<PrivateRoute requiredRole="ROLE_ADMIN" />}
+                        />
                     </Routes>
                     <Footer />
                 </div>
