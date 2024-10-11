@@ -4,6 +4,7 @@ import axios from 'axios';
 // import {Button, Modal} from "react-bootstrap";
 import {Button, Modal, Pagination} from "antd";
 import {ExclamationCircleOutlined, InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
+import ReactPaginate from "react-paginate";
 
 
 
@@ -37,20 +38,8 @@ const  HostTable = () => {
         setPage(data.selected);
         fetchUsers(data.selected);
     };
-    const showConfirm = (userId, newStatus) => {
-        // eslint-disable-next-line no-restricted-globals
-        confirm({
-            title: 'Are you sure you want to change the status?',
-            icon: <ExclamationCircleOutlined />,
-            content: 'This action cannot be undone.',
-            onOk() {
-                handleStatusChange(userId, newStatus);
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
-    };
+
+
 
     const handleStatusChange = async (userId, newStatus) => {
         try {
@@ -120,18 +109,37 @@ const  HostTable = () => {
                     </tbody>
                 </table>
             )}
-            <Pagination
-                align="center"
-                defaultCurrent={1}
-                total={pageCount}
-                onChange={handlePageClick}
-            />
+            <div>
+                <ReactPaginate
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                    breakLabel={'...'}
+                    breakClassName={'page-item'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination justify-content-center'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link '}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    disabledClassName={'disabled'}
+                />
+            </div>
+            <Modal
+                title="Thông tin chi tiết"
+                open={showModal}
+                onCancel={() => setShowModal(false)}
+                footer={[
+                    <Button key="close" onClick={() => setShowModal(false)}>Đóng</Button>
+                ]}
+            >
             {selectedUser && (
-                <Modal show={showModal} onHide={() => setShowModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Thông tin chi tiết</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
+                <div>
                         <div className="text-center">
                             <img src={selectedUser.avatar} alt="Avatar" className="img-thumbnail" style={{ width: '150px', height: '150px' }} />
                         </div>
@@ -142,12 +150,9 @@ const  HostTable = () => {
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
                         <p><strong>Tổng doanh thu:</strong> </p>
                         <p><strong>Danh sách nhà đang cho thuê:</strong> </p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowModal(false)}>Đóng</Button>
-                    </Modal.Footer>
-                </Modal>
+                </div>
             )}
+                </Modal>
         </div>
     );
 };

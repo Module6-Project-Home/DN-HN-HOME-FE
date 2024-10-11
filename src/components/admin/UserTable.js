@@ -145,10 +145,10 @@ const UserTable = () => {
                                 <td>
                                     {user.upgradeRequested && (
                                         <div id="approval-buttons">
-                                            <button id="approve-button" onClick={() => approveUser(user.userId)}>Duyệt
-                                            </button>
-                                            <button id="deny-button" onClick={() => denyUser(user.userId)}>Từ chối
-                                            </button>
+                                            <Button color="default" variant="outlined" id="approve-button" onClick={() => approveUser(user.userId)}>Duyệt
+                                            </Button>
+                                            <Button color="default" variant="dashed" id="deny-button" onClick={() => denyUser(user.userId)}>Từ chối
+                                            </Button>
                                         </div>
                                     )}
                                 </td>
@@ -159,15 +159,47 @@ const UserTable = () => {
                 )}
             </div>
             <div>
-                <Pagination
-                    align="center"
-                    defaultCurrent={1}
-                    total={pageCount}
-                    onChange={handlePageClick}
-                /></div>
+                {/*<Pagination*/}
+                {/*    align="center"*/}
+                {/*    defaultCurrent={1}*/}
+                {/*    total={pageCount}*/}
+                {/*    pageSize={5}*/}
+                {/*    onChange={handlePageClick}*/}
+                {/*/>*/}
+                {/*<Pagination*/}
+                {/*    align="center"*/}
+                {/*    current={page}*/}
+                {/*    total={pageCount}*/}
+                {/*    pageSize={5}    // Số lượng mục trên mỗi trang*/}
+                {/*    onChange={handlePageClick} // Hàm xử lý khi chuyển trang*/}
+                {/*    showSizeChanger={false}    // Ẩn chức năng thay đổi số mục trên mỗi trang*/}
+                {/*    showQuickJumper={true}     // Hiển thị ô để nhảy nhanh đến trang*/}
+                {/*    marginPagesDisplayed={2} // Number of page links on either side of the current page*/}
+                {/*    pageRangeDisplayed={5}*/}
+                {/*/>*/}
+                <ReactPaginate
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                    breakLabel={'...'}
+                    breakClassName={'page-item'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination justify-content-center'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link '}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    disabledClassName={'disabled'}
+                />
+            </div>
             <Modal
                 title="Thông tin chi tiết"
-                visible={showModal}
+                open={showModal}
                 onCancel={() => setShowModal(false)}
                 footer={[
                     <Button key="close" onClick={() => setShowModal(false)}>Đóng</Button>
