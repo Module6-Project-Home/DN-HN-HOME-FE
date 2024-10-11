@@ -12,6 +12,8 @@ export const AuthProvider = ({ children }) => {
 
     // Hàm login, lưu username, roles, và token vào state và localStorage
     const login = (username, roles, token) => {
+        console.log(localStorage.getItem('jwtToken'));
+
         setUser(username);
         localStorage.setItem('username', username);
 

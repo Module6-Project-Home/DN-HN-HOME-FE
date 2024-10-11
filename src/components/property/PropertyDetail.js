@@ -19,7 +19,7 @@ const PropertyDetail = () => {
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [statusId] = useState(2);
+    const [bookingStatusId] = useState(1);
     const [errorMessage, setErrorMessage] = useState(''); // State để lưu thông báo lỗi
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const PropertyDetail = () => {
             property: { id },
             checkInDate: checkInDate,
             checkOutDate: checkOutDate,
-            status: { id: statusId },
+            bookingStatus: { id: bookingStatusId },
         };
 
         try {
