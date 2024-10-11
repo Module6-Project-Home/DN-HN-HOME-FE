@@ -5,7 +5,7 @@ import AdminHeader from './AdminHeader'; // Import header
 const AdminLayout = ({ children }) => {
     return (
         <div style={{ backgroundColor: 'white', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <AdminHeader /> {/* Header for Admin pages */}
+            {/*<AdminHeader /> /!* Header for Admin pages *!/*/}
             <div style={{ flex: '1' }}> {/* Main content area */}
                 {children}
             </div>

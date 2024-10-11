@@ -1,11 +1,13 @@
-// src/components/UserTable.js
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import {Button, Modal} from "react-bootstrap";
+import {Button, Modal, Pagination} from "antd";
+import {ModalBody, ModalFooter, ModalHeader, ModalTitle} from "react-bootstrap";
+import {InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
+// import {Button, Modal} from "react-bootstrap";
 
 
-const  UserTable = () => {
+const UserTable = () => {
     const [users, setUsers] = useState([]);
     const [page, setPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
@@ -18,7 +20,7 @@ const  UserTable = () => {
         try {
             const token = localStorage.getItem('jwtToken'); // Lấy token từ localStorage
             const response = await axios.get(`http://localhost:8080/api/admin/users`, {
-                params: { page: currentPage, size: 5 },
+                params: {page: currentPage, size: 5},
                 headers: {
                     'Authorization': `Bearer ${token}` // Thêm token vào header
                 }
@@ -40,15 +42,11 @@ const  UserTable = () => {
         try {
             const token = localStorage.getItem('jwtToken'); // Get token from localStorage
             await axios.put(`http://localhost:8080/api/admin/update-status`, null, {
-                params: { userId, status: newStatus },
+                params: {userId, status: newStatus},
                 headers: {
                     'Authorization': `Bearer ${token}` // Add token to header
                 }
             });
-            // const handleInfoClick = (user) => {
-            //     setSelectedUser(user);
-            //     setShowModal(true);
-            // };
             fetchUsers(page);
         } catch (error) {
             console.error('Error updating status:', error.response ? error.response.data : error.message);
@@ -60,6 +58,49 @@ const  UserTable = () => {
         setShowModal(true);
     };
 
+    const approveUser = async (userId) => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                throw new Error('Token not found');
+            }
+            console.log('Approving user with ID:', userId);
+            await axios.put(`http://localhost:8080/api/admin/approve-upgrade`, null, {
+                params: { userId, isApproved: true },
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('User approved');
+            setUsers(users.map(user => user.userId === userId ? { ...user, isApproved: true } : user));
+            // fetchUsers(page);
+        } catch (error) {
+            console.error('Error approving user:', error);
+        }
+    };
+
+    const denyUser = async (userId) => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                throw new Error('Token not found');
+            }
+            console.log('Denying user with ID:', userId);
+            await axios.put(`http://localhost:8080/api/admin/deny-upgrade`, null, {
+                params: { userId },
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('User denied');
+            setUsers(users.map(user => user.userId === userId ? { ...user, isApproved: false } : user));
+
+            // fetchUsers(page);
+        } catch (error) {
+            console.error('Error denying user:', error);
+        }
+    };
+
     useEffect(() => {
         fetchUsers(page);
     }, [page]);
@@ -67,68 +108,73 @@ const  UserTable = () => {
     return (
         <div>
             <div>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                <table className="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>Họ & Tên</th>
-                        <th>SĐT</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {users.map((user) => (
-                        <tr key={user.userId}>
-                            <td>{user.fullName}</td>
-                            <td>{user.phoneNumber}</td>
-                            <td>{user.status}</td>
-                            <td>
-                                <button type="button" className="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"
-                                        onClick={() => handleInfoClick(user)}>i
-                                </button>
-                                {user.status === 'ACTIVE' ? (
-                                    <button type="button" className="btn btn-danger btn-rounded"
-                                            onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</button>
-                                ) : (
-                                    <button type="button" className="btn btn-success"
-                                            onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở Khoá</button>
-                                )}
-                            </td>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <table className="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Họ & Tên</th>
+                            <th>SĐT</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                            <th></th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
-            )}
+                        </thead>
+                        <tbody>
+                        {users.map((user) => (
+                            <tr key={user.userId}>
+                                <td>{user.fullName}
+                                    <Button color="default" variant="text" style={{marginLeft: '10px'}}
+                                            onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined />}>
+                                    </Button>
+                                </td>
+                                <td>{user.phoneNumber}</td>
+                                <td>{user.status}</td>
+                                <td>
+
+                                    {user.status === 'ACTIVE' ? (
+                                        <Button type="primary" icon={<LockOutlined />} style={{backgroundColor: 'indianred'}}
+                                                onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</Button>
+                                    ) : (
+                                        <Button type="primary" icon={<UnlockOutlined />} style={{backgroundColor: 'cornflowerblue'}}
+                                                onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở
+                                            Khoá</Button>
+                                    )}
+                                </td>
+                                <td>
+                                    {user.upgradeRequested && (
+                                        <div id="approval-buttons">
+                                            <button id="approve-button" onClick={() => approveUser(user.userId)}>Duyệt
+                                            </button>
+                                            <button id="deny-button" onClick={() => denyUser(user.userId)}>Từ chối
+                                            </button>
+                                        </div>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
             <div>
-            <ReactPaginate
-                previousLabel={'Previous'}
-                nextLabel={'Next'}
-                breakLabel={'...'}
-                breakClassName={'page-item'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination justify-content-center'}
-                pageClassName={'page-item'}
-                pageLinkClassName={'page-link'}
-                previousClassName={'page-item'}
-                previousLinkClassName={'page-link'}
-                nextClassName={'page-item'}
-                nextLinkClassName={'page-link'}
-                activeClassName={'active'}
-                disabledClassName={'disabled'}
-            /></div>
-            {selectedUser && (
-                <Modal show={showModal} onHide={() => setShowModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Thông tin chi tiết</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
+                <Pagination
+                    align="center"
+                    defaultCurrent={1}
+                    total={pageCount}
+                    onChange={handlePageClick}
+                /></div>
+            <Modal
+                title="Thông tin chi tiết"
+                visible={showModal}
+                onCancel={() => setShowModal(false)}
+                footer={[
+                    <Button key="close" onClick={() => setShowModal(false)}>Đóng</Button>
+                ]}
+            >
+                {selectedUser && (
+                    <div>
                         <div className="text-center">
                             <img src={selectedUser.avatar} alt="Avatar" className="img-thumbnail" style={{ width: '150px', height: '150px' }} />
                         </div>
@@ -136,14 +182,11 @@ const  UserTable = () => {
                         <p><strong>Họ và tên:</strong> {selectedUser.fullName}</p>
                         <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
-                        <p><strong>Số tiền đã chi tiêu:</strong> </p>
-                        <p><strong>Lịch sử thuê nhà:</strong> </p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowModal(false)}>Đóng</Button>
-                    </Modal.Footer>
-                </Modal>
-            )}
+                        <p><strong>Số tiền đã chi tiêu:</strong></p>
+                        <p><strong>Lịch sử thuê nhà:</strong></p>
+                    </div>
+                )}
+            </Modal>
         </div>
     );
 };

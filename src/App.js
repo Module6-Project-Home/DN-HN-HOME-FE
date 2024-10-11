@@ -8,7 +8,7 @@ import Header from "./components/property/Header"; // Bỏ comment để import 
 import Footer from "./components/property/Footer";
 import BookingForm from "./components/booking/BookingForm"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+// import './App.css';
 
 import { AuthProvider } from "./components/auth/AuthContext";
 import HostDashboard from "./components/host/HostDashboard";

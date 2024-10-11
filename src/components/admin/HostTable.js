@@ -1,8 +1,10 @@
-// src/components/UserTable.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ReactPaginate from 'react-paginate';
-import {Button, Modal} from "react-bootstrap";
+// import ReactPaginate from 'react-paginate';
+// import {Button, Modal} from "react-bootstrap";
+import {Button, Modal, Pagination} from "antd";
+import {ExclamationCircleOutlined, InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
+
 
 
 const  HostTable = () => {
@@ -34,6 +36,20 @@ const  HostTable = () => {
     const handlePageClick = (data) => {
         setPage(data.selected);
         fetchUsers(data.selected);
+    };
+    const showConfirm = (userId, newStatus) => {
+        // eslint-disable-next-line no-restricted-globals
+        confirm({
+            title: 'Are you sure you want to change the status?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'This action cannot be undone.',
+            onOk() {
+                handleStatusChange(userId, newStatus);
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     };
 
     const handleStatusChange = async (userId, newStatus) => {
@@ -79,19 +95,24 @@ const  HostTable = () => {
                     <tbody>
                     {users.map((user) => (
                         <tr key={user.userId}>
-                            <td>{user.fullName}</td>
+                            <td>{user.fullName}
+                                <Button color="default" variant="text" style={{marginLeft: '10px'}}
+                                        onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined />}>
+                                </Button>
+                            </td>
                             <td>{user.phoneNumber}</td>
                             <td></td>
                             <td></td>
                             <td>{user.status}</td>
                             <td>
-                                <button type="button" className="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"
-                                        onClick={() => handleInfoClick(user)}>i
-                                </button>
-                                {user.status === 'ACTIVE' ? (
-                                    <button type="button" className="btn btn-danger" onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</button>
+
+                            {user.status === 'ACTIVE' ? (
+                                    <Button type="primary" icon={<LockOutlined />} style={{backgroundColor: 'indianred'}}
+                                            onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</Button>
                                 ) : (
-                                    <button type="button" className="btn btn-success" onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở Khoá</button>
+                                    <Button type="primary" icon={<UnlockOutlined />} style={{backgroundColor: 'cornflowerblue'}}
+                                            onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở
+                                        Khoá</Button>
                                 )}
                             </td>
                         </tr>
@@ -99,24 +120,11 @@ const  HostTable = () => {
                     </tbody>
                 </table>
             )}
-            <ReactPaginate
-                previousLabel={'Previous'}
-                nextLabel={'Next'}
-                breakLabel={'...'}
-                breakClassName={'page-item'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination justify-content-center'}
-                pageClassName={'page-item'}
-                pageLinkClassName={'page-link'}
-                previousClassName={'page-item'}
-                previousLinkClassName={'page-link'}
-                nextClassName={'page-item'}
-                nextLinkClassName={'page-link'}
-                activeClassName={'active'}
-                disabledClassName={'disabled'}
+            <Pagination
+                align="center"
+                defaultCurrent={1}
+                total={pageCount}
+                onChange={handlePageClick}
             />
             {selectedUser && (
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
