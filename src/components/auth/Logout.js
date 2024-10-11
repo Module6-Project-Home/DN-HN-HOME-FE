@@ -1,14 +1,14 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
 const LogoutButton = () => {
-    const history = useHistory();
+    const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
     const handleLogout = () => {
         // Xóa token khỏi localStorage
-        localStorage.removeItem('token'); // Giả sử bạn lưu token dưới tên 'token'
+        localStorage.removeItem('jwtToken'); // Use the correct token name
         // Chuyển hướng về trang đăng nhập
-        history.push('/login'); // Đường dẫn đến trang đăng nhập
+        navigate('/login'); // Use navigate to redirect to the login page
     };
 
     return (
@@ -18,4 +18,4 @@ const LogoutButton = () => {
     );
 };
 
-export default LogoutButton;
+export default LogoutButton; // Ensure the component is exported
