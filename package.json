@@ -21,11 +21,10 @@
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
-    "yup": "^1.4.0",
     "react-toastify": "^10.0.5",
-    "web-vitals": "^2.1.4"
-
+    "rental-properties": "file:",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
