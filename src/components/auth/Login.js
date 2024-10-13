@@ -59,8 +59,14 @@ const Login = () => {
             }
         } catch (error) {
             console.error(error);
-            setError('Tài khoản hoặc mật khẩu không đúng');
-            localStorage.setItem('loginMessage', 'Tài khoản hoặc mật khẩu không đúng');
+            //Thêm lỗi 403 - tài khoản bị khoá không cho đăng nhập
+            if(error.response && error.response.status === 403){
+                setError('Tài khoản đang bị khoá');
+                localStorage.setItem('loginMessage', 'Tài khoản đang bị khoá');
+            }else {
+                setError('Tài khoản hoặc mật khẩu không đúng');
+                localStorage.setItem('loginMessage', 'Tài khoản hoặc mật khẩu không đúng');
+            }
         } finally {
             setLoading(false);
         }
