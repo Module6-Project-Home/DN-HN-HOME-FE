@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PropertyList from './components/property/PropertyList';
 import PropertyDetail from './components/property/PropertyDetail';
 import PostForm from './components/property/PostForm';
@@ -21,6 +21,7 @@ import SuccessPage from './components/user/SuccessPage';
 import UserDetail from "./components/user/UserDetail"; // Import SuccessPage
 import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
 import ChangePassword from "./components/user/ChangePassword"
+import UpdateProperty from "./components/host/UpdateProperty";
 
 const App = () => {
     return (
@@ -32,6 +33,7 @@ const App = () => {
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
+                        <Route path="/host/update-property/:id" element={<UpdateProperty />} />
                         <Route path="/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
