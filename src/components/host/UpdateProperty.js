@@ -5,6 +5,7 @@ import { useAuth } from '../auth/AuthContext';
 import { uploadImageToFirebase } from "../firebaseUpload";
 import HeaderAdmin from "./layout/HeaderAdmin";
 import SidebarAdmin from "./layout/SidebarAdmin";
+import {toast, ToastContainer} from "react-toastify";
 
 const UpdateProperty = () => {
     const { id } = useParams(); // Lấy ID của property từ URL
@@ -162,11 +163,13 @@ const UpdateProperty = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-                alert("Property updated successfully!");
-                navigate('/host/dashboard');
+                toast.success("Cập nhật thành công!");
+                setTimeout(() => {
+                    navigate('/host/dashboard');
+                }, 2000);
             } catch (error) {
-                console.error("Error updating property:", error);
-                setError("Failed to update property. Please check if you're logged in and have the right permissions.");
+                toast.error(`Cập nhật thất bại: ${error.message}`);
+                setError("Không thể cập nhật tài sản. Vui lòng kiểm tra xem bạn đã đăng nhập và có quyền phù hợp hay chưa");
             }
         }
     };
@@ -180,6 +183,8 @@ const UpdateProperty = () => {
                     <HeaderAdmin/>
                     <div id="layoutSidenav">
                         <SidebarAdmin/>
+                        <ToastContainer />
+
                         <div id="layoutSidenav_content">
                             <div className="container mt-4">
 
