@@ -13,13 +13,13 @@ const PropertyDetail = () => {
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const token = localStorage.getItem('jwtToken');
+    const { token } = useAuth();
 
     // State cho việc đặt phòng
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [bookingStatusId] = useState(1);
+    const [statusId] = useState(2);
     const [errorMessage, setErrorMessage] = useState(''); // State để lưu thông báo lỗi
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const PropertyDetail = () => {
             property: { id },
             checkInDate: checkInDate,
             checkOutDate: checkOutDate,
-            bookingStatus: { id: bookingStatusId },
+            status: { id: statusId },
         };
 
         try {

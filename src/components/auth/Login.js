@@ -32,7 +32,6 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
-        // Validate input fields
         if (!username || !password) {
             setError('Vui lòng nhập tên người dùng và mật khẩu');
             return;
@@ -88,7 +87,6 @@ const Login = () => {
         if (roles.includes('ROLE_HOST')) {
             navigate('/host/listMyHome');
         } else if (roles.includes('ROLE_ADMIN')) {
-            console.log("test")
             navigate('/admin/dashboard');
         } else {
             navigate('/home');

@@ -8,20 +8,16 @@ import Header from "./components/property/Header"; // Bỏ comment để import 
 import Footer from "./components/property/Footer";
 import BookingForm from "./components/booking/BookingForm"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+// import './App.css';
 
 import { AuthProvider } from "./components/auth/AuthContext";
 import HostDashboard from "./components/host/HostDashboard";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import ListMyHomestay from "./components/host/ListMyHomestay";
 import RegisterForm from "./components/user/Register";
-import ViewUserProfile from "./components/user/ViewUserProfile"
 import PrivateRoute from './components/PrivateRoute';
-import SuccessPage from './components/user/SuccessPage';
-import UserDetail from "./components/user/UserDetail"; // Import SuccessPage
-import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
-import ChangePassword from "./components/user/ChangePassword"
-import UpdateProperty from "./components/host/UpdateProperty";
+import SuccessPage from './components/user/SuccessPage'; // Import SuccessPage
+
 const App = () => {
     return (
         <AuthProvider>
@@ -32,24 +28,17 @@ const App = () => {
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
-                        <Route path="/host/update-property/:id" element={<UpdateProperty />} />
-
                         <Route path="/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
-                        <Route path="/user/detail" element={<UserDetail />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
-                        <Route path="/user/view-profile" element={<ViewUserProfile />} />
-                        <Route path="/profile-update" element={<UpdateUserProfile />} />
-                        <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/success-page" element={<SuccessPage />} /> {/* Route for Success Page */}
                         {/* Routes protected by roles */}
                         <Route
                             path="/host/*"
                             element={<PrivateRoute requiredRole="ROLE_HOST" />}
-
                         />
                         <Route
                             path="/admin/*"

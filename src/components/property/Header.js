@@ -84,6 +84,8 @@ const Header = () => {
 
         // Check if roles is an array
         const userRoles = Array.isArray(roles) ? roles : [];
+        console.log(userRoles)
+
 
         // Admin Menu
         if (user && userRoles && userRoles.includes('ROLE_ADMIN')) {
@@ -119,16 +121,13 @@ const Header = () => {
                         <span className="font-weight-bold">{`Chào mừng, ${user.username}!`}</span>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
-                    </li>
-                    <li>
                         <Link className="dropdown-item" to="/host/properties">Quản lý Homestay</Link>
                     </li>
                     <li>
                         <Link className="dropdown-item" to="/host/history">Lịch sử thuê nhà</Link>
                     </li>
                     <li>
-                        <hr className="dropdown-divider"/>
+                        <hr className="dropdown-divider" />
                     </li>
                     <li>
                         <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
@@ -145,7 +144,7 @@ const Header = () => {
                         <span className="font-weight-bold">{`Chào mừng, ${user.username}!`}</span>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
+                        <Link className="dropdown-item" to="/account-manager">Quản lý tài khoản</Link>
                     </li>
                     <li>
                         <Link className="dropdown-item" to="/property/history">Lịch sử thuê nhà</Link>

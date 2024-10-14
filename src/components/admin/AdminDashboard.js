@@ -1,28 +1,46 @@
 import React, { useEffect } from 'react';
-import { Tab, Nav, Row, Col, Alert } from 'react-bootstrap';
+import { Tab, Nav, Row, Col } from 'react-bootstrap';
 import AdminLayout from './AdminLayout';
 import UserTable from './UserTable';
 import HostTable from './HostTable';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
+import axios from "axios";
+import {useAuth} from "../auth/AuthContext";
 
 const AdminDashboard = () => {
-    const navigate = useNavigate();
+    const location = useLocation();
+    const { login } = useAuth();
+
+    // Function to get token from query string
+    const getQueryParams = (urlSearchParams) => {
+        const params = new URLSearchParams(urlSearchParams);
+        return params.get('token'); // Get token value
+    };
+
+    const tokenFromParams = getQueryParams(location.search);
+    console.log('tokenFromParams', tokenFromParams);
 
     useEffect(() => {
-        const validateToken = () => {
-            const queryParams = new URLSearchParams(window.location.search);
-            const token = queryParams.get('token');
+        const fetchUser = async () => {
+            if (tokenFromParams) {
+                const decoded = jwtDecode(tokenFromParams);
+                const username = decoded.sub;
+                try {
+                    const response = await axios.get(`http://localhost:8080/api/users/findByUsername?username=${username}`);
+                    console.log(response.data, 'response');
+                    const { roles, id } = response.data;
+                    const rolesArr = roles.map(role => role.name);
 
-            if (token) {
-                localStorage.setItem('token', token); // Lưu token vào localStorage
-                // Bạn có thể thêm logic xác thực thêm ở đây nếu cần
-            } else {
-                navigate('/login'); // Nếu không có token, chuyển hướng về trang đăng nhập
+                    // Gọi login để cập nhật context
+                    login(username, rolesArr, id, tokenFromParams);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
             }
         };
-
-        validateToken();
-    }, [navigate]);
+        fetchUser();
+    }, []);
 
     return (
         <AdminLayout>

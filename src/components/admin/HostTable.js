@@ -5,10 +5,8 @@ import axios from 'axios';
 import {Button, Modal, Pagination} from "antd";
 import {ExclamationCircleOutlined, InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
 import ReactPaginate from "react-paginate";
-import PropertyCount from "../host/PropertyCount";
-import { useNavigate } from 'react-router-dom';
 
-const { confirm } = Modal; //tạo hộp thoại xác nhận
+
 
 const  HostTable = () => {
     const [users, setUsers] = useState([]);
@@ -35,34 +33,6 @@ const  HostTable = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    const showConfirmLock = (userId) => {
-        confirm({
-            title: 'Bạn có chắc chắn muốn khoá người dùng này không?',
-            icon: <ExclamationCircleOutlined />,
-            content: 'Hành động này không thể hoàn tác.',
-            onOk() {
-                handleStatusChange(userId, 'SUSPENDED');
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
-    };
-
-    const showConfirmUnlock = (userId) => {
-        confirm({
-            title: 'Bạn có chắc chắn muốn mở khoá người dùng này không?',
-            icon: <ExclamationCircleOutlined />,
-            content: 'Hành động này sẽ kích hoạt lại tài khoản của người dùng.',
-            onOk() {
-                handleStatusChange(userId, 'ACTIVE');
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
     };
     const handlePageClick = (data) => {
         setPage(data.selected);
@@ -95,9 +65,6 @@ const  HostTable = () => {
         fetchUsers(page);
     }, [page]);
 
-    const token = localStorage.getItem('jwtToken');
-    const navigate = useNavigate();
-
     return (
         <div>
             {loading ? (
@@ -124,16 +91,17 @@ const  HostTable = () => {
                             </td>
                             <td>{user.phoneNumber}</td>
                             <td></td>
-                            <td><PropertyCount ownerId={user.userId} token={token}/></td>
+                            <td></td>
                             <td>{user.status}</td>
                             <td>
 
-                                {user.status === 'ACTIVE' ? (
-                                    <Button type="primary" icon={<LockOutlined />} style={{ backgroundColor: 'indianred' }}
-                                            onClick={() => showConfirmLock(user.userId)}>Khoá</Button>
+                            {user.status === 'ACTIVE' ? (
+                                    <Button type="primary" icon={<LockOutlined />} style={{backgroundColor: 'indianred'}}
+                                            onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</Button>
                                 ) : (
-                                    <Button type="primary" icon={<UnlockOutlined />} style={{ backgroundColor: 'cornflowerblue' }}
-                                            onClick={() => showConfirmUnlock(user.userId)}>Mở Khoá</Button>
+                                    <Button type="primary" icon={<UnlockOutlined />} style={{backgroundColor: 'cornflowerblue'}}
+                                            onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở
+                                        Khoá</Button>
                                 )}
                             </td>
                         </tr>
@@ -181,10 +149,7 @@ const  HostTable = () => {
                         <p><strong>Địa chỉ:</strong> {selectedUser.address}</p>
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
                         <p><strong>Tổng doanh thu:</strong> </p>
-                        {/*<p><strong>Danh sách nhà đang cho thuê:</strong> </p>*/}
-                    <Button type="primary" onClick={() => navigate('/host/listMyHome',{state:{hostName:selectedUser.fullName}})}>
-                        Danh sách nhà đang cho thuê
-                    </Button>
+                        <p><strong>Danh sách nhà đang cho thuê:</strong> </p>
                 </div>
             )}
                 </Modal>
