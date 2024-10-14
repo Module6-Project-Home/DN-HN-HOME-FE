@@ -34,7 +34,7 @@ const App = () => {
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
-                        <Route path="/post" element={<PostForm />} />
+                        <Route path="/host/create-property" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
                         <Route path="/user/detail" element={<UserDetail />} />
