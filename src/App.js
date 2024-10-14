@@ -18,9 +18,9 @@ import RegisterForm from "./components/user/Register";
 import ViewUserProfile from "./components/user/ViewUserProfile"
 import PrivateRoute from './components/PrivateRoute';
 import SuccessPage from './components/user/SuccessPage';
+import UserDetail from "./components/user/UserDetail"; // Import SuccessPage
 import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
 import ChangePassword from "./components/user/ChangePassword"
-
 const App = () => {
     return (
         <AuthProvider>
@@ -34,6 +34,7 @@ const App = () => {
                         <Route path="/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
+                        <Route path="/user/detail" element={<UserDetail />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
