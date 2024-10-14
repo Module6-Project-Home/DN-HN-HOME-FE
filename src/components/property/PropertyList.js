@@ -71,9 +71,7 @@ const PropertyList = () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/property-types');
                 setPropertyTypes(response.data); // Giả sử API trả về danh sách loại tài sản
-                if (response.data.length > 0) {
-                    setPropertyType(response.data[0].name); // Chọn loại tài sản đầu tiên làm mặc định
-                }
+
             } catch (error) {
                 console.error('Error fetching property types:', error);
             }
