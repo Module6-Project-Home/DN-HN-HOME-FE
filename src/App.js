@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropertyList from './components/property/PropertyList';
 import PropertyDetail from './components/property/PropertyDetail';
 import PostForm from './components/property/PostForm';
@@ -21,6 +21,7 @@ import SuccessPage from './components/user/SuccessPage';
 import UserDetail from "./components/user/UserDetail"; // Import SuccessPage
 import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
 import ChangePassword from "./components/user/ChangePassword"
+
 const App = () => {
     return (
         <AuthProvider>
