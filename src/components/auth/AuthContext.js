@@ -11,14 +11,15 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(() => localStorage.getItem('jwtToken') || null);
 
     const login = (username, roles, userId,token) => {
-        console.log('Logging in:', { username, roles, userId });
         setUser({ id: userId, username: username });
-        localStorage.setItem('username', username);
-        localStorage.setItem('userId', userId);
-        setRoles(roles);
-        localStorage.setItem('roles', JSON.stringify(roles));
-
         setToken(token);
+        setRoles(roles);
+
+        // Store token and user information
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('jwtToken', token);
+        localStorage.setItem('username', username);
+        localStorage.setItem('roles', JSON.stringify(roles));
     };
 
     const logout = () => {
