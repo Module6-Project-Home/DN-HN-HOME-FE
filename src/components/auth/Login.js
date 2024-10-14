@@ -38,12 +38,6 @@ const Login = () => {
             const { id, token, authorities } = response.data;
             const roles = authorities.map(auth => auth.authority);
 
-            // Store token and user information
-            localStorage.setItem('jwtToken', token);
-            localStorage.setItem('username', username);
-            localStorage.setItem('userId', id);
-            localStorage.setItem('roles', JSON.stringify(roles));
-
             // Call login function from AuthContext with full information
             login(username, roles, id, token);
 
