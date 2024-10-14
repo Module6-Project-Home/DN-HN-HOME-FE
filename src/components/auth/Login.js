@@ -32,6 +32,7 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
+        // Validate input fields
         if (!username || !password) {
             setError('Vui lòng nhập tên người dùng và mật khẩu');
             return;
