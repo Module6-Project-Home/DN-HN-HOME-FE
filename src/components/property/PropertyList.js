@@ -138,33 +138,38 @@ const PropertyList = () => {
                                         <h5>Tìm kiếm theo thông tin nhà</h5>
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="name" className="mr-2 mb-2 fw-bold">Tên Homestay: </label>
-                                            <input id="name" type="text" className="form-control mb-2"
+                                            <input id={"name"} type="text" className="form-control mb-2"
                                                    placeholder="Tên" value={name}
-                                                   onChange={(e) => setName(e.target.value)} />
+                                                   onChange={(e) => setName(e.target.value)}/>
                                         </div>
-                                        {/* Các trường form tìm kiếm khác */}
-                                        {/* Loại Nhà */}
+                                        <div className="form-group mr-2 mb-3">
+                                            <label htmlFor="address" className="mr-2 mb-2 fw-bold">Địa chỉ: </label>
+                                            <input id={"address"} type="text" className="form-control mb-2" placeholder="Địa chỉ"
+                                                   value={address} onChange={(e) => setAddress(e.target.value)}/>
+                                        </div>
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="propertyType" className="mr-2 mb-2 fw-bold">Loại Nhà: </label>
+                                            {/* Chọn Loại Nhà */}
                                             <select
-                                                id="propertyType"
+                                                id={"propertyType"}
                                                 className="form-control mb-2"
                                                 value={propertyType}
                                                 onChange={(e) => setPropertyType(e.target.value)}
                                             >
-                                                <option value="">-- Chọn loại nhà --</option>
+                                                <option value="">-- Chọn loại nhà--</option>
                                                 {propertyTypes.map((type) => (
                                                     <option key={type.id} value={type.id}>
                                                         {type.name}
                                                     </option>
                                                 ))}
+
                                             </select>
                                         </div>
-                                        {/* Loại Phòng */}
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="roomType" className="mr-2 mb-2 fw-bold">Loại Phòng: </label>
+                                            {/* Chọn Loại Phòng */}
                                             <select
-                                                id="roomType"
+                                                id={"roomType"}
                                                 className="form-control mb-2"
                                                 value={roomType}
                                                 onChange={(e) => setRoomType(e.target.value)}
@@ -177,7 +182,43 @@ const PropertyList = () => {
                                                 ))}
                                             </select>
                                         </div>
-                                        {/* Các trường tìm kiếm khác */}
+                                        {/*<input type="text" className="form-control mb-2" placeholder="Loại nhà" value={propertyType} onChange={(e) => setPropertyType(e.target.value)} />*/}
+                                        {/*<input type="text" className="form-control mb-2" placeholder="Loại phòng" value={roomType} onChange={(e) => setRoomType(e.target.value)} />*/}
+                                        <div className="form-group mr-2 mb-3">
+                                            <label htmlFor="bedroom" className="mr-2 mb-2 fw-bold">Phòng Ngủ: </label>
+                                            <input type="number" className="form-control mb-2"
+                                                   placeholder="Số phòng ngủ tối thiểu" value={minBedrooms}
+                                                   onChange={(e) => setMinBedrooms(e.target.value)}/>
+                                            <input type="number" className="form-control mb-2"
+                                                   placeholder="Số phòng ngủ tối đa" value={maxBedrooms}
+                                                   onChange={(e) => setMaxBedrooms(e.target.value)}/>
+                                        </div>
+                                        <div className="form-group mr-2 mb-3">
+                                            <label htmlFor="bathroom" className="mr-2 mb-2 fw-bold">Phòng Tắm: </label>
+                                            <input type="number" className="form-control mb-2"
+                                                   placeholder="Số phòng tắm tối thiểu" value={minBathrooms}
+                                                   onChange={(e) => setMinBathrooms(e.target.value)}/>
+                                            <input type="number" className="form-control mb-2"
+                                                   placeholder="Số phòng tắm tối đa" value={maxBathrooms}
+                                                   onChange={(e) => setMaxBathrooms(e.target.value)}/>
+                                        </div>
+                                        <div className="form-group mr-2 mb-3">
+                                            <label htmlFor="price" className="mr-2 mb-2 fw-bold">Giá: </label>
+                                            <input type="number" className="form-control mb-2"
+                                                   placeholder="Giá tối thiểu" value={minPrice}
+                                                   onChange={(e) => setMinPrice(e.target.value)}/>
+                                            <input type="number" className="form-control mb-2" placeholder="Giá tối đa"
+                                                   value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
+                                        </div>
+                                        <div className="form-group mr-2 mb-3">
+                                            <label htmlFor="checkInDate" className="mr-2 mb-2 fw-bold">Khoảng thời gian: </label>
+                                            <input type="date" className="form-control mb-2" placeholder="Ngày check-in"
+                                                   value={checkInDate}
+                                                   onChange={(e) => setCheckInDate(e.target.value)}/>
+                                            <input type="date" className="form-control mb-2"
+                                                   placeholder="Ngày check-out" value={checkOutDate}
+                                                   onChange={(e) => setCheckOutDate(e.target.value)}/>
+                                        </div>
                                         <button type="submit" className="btn btn-primary">Tìm kiếm</button>
                                     </form>
                                 </div>
@@ -250,8 +291,7 @@ const PropertyList = () => {
                 </div>
             </div>
         </div>
-);
+    );
 };
 
 export default PropertyList;
-

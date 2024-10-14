@@ -13,7 +13,7 @@ const PropertyDetail = () => {
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const { token } = useAuth();
+    const token = localStorage.getItem('jwtToken');
 
     // State cho việc đặt phòng
     const [checkInDate, setCheckInDate] = useState(null);

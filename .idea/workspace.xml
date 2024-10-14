@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace-hanbaongoc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth.authority)" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PrivateRoute.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/admin/HostTable.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/admin/UserTable.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/user/SuccessPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/user/UserDetail.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/user/UserDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/{" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/DN-HN-HOME-FE.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DN-HN-HOME-FE.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/md6-project-FE.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/AdminLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/AdminLayout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/AuthContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/AuthContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/Logout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/Logout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/property/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/property/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/property/PrivateRoute.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyList.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="kien1" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2nERA9Job09bZhfAaXdJH0facY1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "kien",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-2e7d6887c066-JavaScript-WS-241.15989.47" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="" />
+      <created>1728536106404</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1728536106404</updated>
+      <workItem from="1728536108039" duration="13321000" />
+      <workItem from="1728717909472" duration="4810000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
