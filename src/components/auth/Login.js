@@ -19,13 +19,19 @@ const Login = () => {
             localStorage.removeItem('authMessage');
             localStorage.removeItem('loginMessage');
         }
+
+        // Handle Google login callback
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        if (token) {
+            handleGoogleCallback(token);
+        }
     }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
 
-        // Validate input fields
         if (!username || !password) {
             setError('Vui lòng nhập tên người dùng và mật khẩu');
             return;
@@ -39,24 +45,8 @@ const Login = () => {
             const roles = authorities.map(auth => auth.authority);
 
             // Store token and user information
-            localStorage.setItem('jwtToken', token);
-            localStorage.setItem('username', username);
-            localStorage.setItem('userId', id);
-            localStorage.setItem('roles', JSON.stringify(roles));
-
-            // Call login function from AuthContext with full information
-            login(username, roles, id, token);
-
-            setPassword('');
-
-            // Redirect based on role
-            if (roles.includes('ROLE_HOST')) {
-                navigate('/host/dashboard');
-            } else if (roles.includes('ROLE_ADMIN')) {
-                navigate('/admin/dashboard');
-            } else {
-                navigate('/home');
-            }
+            storeUserData(token, username, id, roles);
+            redirectUser(roles);
         } catch (error) {
             console.error(error);
             setError('Tài khoản hoặc mật khẩu không đúng');
@@ -66,8 +56,42 @@ const Login = () => {
         }
     };
 
+    const storeUserData = (token, username, id, roles) => {
+        localStorage.setItem('jwtToken', token);
+        localStorage.setItem('username', username);
+        localStorage.setItem('userId', id);
+        localStorage.setItem('roles', JSON.stringify(roles));
+        login(username, roles, id, token);
+        setPassword('');
+    };
+
     const handleGoogleLogin = () => {
         window.location.href = 'http://localhost:8080/auth/v1/SSO/google';
+    };
+
+    const handleGoogleCallback = async (token) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/google-login?token=${token}`);
+            const { id, username, authorities } = response.data;
+            const roles = authorities.map(auth => auth.authority);
+
+            storeUserData(token, username, id, roles);
+            redirectUser(roles);
+        } catch (error) {
+            console.error('Error during Google login:', error);
+            setError('Lỗi đăng nhập Google');
+        }
+    };
+
+    const redirectUser = (roles) => {
+        if (roles.includes('ROLE_HOST')) {
+            navigate('/host/listMyHome');
+        } else if (roles.includes('ROLE_ADMIN')) {
+            console.log("test")
+            navigate('/admin/dashboard');
+        } else {
+            navigate('/home');
+        }
     };
 
     return (
@@ -86,7 +110,7 @@ const Login = () => {
                         value={username}
                         onChange={(e) => {
                             setUsername(e.target.value);
-                            setError(''); // Clear error on input change
+                            setError('');
                         }}
                         required
                     />
@@ -101,7 +125,7 @@ const Login = () => {
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
-                            setError(''); // Clear error on input change
+                            setError('');
                         }}
                         required
                     />

@@ -39,6 +39,7 @@ const App = () => {
                         <Route
                             path="/host/*"
                             element={<PrivateRoute requiredRole="ROLE_HOST" />}
+
                         />
                         <Route
                             path="/admin/*"

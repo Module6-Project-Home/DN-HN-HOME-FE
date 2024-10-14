@@ -1,10 +1,29 @@
-import React from 'react';
-import { Tab, Nav, Row, Col } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Tab, Nav, Row, Col, Alert } from 'react-bootstrap';
 import AdminLayout from './AdminLayout';
 import UserTable from './UserTable';
 import HostTable from './HostTable';
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const validateToken = () => {
+            const queryParams = new URLSearchParams(window.location.search);
+            const token = queryParams.get('token');
+
+            if (token) {
+                localStorage.setItem('token', token); // Lưu token vào localStorage
+                // Bạn có thể thêm logic xác thực thêm ở đây nếu cần
+            } else {
+                navigate('/login'); // Nếu không có token, chuyển hướng về trang đăng nhập
+            }
+        };
+
+        validateToken();
+    }, [navigate]);
+
     return (
         <AdminLayout>
             <div>

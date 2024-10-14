@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     });
     const [token, setToken] = useState(() => localStorage.getItem('jwtToken') || null);
 
-    const login = (username, roles, userId,token) => {
+    const login = (username, roles, userId, token) => {
         console.log('Logging in:', { username, roles, userId });
         setUser({ id: userId, username: username });
         localStorage.setItem('username', username);
@@ -20,11 +20,13 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('roles', JSON.stringify(roles));
 
         setToken(token);
+        localStorage.setItem('jwtToken', token); // Store token in localStorage
     };
 
     const logout = () => {
         setUser(null);
         setRoles([]);
+        setToken(null); // Clear token state
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('username');
         localStorage.removeItem('userId');
@@ -32,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, roles, login, logout }}>
+        <AuthContext.Provider value={{ user, roles, token, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

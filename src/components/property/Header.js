@@ -49,7 +49,7 @@ const Header = () => {
                 console.error('Error parsing roles from localStorage:', error);
             }
         }
-    }, [login, user]);
+    }, [login, user,roles]);
 
     const handleLogout = async () => {
         try {
@@ -69,6 +69,7 @@ const Header = () => {
 
     const renderDropdownMenu = () => {
         if (!user) {
+            console.log('DĐăng nhập');
             return (
                 <>
                     <li>
@@ -85,7 +86,8 @@ const Header = () => {
         const userRoles = Array.isArray(roles) ? roles : [];
 
         // Admin Menu
-        if (userRoles.includes('ROLE_ADMIN')) {
+        if (user && userRoles && userRoles.includes('ROLE_ADMIN')) {
+            console.log('Admin menu is being rendered'); // Log khi menu admin đang được render
             return (
                 <>
                     <li className="text-center my-3">
@@ -105,6 +107,8 @@ const Header = () => {
                     </li>
                 </>
             );
+        } else {
+            console.log('User is not an admin or userRoles is missing'); // Log nếu không phải admin
         }
 
         // Host Menu
