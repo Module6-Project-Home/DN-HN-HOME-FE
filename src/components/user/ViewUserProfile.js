@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 const ViewUserProfile = () => {
     const [userProfile, setUserProfile] = useState(null);
@@ -32,16 +33,49 @@ const ViewUserProfile = () => {
     }
 
     return (
-        <div className="container mt-5 custom-margin">
-            <h2>Quản lý tài khoản</h2>
+        <div className="container mt-5 custom-margin ">
+            <br/>
+            <br/>
+            <h2>Thông tin cá nhân</h2>
             <p>{error}</p>
             <div className="card p-3">
-                <h5>Thông tin cá nhân:</h5>
-                <p><strong>Tên người dùng:</strong> {userProfile.username}</p>
-                <p><strong>Họ và tên:</strong> {userProfile.fullName}</p>
-                <p><strong>Địa chỉ:</strong> {userProfile.address}</p>
-                {/* Hiển thị các thông tin khác của người dùng nếu cần */}
+                <div className="">
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <td><strong>Tên đăng nhập:</strong></td>
+                            <td>{userProfile.username}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Avatar:</strong></td>
+                            <td>
+                                <img src={userProfile.avatar} alt="Avatar" className="img-thumbnail"
+                                     style={{width: '150px', height: '150px'}}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Họ và tên:</strong></td>
+                            <td>{userProfile.fullName}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Địa chỉ:</strong></td>
+                            <td>{userProfile.address}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Số điện thoại:</strong></td>
+                            <td>{userProfile.phoneNumber}</td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
+            <Link to="/profile-update" className="btn btn-primary m-1">
+                <i className="fa fa-pen-square"></i>
+                Sửa thông tin cá nhân
+            </Link>
+            <Link to="/change-password" className="btn btn-secondary m-1">
+                Đổi mật khẩu
+            </Link>
         </div>
     );
 };

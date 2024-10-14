@@ -17,7 +17,9 @@ import ListMyHomestay from "./components/host/ListMyHomestay";
 import RegisterForm from "./components/user/Register";
 import ViewUserProfile from "./components/user/ViewUserProfile"
 import PrivateRoute from './components/PrivateRoute';
-import SuccessPage from './components/user/SuccessPage'; // Import SuccessPage
+import SuccessPage from './components/user/SuccessPage';
+import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
+import ChangePassword from "./components/user/ChangePassword"
 
 const App = () => {
     return (
@@ -35,7 +37,9 @@ const App = () => {
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
-                        <Route path="/user/view-profile" element={<ViewUserProfile />} /> {/* Route for Account Management */}
+                        <Route path="/user/view-profile" element={<ViewUserProfile />} />
+                        <Route path="/profile-update" element={<UpdateUserProfile />} />
+                        <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/success-page" element={<SuccessPage />} /> {/* Route for Success Page */}
                         {/* Routes protected by roles */}
                         <Route

@@ -115,13 +115,16 @@ const Header = () => {
                         <span className="font-weight-bold">{`Chào mừng, ${user.username}!`}</span>
                     </li>
                     <li>
+                        <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
+                    </li>
+                    <li>
                         <Link className="dropdown-item" to="/host/properties">Quản lý Homestay</Link>
                     </li>
                     <li>
                         <Link className="dropdown-item" to="/host/history">Lịch sử thuê nhà</Link>
                     </li>
                     <li>
-                        <hr className="dropdown-divider" />
+                        <hr className="dropdown-divider"/>
                     </li>
                     <li>
                         <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
