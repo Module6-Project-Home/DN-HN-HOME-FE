@@ -118,7 +118,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/host/properties">Quản lý Homestay</Link>
+                        <Link className="dropdown-item" to="/host/dashboard">Quản lý Homestay</Link>
                     </li>
                     <li>
                         <Link className="dropdown-item" to="/host/history">Lịch sử thuê nhà</Link>

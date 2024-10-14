@@ -44,7 +44,7 @@ const AdminDashboard = () => {
 
     return (
         <AdminLayout>
-            <div>
+            <div className="card mt-5" >
                 <h1 style={{ marginTop: '70px' }}>Admin Dashboard</h1>
                 <Tab.Container defaultActiveKey="userTable">
                     <Row>
