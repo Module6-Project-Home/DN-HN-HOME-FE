@@ -6,17 +6,10 @@ import HeroBanner from "../property/HeroBanner";
 const UserDetail = () => {
     const userId = localStorage.getItem('userId');
     const [userDetail, setUserDetail] = useState(null);
-    const [bookingHistory, setBookingHistory] = useState([]); // State lưu lịch sử thuê nhà
-    const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
-    const [itemsPerPage] = useState(5); // Số mục trên mỗi trang
+    const [bookingHistory, setBookingHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const token = localStorage.getItem('jwtToken');
-
-    // Tính toán chỉ số của mục đầu tiên và mục cuối cùng cho trang hiện tại
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentBookings = bookingHistory.slice(indexOfFirstItem, indexOfLastItem);
 
     const fetchUserDetail = async () => {
         try {
@@ -27,8 +20,7 @@ const UserDetail = () => {
             });
             setUserDetail(response.data);
         } catch (error) {
-            console.error('Error fetching user detail:', error);
-            setError('Không thể tải thông tin người dùng.');
+            setError('Có lỗi xảy ra khi tải thông tin người dùng.');
         } finally {
             setLoading(false);
         }
@@ -41,28 +33,25 @@ const UserDetail = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setBookingHistory(response.data);
+
+            if (Array.isArray(response.data)) {
+                setBookingHistory(response.data);
+            } else {
+                setError(response.data.message || 'Có lỗi xảy ra khi tải lịch sử thuê nhà.');
+                setBookingHistory([]);
+            }
         } catch (error) {
-            console.error('Error fetching booking history:', error);
-            setError('Không thể tải lịch sử thuê nhà.');
+            setError('Có lỗi xảy ra khi tải lịch sử thuê nhà.');
         }
     };
 
     useEffect(() => {
         fetchUserDetail();
-        fetchBookingHistory(); // Lấy lịch sử thuê nhà
+        fetchBookingHistory();
     }, [userId]);
 
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-
     if (loading) {
-        return <div className="user-detail-container">Đang tải thông tin người dùng...</div>;
-    }
-
-    if (error) {
-        return <div className="user-detail-container">{error}</div>;
+        return <div className="user-detail-container">Đang tải thông tin...</div>;
     }
 
     if (!userDetail) {
@@ -90,10 +79,8 @@ const UserDetail = () => {
                 {/* Lịch sử thuê nhà */}
                 <h2>Lịch sử thuê nhà</h2>
                 <div className="booking-history">
-                    {currentBookings.length === 0 ? (
-                        <p>Không có lịch sử thuê nhà.</p>
-                    ) : (
-                        currentBookings.map((booking, index) => (
+                    {bookingHistory.length > 0 ? (
+                        bookingHistory.map((booking, index) => (
                             <div key={index} className="booking-item">
                                 <h3>{booking.propertyName}</h3>
                                 <p><strong>Địa chỉ:</strong> {booking.address}</p>
@@ -104,24 +91,9 @@ const UserDetail = () => {
                                 </p>
                             </div>
                         ))
+                    ) : (
+                        <p>{error || 'Bạn chưa có booking nào.'}</p>
                     )}
-                </div>
-
-                {/* Nút phân trang */}
-                <div className="pagination">
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                    >
-                        Trang trước
-                    </button>
-                    <span>Trang {currentPage}</span>
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={indexOfLastItem >= bookingHistory.length}
-                    >
-                        Trang sau
-                    </button>
                 </div>
             </div>
         </div>
