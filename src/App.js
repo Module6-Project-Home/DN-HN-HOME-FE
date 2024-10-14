@@ -54,6 +54,8 @@ const App = () => {
                         <Route path="/profile-update" element={<UpdateUserProfile />} />
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/user/view-profile" element={<ViewUserProfile />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
                     </Route>
 
                     {/* Các route dùng HostLayout */}
@@ -64,10 +66,14 @@ const App = () => {
                         <Route path="/host/create-property" element={<PostForm />} />
                     </Route>
 
-                    {/* Các route bảo vệ bằng quyền hạn */}
-                    <Route element={<PrivateRoute requiredRole="ROLE_ADMIN" />}>
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                    </Route>
+                    <Route
+                        path="/host/*"
+                        element={<PrivateRoute requiredRole="ROLE_HOST" />}
+                    />
+                    <Route
+                        path="/admin/*"
+                        element={<PrivateRoute requiredRole="ROLE_ADMIN" />}
+                    />
                 </Routes>
             </Router>
         </AuthProvider>
