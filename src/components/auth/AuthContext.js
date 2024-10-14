@@ -4,23 +4,31 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [roles, setRoles] = useState([]);
+    const [roles, setRoles] = useState(() => {
+        const storedRoles = localStorage.getItem('roles');
+        return storedRoles ? JSON.parse(storedRoles) : [];
+    });
+    const [token, setToken] = useState(() => localStorage.getItem('jwtToken') || null);
 
-    // Hàm login, lưu username và roles vào state và localStorage
-    const login = (username, roles) => {
-        setUser(username);
-        localStorage.setItem('username', username);
+    const login = (username, roles, userId,token) => {
+        setUser({ id: userId, username: username });
+        setToken(token);
         setRoles(roles);
-        localStorage.setItem('roles', JSON.stringify(roles)); // Lưu vai trò dưới dạng chuỗi JSON
+
+        // Store token and user information
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('jwtToken', token);
+        localStorage.setItem('username', username);
+        localStorage.setItem('roles', JSON.stringify(roles));
     };
 
-    // Hàm logout, xóa dữ liệu user và roles từ state và localStorage
     const logout = () => {
         setUser(null);
         setRoles([]);
-        localStorage.removeItem('jwtToken'); // Xóa token khi đăng xuất
+        localStorage.removeItem('jwtToken');
         localStorage.removeItem('username');
-        localStorage.removeItem('roles'); // Xóa vai trò khi đăng xuất
+        localStorage.removeItem('userId');
+        localStorage.removeItem('roles');
     };
 
     return (
@@ -30,5 +38,4 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// Custom hook để truy cập vào AuthContext
 export const useAuth = () => useContext(AuthContext);

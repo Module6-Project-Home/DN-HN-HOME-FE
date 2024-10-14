@@ -8,7 +8,7 @@ const AdminDashboard = () => {
     return (
         <AdminLayout>
             <div>
-                <h1 style={{ marginTop: '20px' }}>Admin Dashboard</h1>
+                <h1 style={{ marginTop: '70px' }}>Admin Dashboard</h1>
                 <Tab.Container defaultActiveKey="userTable">
                     <Row>
                         <Col sm={3}>

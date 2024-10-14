@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import HeroBanner from "../property/HeroBanner";
+import {useLocation} from "react-router-dom";
 
 const ListMyHomestay = () => {
     const [properties, setProperties] = useState([]);
     const [error, setError] = useState('');
+    const location = useLocation();
+    const hostName = location.state?.hostName||''; // Lấy hostName từ location.state
+
 
     useEffect(() => {
         let jwtToken = localStorage.getItem("jwtToken");
@@ -27,6 +31,7 @@ const ListMyHomestay = () => {
     return (
         <div className="table-responsive">
             <HeroBanner></HeroBanner>
+            {hostName && <h2>Danh sách nhà của {hostName}</h2>} {/* Hiển thị tên chủ nhà */}
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                 <tr>

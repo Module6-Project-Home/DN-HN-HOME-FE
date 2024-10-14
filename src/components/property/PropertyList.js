@@ -238,7 +238,7 @@ const PropertyList = () => {
                                                                 }}
                                                                 src={property.imageUrls && property.imageUrls.length > 0
                                                                     ? property.imageUrls[0]
-                                                                    : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-1.jpg?alt=media&token=6318290c-f6d3-450e-8be6-6ae51a36e9ba"}
+                                                                    : "https://via.placeholder.com/200"}
                                                                 alt="Property Image"
                                                                 className="img-fluid w-100 rounded-top"
                                                             />
@@ -287,8 +287,7 @@ const PropertyList = () => {
                 </div>
             </div>
         </div>
-);
+    );
 };
 
 export default PropertyList;
-
