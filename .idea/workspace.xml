@@ -6,12 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/workspace-hanbaongoc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/auth.authority)" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/components/PrivateRoute.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/components/admin/HostTable.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/components/admin/UserTable.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/host/PropertyCount.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/components/user/SuccessPage.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/components/user/UserDetail.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/components/user/UserDetail.js" afterDir="false" />
@@ -20,14 +21,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/DN-HN-HOME-FE.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DN-HN-HOME-FE.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/md6-project-FE.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/admin/AdminLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/AdminLayout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/HostTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/HostTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/auth/AuthContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/AuthContext.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/auth/Logout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/Logout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/host/ListMyHomestay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/ListMyHomestay.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/property/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/Footer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/property/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/Header.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/property/PrivateRoute.js" beforeDir="false" />
@@ -50,7 +54,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="kien1" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,23 +73,27 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "kien",
+    "git-widget-placeholder": "ngoc",
+    "ignore.virus.scanning.warn.message": "true",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-2e7d6887c066-JavaScript-WS-241.15989.47" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23339.15" />
       </set>
     </attachedChunks>
   </component>
@@ -99,6 +107,8 @@
       <updated>1728536106404</updated>
       <workItem from="1728536108039" duration="13321000" />
       <workItem from="1728717909472" duration="4810000" />
+      <workItem from="1728719758894" duration="10250000" />
+      <workItem from="1728814651328" duration="7342000" />
     </task>
     <servers />
   </component>
@@ -110,7 +120,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
