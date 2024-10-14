@@ -85,7 +85,7 @@ const Login = () => {
 
     const redirectUser = (roles) => {
         if (roles.includes('ROLE_HOST')) {
-            navigate('/host/listMyHome');
+            navigate('/host/dashboard');
         } else if (roles.includes('ROLE_ADMIN')) {
             navigate('/admin/dashboard');
         } else {
