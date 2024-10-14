@@ -1,31 +1,77 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import HeaderAdmin from "./layout/HeaderAdmin";
 import SidebarAdmin from "./layout/SidebarAdmin";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const HostDashboard = () => {
     const [properties, setProperties] = useState([]);
     const [error, setError] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [searchTerm, setSearchTerm] = useState(''); // Tìm kiếm theo tên nhà
+    const [searchStatus, setSearchStatus] = useState(''); // Tìm kiếm theo trạng thái
 
     useEffect(() => {
-        let jwtToken = localStorage.getItem("jwtToken");
+        const jwtToken = localStorage.getItem("jwtToken");
 
-        // Gọi API để lấy danh sách tài sản của chủ nhà
         axios.get('http://localhost:8080/api/host/listMyHomestay', {
             headers: {
-                'Authorization': `Bearer ${jwtToken}`, // Gửi token ở đây
-                'Content-Type': 'application/json', // Thêm Content-Type nếu cần
+                'Authorization': `Bearer ${jwtToken}`,
+                'Content-Type': 'application/json',
             },
         })
             .then(response => {
-                setProperties(response.data); // Gán dữ liệu vào state
+                console.log("Dữ liệu trả về từ API:", response.data); // Kiểm tra dữ liệu
+                setProperties(response.data);
             })
             .catch(error => {
-                setError("Không thể tải danh sách tài sản."); // Xử lý lỗi
+                setError("Không thể tải danh sách tài sản.");
                 console.error("Lỗi khi lấy danh sách tài sản", error);
             });
     }, []);
+
+    // Tính toán chỉ số của mục đầu tiên và cuối cùng
+    const indexOfLastProperty = currentPage * itemsPerPage;
+    const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
+
+    useEffect(() => {
+        setCurrentPage(1); // Đặt lại về trang 1 khi thay đổi
+    }, [searchTerm, itemsPerPage]);
+
+    // Lọc tài sản theo tên và trạng thái
+    const filteredProperties = properties.filter(property => {
+        return (
+            property.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            (searchStatus === '' || property.status === searchStatus)
+        );
+    });
+
+    const currentProperties = filteredProperties.slice(indexOfFirstProperty, indexOfLastProperty);
+
+    // Tính toán tổng số trang
+    const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const goToNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handleItemsPerPageChange = (event) => {
+        setItemsPerPage(Number(event.target.value));
+        setCurrentPage(1); // Đặt lại về trang 1 khi thay đổi số lượng mục trên mỗi trang
+    };
 
     return (
         <div>
@@ -35,7 +81,7 @@ const HostDashboard = () => {
                     <SidebarAdmin />
                     <div id="layoutSidenav_content">
                         <main>
-                            <div className="container-fluid px-4">
+                            <div className="container-fluid px-4 ">
                                 <h1 className="mt-4">Quản lý nhà</h1>
                                 <ol className="breadcrumb mb-4">
                                     <li className="breadcrumb-item">
@@ -44,11 +90,48 @@ const HostDashboard = () => {
                                     <li className="breadcrumb-item active">Nhà</li>
                                 </ol>
                                 <div className="mt-5">
+                                    <div className="row mb-3">
+                                        <div className="col-md-4">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Tìm kiếm theo tên nhà"
+                                                value={searchTerm}
+                                                onChange={(e) => setSearchTerm(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-md-4">
+                                            <select
+                                                className="form-control"
+                                                value={searchStatus}
+                                                onChange={(e) => setSearchStatus(e.target.value)}
+                                            >
+                                                <option value="">Tất cả trạng thái</option>
+                                                <option value="Còn Trống">Còn Trống</option>
+                                                <option value="Đã cho thuê">Đã cho thuê</option>
+                                                <option value="Đang bảo trì">Đang bảo trì</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3 d-flex align-items-center">
+                                        <label htmlFor="itemsPerPage" className="form-label mb-0 me-2">Số mục trên mỗi trang:</label>
+                                        <select
+                                            id="itemsPerPage"
+
+                                            value={itemsPerPage}
+                                            onChange={handleItemsPerPageChange}
+                                        >
+                                            <option value={5}>5</option>
+                                            <option value={10}>10</option>
+                                            <option value={15}>15</option>
+                                            <option value={20}>20</option>
+                                        </select>
+                                    </div>
                                     <div className="row">
                                         <div className="col-12 mx-auto">
                                             <div className="d-flex justify-content-between">
-                                                <Link to="/admin/property/create" className="btn btn-primary">Thêm nhà mới</Link>
-                                                <Link to="/admin/property/history" className="btn btn-primary">Quản lý cho thuê</Link>
+                                                <Link to="/host/create-property" className="btn btn-primary">Thêm nhà mới</Link>
+                                                <Link to="/host/history" className="btn btn-primary">Quản lý cho thuê</Link>
                                             </div>
 
                                             <hr />
@@ -63,41 +146,78 @@ const HostDashboard = () => {
                                                     <th>Số phòng tắm</th>
                                                     <th>Loại tài sản</th>
                                                     <th>Trạng thái</th>
+                                                    <th>Hình Ảnh</th>
+                                                    <th>Hành động</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {properties.length > 0 ? (
-                                                    properties.map((property, index) => (
+                                                {currentProperties.length > 0 ? (
+                                                    currentProperties.map((property, index) => (
                                                         <tr key={property.id}>
-                                                            <td>{index + 1}</td>
+                                                            <td>{indexOfFirstProperty + index + 1}</td>
                                                             <td>{property.name}</td>
                                                             <td>{property.address}</td>
                                                             <td>{property.pricePerNight}</td>
                                                             <td>{property.bedrooms}</td>
                                                             <td>{property.bathrooms}</td>
                                                             <td>{property.propertyType}</td>
+
                                                             <td>{property.status}</td>
+                                                            <td>
+                                                                <img
+                                                                    style={{
+                                                                        width: '120px',
+                                                                        height: '120px',
+                                                                        objectFit: 'fill'
+                                                                    }}
+                                                                    src={property.imageUrls && property.imageUrls.length > 0
+                                                                        ? property.imageUrls[0]
+                                                                        : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-1.jpg?alt=media&token=6318290c-f6d3-450e-8be6-6ae51a36e9ba"}
+                                                                    alt="Property Image"
+                                                                    className="img-fluid w-100 rounded-top"
+                                                                /></td>
+                                                            <td>
+                                                                <Link to={`/host/update-property/${property.id}`} className="btn btn-warning bi bi-save"> Chỉnh Sửa</Link>
+                                                            </td>
                                                         </tr>
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="8" className="text-center">Không có tài sản nào để hiển thị</td>
+                                                        <td colSpan="9" className="text-center">Không có tài sản nào để hiển thị</td>
                                                     </tr>
                                                 )}
                                                 </tbody>
                                             </table>
 
-                                            {/*<div>*/}
-                                            {/*    <Link to={`/admin/property?page=${properties.number - 1}`} className="btn btn-primary"*/}
-                                            {/*          style={{ visibility: properties.hasPrevious ? 'visible' : 'hidden' }}>*/}
-                                            {/*        Previous*/}
-                                            {/*    </Link>*/}
-                                            {/*    <span>{properties.number + 1}</span> | <span>{properties.totalPages}</span>*/}
-                                            {/*    <Link to={`/admin/property?page=${properties.number + 1}`} className="btn btn-primary"*/}
-                                            {/*          style={{ visibility: properties.hasNext ? 'visible' : 'hidden' }}>*/}
-                                            {/*        Next*/}
-                                            {/*    </Link>*/}
-                                            {/*</div>*/}
+                                            {/* Nút phân trang */}
+                                            <nav className="d-flex justify-content-between align-items-center my-3">
+                                                <button
+                                                    onClick={goToPreviousPage}
+                                                    className="btn btn-primary"
+                                                    disabled={currentPage === 1}
+                                                >
+                                                    Trang trước
+                                                </button>
+
+                                                <ul className="pagination mb-0">
+                                                    {[...Array(totalPages)].map((_, i) => (
+                                                        <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
+                                                            <button className="page-link" onClick={() => handlePageChange(i + 1)}>
+                                                                {i + 1}
+                                                            </button>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+
+                                                <button
+                                                    onClick={goToNextPage}
+                                                    className="btn btn-primary"
+                                                    disabled={currentPage === totalPages || totalPages === 0}
+                                                >
+                                                    Trang sau
+                                                </button>
+                                            </nav>
+
                                         </div>
                                     </div>
                                 </div>

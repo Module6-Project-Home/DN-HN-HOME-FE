@@ -14,6 +14,7 @@ import HostDashboard from "./components/host/HostDashboard";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import ListMyHomestay from "./components/host/ListMyHomestay";
 import HeaderAdmin from "./components/host/layout/HeaderAdmin"; // Import AdminDashboard component
+import UpdateProperty from "./components/host/UpdateProperty";
 
 const App = () => {
     return (
@@ -24,12 +25,13 @@ const App = () => {
 
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/properties/:id" element={<PropertyDetail />} />
-                        <Route path="/post" element={<PostForm />} />
+                        <Route path="/host/create-property" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Route for Admin */}
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         <Route path="/host/header" element={<HeaderAdmin />} />
+                        <Route path="/host/update-property/:id" element={<UpdateProperty />} />
 
 
                     </Routes>
