@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
 
 const ChangePassword = () => {
@@ -59,49 +59,53 @@ const ChangePassword = () => {
     return (
         <div className="container mt-5 custom-margin">
             <br/> <br/>
-            <ToastContainer/>
-            <h2>Đổi mật khẩu</h2>
-            {error && <p className="text-danger">{error}</p>}
-            <form onSubmit={handleSubmit} className="form-control">
-                <div className="mb-3">
-                    <label htmlFor="oldPassword" className="form-label">Mật khẩu cũ</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="oldPassword"
-                        name="oldPassword"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        required
-                    />
+            <div className="card mx-auto shadow" style={{width: '40rem'}}>
+                <div className="card-body">
+                    <ToastContainer/>
+                    <h2>Đổi mật khẩu</h2>
+                    {error && <p className="text-danger">{error}</p>}
+                    <form onSubmit={handleSubmit} className="form-control">
+                        <div className="mb-3">
+                            <label htmlFor="oldPassword" className="form-label"><strong>Mật khẩu cũ:</strong></label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="oldPassword"
+                                name="oldPassword"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="newPassword" className="form-label"><strong>Mật khẩu mới:</strong></label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="newPassword"
+                                name="newPassword"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="confirmPassword" className="form-label"><strong>Xác nhận mật khẩu mới:</strong></label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary m-1">Đổi mật khẩu</button>
+                        <button type="button" className="btn btn-danger m-1" onClick={handleCancel}>Huỷ</button>
+                    </form>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="newPassword" className="form-label">Mật khẩu mới</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="newPassword"
-                        name="newPassword"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">Xác nhận mật khẩu mới</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary m-1">Đổi mật khẩu</button>
-                <button type="button" className="btn btn-danger m-1" onClick={handleCancel}>Huỷ</button>
-            </form>
+            </div>
         </div>
     );
 };

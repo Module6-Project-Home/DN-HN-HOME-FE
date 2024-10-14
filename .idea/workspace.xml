@@ -4,6 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+    <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="refactor code">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/user/ChangePassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/user/ChangePassword.js" afterDir="false" />
+    </list>
     <list default="true" id="2602abdc-ade0-48b3-b3d1-22b490b9e5fc" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -39,6 +43,16 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "git-widget-placeholder": "ttngoc",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "D:\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "kien-fix-login",
     "ignore.virus.scanning.warn.message": "true",
@@ -50,6 +64,7 @@
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
+}]]></component>
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -72,7 +87,25 @@
       <workItem from="1728814651328" duration="7342000" />
       <workItem from="1728717699112" duration="7410000" />
       <workItem from="1728826073341" duration="13203000" />
+      <workItem from="1728913709422" duration="833000" />
     </task>
+    <task id="LOCAL-00001" summary="refactor code">
+      <option name="closed" value="true" />
+      <created>1728900068076</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728900068076</updated>
+    </task>
+    <task id="LOCAL-00002" summary="refactor code">
+      <option name="closed" value="true" />
+      <created>1728900978806</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728900978806</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +147,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ttngoc" />
-    <option name="LAST_COMMIT_MESSAGE" value="ttngoc" />
+    <MESSAGE value="refactor code" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor code" />
   </component>
 </project>
