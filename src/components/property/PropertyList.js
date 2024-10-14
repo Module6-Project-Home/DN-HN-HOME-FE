@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import HeroBanner from "./HeroBanner";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../auth/AuthContext";
+
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
@@ -23,6 +26,47 @@ const PropertyList = () => {
 
     const [propertyTypes, setPropertyTypes] = useState([]); // Danh sách loại tài sản từ API
     const [roomTypes, setRoomTypes] = useState([]); // Danh sách loại tài sản từ API
+
+    const { login } = useAuth();
+    const location = useLocation();
+
+    const getQueryParams = (urlSearchParams) => {
+        const params = new URLSearchParams(urlSearchParams);
+        return params.get('token'); // Get token value
+    };
+
+
+    const tokenFromParams = getQueryParams(location.search);
+    console.log('tokenFromParams', tokenFromParams);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            if (tokenFromParams) {
+                const decoded = jwtDecode(tokenFromParams);
+                const username = decoded.sub;
+                try {
+                    const response = await axios.get(`http://localhost:8080/api/users/findByUsername?username=${username}`);
+                    console.log(response.data, 'response');
+                    const { roles, id } = response.data;
+
+                    console.log('Fetched Roles from API:', roles); // Kiểm tra vai trò trả về từ API
+                    console.log('Fetched User ID:', id);           // Kiểm tra User ID
+                    // Lưu thông tin vào localStorage
+                    localStorage.setItem('jwtToken', tokenFromParams);
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('roles', JSON.stringify(roles));
+                    localStorage.setItem('userId', id);
+
+                    // Gọi login để cập nhật context
+                    login(username, roles, id, tokenFromParams);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            }
+        };
+        fetchUser();
+    }, [tokenFromParams, login]);
+
     useEffect(() => {
         const fetchPropertyTypes = async () => {
             try {
