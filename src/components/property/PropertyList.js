@@ -40,9 +40,7 @@ const PropertyList = () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/room-types');
                 setRoomTypes(response.data); // Giả sử API trả về danh sách loại phòng
-                if (response.data.length > 0) {
-                    setRoomType(response.data[0].name); // Chọn loại phòng đầu tiên làm mặc định
-                }
+
             } catch (error) {
                 console.error('Error fetching room types:', error);
             }
