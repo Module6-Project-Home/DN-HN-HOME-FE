@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './HeroBanner.css'
 
 const Header = () => {
     const { user, roles, logout, login } = useAuth();
