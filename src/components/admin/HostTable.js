@@ -125,20 +125,21 @@ const  HostTable = () => {
                         <tr key={user.userId}>
                             <td>{user.fullName}
                                 <Button color="default" variant="text" style={{marginLeft: '10px'}}
-                                        onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined />}>
+                                        onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined/>}>
                                 </Button>
                             </td>
                             <td>{user.phoneNumber}</td>
-                            <td>{user.totalRevenue.toLocaleString()} VND</td>
+                            <td>{user.totalRevenue ? user.totalRevenue.toLocaleString() : '0'} VND</td>
                             <td><PropertyCount ownerId={user.userId} token={token}/></td>
                             <td>{user.status}</td>
                             <td>
 
                                 {user.status === 'ACTIVE' ? (
-                                    <Button type="primary" icon={<LockOutlined />} style={{ backgroundColor: 'indianred' }}
+                                    <Button type="primary" icon={<LockOutlined/>} style={{backgroundColor: 'indianred'}}
                                             onClick={() => showConfirmLock(user.userId)}>Khoá</Button>
                                 ) : (
-                                    <Button type="primary" icon={<UnlockOutlined />} style={{ backgroundColor: 'cornflowerblue' }}
+                                    <Button type="primary" icon={<UnlockOutlined/>}
+                                            style={{backgroundColor: 'cornflowerblue'}}
                                             onClick={() => showConfirmUnlock(user.userId)}>Mở Khoá</Button>
                                 )}
                             </td>
