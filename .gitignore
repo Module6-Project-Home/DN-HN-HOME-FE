@@ -19,9 +19,14 @@
 .env.test.local
 .env.production.local
 .idea/workspace.xml
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
+.idea/workspace.xml
+yarn-error.log*
+
+=======
 
 components/firebaseUpload.js
+>>>>>>> 2c59a24d2a571adf86333daa9c2bb5cf6a44ce35

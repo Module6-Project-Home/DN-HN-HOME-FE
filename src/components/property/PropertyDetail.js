@@ -7,6 +7,7 @@ import { differenceInDays, isBefore, isToday } from 'date-fns';
 import { useAuth } from '../auth/AuthContext';
 import HeroBanner from "./HeroBanner";
 import './PropertyDetail.css';
+import {toast, ToastContainer} from "react-toastify";
 
 const PropertyDetail = () => {
     const { id } = useParams();
@@ -64,7 +65,7 @@ const PropertyDetail = () => {
 
         // Kiểm tra xem người dùng đã đăng nhập chưa
         if (!token) {
-            alert('Bạn cần đăng nhập để đặt phòng. Vui lòng đăng ký tài khoản.');
+            toast.success('Bạn cần đăng nhập để đặt phòng. Vui lòng đăng ký tài khoản.');
             navigate('/login'); // Điều hướng đến trang đăng nhập
             return;
         }
@@ -86,14 +87,17 @@ const PropertyDetail = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            alert(`Đặt phòng thành công! Bạn đã đặt ${totalDays} ngày, tổng tiền của bạn là ${totalPrice.toLocaleString()} VND`);
+            toast.success(`Đặt phòng thành công! Bạn đã đặt ${totalDays} ngày, tổng tiền của bạn là ${totalPrice.toLocaleString()} VND`);
+            setTimeout(() => {
+                navigate('/home');
+            }, 5000);
         } catch (error) {
             console.error('Error creating booking:', error);
             if (error.response && error.response.data) {
                 const errorMessages = Object.values(error.response.data).join(', ');
-                alert(`${errorMessages}`);
+                toast.warning(`${errorMessages}`);
             } else {
-                alert("Đã có lỗi xảy ra khi tạo booking, vui lòng thử lại.");
+                toast.error("Đã có lỗi xảy ra khi tạo booking, vui lòng thử lại.");
             }
         }
     };
@@ -109,6 +113,7 @@ const PropertyDetail = () => {
     return (
         <div>
             <HeroBanner />
+            <ToastContainer />
             <div className="property-detail-container">
                 {/* Cột bên trái - thông tin ngôi nhà */}
                 <div className="property-info">
