@@ -1,0 +1,134 @@
+
+@media (min-width: 576px) {
+
+    .container-sm,
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+
+    .container-xxl,
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 1320px;
+    }
+}
+
+.py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+}
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+.hero-header {
+    background: linear-gradient(rgba(248, 223, 173, 0.1), rgba(248, 223, 173, 0.1)), url(https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/hero-img.png?alt=media&token=cf0da996-8d0b-4ca3-9253-10a615d23e75);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.fixed-top,
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav,
+.sb-nav-fixed .sb-topnav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+.align-items-center {
+    align-items: center !important;
+}
+
+@media (min-width: 992px) {
+
+    .hero-header,
+    .page-header {
+        margin-top: 90px !important;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .hero-header,
+    .page-header {
+        margin-top: 97px !important;
+    }
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+    margin-left: calc(-0.5 * var(--bs-gutter-x));
+}
+.g-5,
+.gx-5 {
+    --bs-gutter-x: 3rem;
+}
+.align-items-center {
+    align-items: center !important;
+}
+.position-relative {
+    position: relative !important;
+}
+.mx-auto {
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
