@@ -129,9 +129,9 @@ const  HostTable = () => {
                                 </Button>
                             </td>
                             <td>{user.phoneNumber}</td>
-                            <td>{user.totalRevenue.toLocaleString()} VND</td>
+                            <td>{user.totalRevenue} VND</td>
                             <td><PropertyCount ownerId={user.userId} token={token}/></td>
-                            <td>{user.status}</td>
+                            <td>{user.status === 'ACTIVE'?'Đang hoạt động':'Khoá'}</td>
                             <td>
 
                                 {user.status === 'ACTIVE' ? (

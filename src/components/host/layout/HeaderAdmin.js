@@ -25,7 +25,7 @@ const HeaderAdmin = () => {
                         <li>
                             <hr className="dropdown-divider" />
                         </li>
-                        <li><Link className="dropdown-item" to="/login">Đăng xuất</Link></li>
+                        <li><Link className="dropdown-item" to="/logout">Đăng xuất</Link></li>
                     </ul>
                 </li>
             </ul>

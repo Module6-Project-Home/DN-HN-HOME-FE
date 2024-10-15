@@ -7,6 +7,7 @@ import { differenceInDays } from 'date-fns';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import HeroBanner from "../property/HeroBanner";
+import {toast, ToastContainer} from "react-toastify";
 
 const BookingForm = ({ pricePerNight }) => {
     const { id: propertyId } = useParams();
@@ -36,14 +37,14 @@ const BookingForm = ({ pricePerNight }) => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            alert(`Đặt phòng thành công! bạn đã đặt ${totalDays} ngày tổng tiền của bạn là ${totalPrice}`);
+            toast.success(` phòng thành công! bạn đã đặt ${totalDays} ngày tổng tiền của bạn là ${totalPrice}`);
         } catch (error) {
             console.error('Error creating booking:', error);
             if (error.response && error.response.data) {
                 const errorMessages = Object.values(error.response.data).join(', ');
-                alert(`${errorMessages}`);
+                toast.success(`${errorMessages}`);
             } else {
-                alert("Đã có lỗi xảy ra khi tạo booking, vui lòng thử lại.");
+                toast.success("Đã có lỗi xảy ra khi tạo booking, vui lòng thử lại.");
             }
         }
 
@@ -52,6 +53,7 @@ const BookingForm = ({ pricePerNight }) => {
     return (
         <div>
             <HeroBanner />
+            <ToastContainer />
             <Formik
                 initialValues={{
                     checkInDate: null,

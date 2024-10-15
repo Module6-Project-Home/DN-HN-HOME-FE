@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+.container-fluid {
+    max-width: 1200px;
+    margin: auto;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #007bff;
+}
+
+.property-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #495057;
+}
+
+.property-address {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.frute-item {
+    overflow: hidden;
+    border-radius: 0.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.frute-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.frute-img {
+    position: relative;
+}
+
+.frute-img img {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select {
+    border-radius: 0.5rem;
+    border: 1px solid #ced4da;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.text-muted {
+    font-size: 0.9rem;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+.rounded {
+    border-radius: 0.5rem !important;
+}
