@@ -129,7 +129,7 @@ const  HostTable = () => {
                                 </Button>
                             </td>
                             <td>{user.phoneNumber}</td>
-                            <td></td>
+                            <td>{user.totalRevenue} VND</td>
                             <td><PropertyCount ownerId={user.userId} token={token}/></td>
                             <td>{user.status === 'ACTIVE'?'Đang hoạt động':'Khoá'}</td>
                             <td>
