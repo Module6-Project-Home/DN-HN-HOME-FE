@@ -51,8 +51,8 @@ const AddNewProperty = () => {
                     }));
                 }
             } catch (error) {
-                console.error("Error fetching property types:", error);
-                setError("Failed to load property types.");
+                console.error("Lỗi khi tải dữ liệu loại tài sản", error);
+                setError("Lỗi khi tải dữ liệu loại tài sản.");
             }
         };
         const fetchRoomTypes = async () => {
@@ -69,8 +69,8 @@ const AddNewProperty = () => {
                     }));
                 }
             } catch (error) {
-                console.error("Error fetching property types:", error);
-                setError("Failed to load property types.");
+                console.error("Lỗi khi tải dữ liệu loại phòng:", error);
+                setError("Lỗi khi tải dữ liệu loại phòng.");
             }
         };
         fetchRoomTypes();
@@ -93,10 +93,10 @@ const AddNewProperty = () => {
 
     // Upload ảnh lên Firebase
     const handleUploadImage = async (files) => {
-        if (files.length === 0) {
-            alert("Please select images to upload!");
-            return;
-        }
+        // if (files.length === 0) {
+        //     alert("Please select images to upload!");
+        //     return;
+        // }
 
         setIsUploading(true);
         const imageUrls = []; // URL các ảnh đã upload
@@ -114,8 +114,8 @@ const AddNewProperty = () => {
                 imageUrls: [...prevData.imageUrls, ...imageUrls]
             }));
         } catch (error) {
-            console.error("Error uploading images:", error);
-            setError("Failed to upload images.");
+            console.error("Lỗi tải ảnh lên:", error);
+            setError("Lỗi tải ảnh lên.");
         } finally {
             setIsUploading(false);
             setSelectedFiles([]); // Clear input file
@@ -203,8 +203,8 @@ const AddNewProperty = () => {
                 //     imageUrls: []
                 // });
             } catch (error) {
-                console.error("Error adding property:", error);
-                setError("Failed to add property. Please check if you're logged in and have the right permissions.");
+                console.error("Tạo mới thất bại:", error);
+                setError("Không thể tạo mới tài sản. Vui lòng kiểm tra xem bạn đã đăng nhập và có quyền phù hợp hay chưa.");
             }
         }
     };
