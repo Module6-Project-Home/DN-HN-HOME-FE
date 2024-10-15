@@ -65,7 +65,7 @@ const PropertyList = () => {
             }
         };
         fetchUser();
-    }, [tokenFromParams, login]);
+    }, []);
 
     useEffect(() => {
         const fetchPropertyTypes = async () => {

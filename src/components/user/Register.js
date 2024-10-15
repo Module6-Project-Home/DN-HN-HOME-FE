@@ -9,6 +9,7 @@ const RegisterForm = () => {
         username: '',
         password: '',
         confirmPassword: '',
+        fullName: '',
         email: '',
         phoneNumber: ''
     });
@@ -98,7 +99,7 @@ const RegisterForm = () => {
                     <h1 className="text-center mb-0">Đăng ký</h1>
                     <form className="mt-5 " onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="username">Tên người dùng</label>
+                            <label htmlFor="username">Tên đăng nhập</label>
                             <input
                                 type="text"
                                 id="username"
@@ -106,60 +107,85 @@ const RegisterForm = () => {
                                 className="form-control"
                                 value={formValues.username}
                                 onChange={handleInputChange}
-                                placeholder="Nhập tên người dùng"
+                                placeholder="Nhập tên đăng nhập"
+                                required
                             />
                             {formErrors.username && <small className="text-danger">{formErrors.username}</small>}
                         </div>
 
                         <div className="form-group">
-                            <label>Mật khẩu</label>
+                            <label htmlFor="password">Mật khẩu</label>
                             <input
                                 type="password"
+                                id="password"
                                 name="password"
                                 className="form-control"
                                 value={formValues.password}
                                 onChange={handleInputChange}
                                 placeholder="Nhập mật khẩu"
+                                required
                             />
                             {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
                         </div>
 
                         <div className="form-group">
-                            <label>Xác nhận mật khẩu</label>
+                            <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
                             <input
                                 type="password"
+                                id="confirmPassword"
                                 name="confirmPassword"
                                 className="form-control"
                                 value={formValues.confirmPassword}
                                 onChange={handleInputChange}
                                 placeholder="Xác nhận mật khẩu"
+                                required
                             />
                             {formErrors.confirmPassword &&
                                 <small className="text-danger">{formErrors.confirmPassword}</small>}
                         </div>
 
                         <div className="form-group">
-                            <label>Email</label>
+                            <label htmlFor="fullName">Họ và tên:</label>
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="fullName"
+                                className="form-control"
+                                value={formValues.fullName}
+                                onChange={handleInputChange}
+                                placeholder="Nhập họ và tên"
+                                required
+                            />
+                            {formErrors.fullName &&
+                                <small className="text-danger">{formErrors.fullName}</small>}
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
                             <input
                                 type="email"
+                                id="email"
                                 name="email"
                                 className="form-control"
                                 value={formValues.email}
                                 onChange={handleInputChange}
                                 placeholder="Nhập email"
+                                required
                             />
                             {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
                         </div>
 
                         <div className="form-group">
-                            <label>Số điện thoại</label>
+                            <label htmlFor="phoneNumber">Số điện thoại</label>
                             <input
                                 type="text"
+                                id="phoneNumber"
                                 name="phoneNumber"
                                 className="form-control"
                                 value={formValues.phoneNumber}
                                 placeholder="Nhập số điện thoại"
                                 onChange={handleInputChange}
+                                required
                             />
                             {formErrors.phoneNumber && <small className="text-danger">{formErrors.phoneNumber}</small>}
                         </div>

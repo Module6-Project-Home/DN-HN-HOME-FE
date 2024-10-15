@@ -9,10 +9,11 @@ const UserTable = () => {
     const [page, setPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState(false); // Modal for user details
+    const [showDecisionModal, setShowDecisionModal] = useState(false); // Modal for approve/deny
     const [selectedUser, setSelectedUser] = useState(null);
-    const [reason, setReason] = useState(''); // State to store the reason for upgrade decision
-    const [isApprove, setIsApprove] = useState(null); // State to determine if the action is approve or deny
+    const [reason, setReason] = useState('');
+    const [isApprove, setIsApprove] = useState(null);
 
     // Fetch users with pagination
     const fetchUsers = async (currentPage) => {
@@ -68,14 +69,14 @@ const UserTable = () => {
     // Show user details in modal
     const handleInfoClick = (user) => {
         setSelectedUser(user);
-        setShowModal(true);
+        setShowDetailModal(true);
     };
 
     // Prepare to handle upgrade decision
     const openDecisionModal = (userId, approve) => {
         setIsApprove(approve);
         setSelectedUser(userId);
-        setShowModal(true);
+        setShowDecisionModal(true);
         setReason(''); // Reset the reason input field
     };
 
@@ -88,29 +89,25 @@ const UserTable = () => {
                 ? 'http://localhost:8080/api/admin/approve-upgrade'
                 : 'http://localhost:8080/api/admin/deny-upgrade';
 
-            // Send the request to the appropriate endpoint
             await axios.put(endpoint, null, {
                 params: { userId: selectedUser, isApproved: isApprove, reason },
                 headers: { 'Authorization': `Bearer ${token}` },
             });
 
-            // Notify success based on the action
             notification.success({
                 message: isApprove ? 'Duyệt thành công' : 'Từ chối thành công',
                 description: `Yêu cầu nâng cấp đã được ${isApprove ? 'duyệt' : 'từ chối'}`,
             });
 
-            // Refresh user list
             fetchUsers(page);
         } catch (error) {
-            // Notify error if something goes wrong
             notification.error({
                 message: `Lỗi khi ${isApprove ? 'duyệt' : 'từ chối'} yêu cầu`,
                 description: error.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại.',
             });
         } finally {
             setLoading(false);
-            setShowModal(false); // Close the modal after the decision is made
+            setShowDecisionModal(false); // Close the decision modal after the action
         }
     };
 
@@ -211,24 +208,15 @@ const UserTable = () => {
                 disabledClassName={'disabled'}
             />
 
+            {/* Modal for User Details */}
             <Modal
                 title="Thông tin chi tiết"
-                visible={showModal}
-                onCancel={() => setShowModal(false)}
+                visible={showDetailModal}
+                onCancel={() => setShowDetailModal(false)}
                 footer={[
-                    <Button key="close" onClick={() => setShowModal(false)}>
+                    <Button key="close" onClick={() => setShowDetailModal(false)}>
                         Đóng
-                    </Button>,
-                    (isApprove !== null) && (
-                        <Button
-                            key="submit"
-                            type="primary"
-                            onClick={handleUpgradeDecision}
-                            disabled={!reason.trim()} // Disable if reason is empty
-                        >
-                            {isApprove ? 'Duyệt' : 'Từ chối'}
-                        </Button>
-                    )
+                    </Button>
                 ]}
             >
                 {selectedUser && (
@@ -245,16 +233,37 @@ const UserTable = () => {
                         <p><strong>Họ và tên:</strong> {selectedUser.fullName}</p>
                         <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
-                        {isApprove !== null && (
-                            <div>
-                                <Input
-                                    placeholder="Nhập lý do"
-                                    value={reason}
-                                    onChange={(e) => setReason(e.target.value)}
-                                    style={{ marginTop: 10 }}
-                                />
-                            </div>
-                        )}
+                    </div>
+                )}
+            </Modal>
+
+            {/* Modal for Approve/Deny Decision */}
+            <Modal
+                title={isApprove !== null ? (isApprove ? 'Duyệt yêu cầu nâng cấp' : 'Từ chối yêu cầu nâng cấp') : ''}
+                visible={showDecisionModal}
+                onCancel={() => setShowDecisionModal(false)}
+                footer={[
+                    <Button key="close" onClick={() => setShowDecisionModal(false)}>
+                        Đóng
+                    </Button>,
+                    <Button
+                        key="submit"
+                        type="primary"
+                        onClick={handleUpgradeDecision}
+                        disabled={!reason.trim()} // Disable if reason is empty
+                    >
+                        {isApprove ? 'Duyệt' : 'Từ chối'}
+                    </Button>
+                ]}
+            >
+                {selectedUser && (
+                    <div>
+                        <Input
+                            placeholder="Nhập lý do"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                            style={{ marginTop: 10 }}
+                        />
                     </div>
                 )}
             </Modal>
