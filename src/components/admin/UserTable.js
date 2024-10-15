@@ -4,29 +4,34 @@ import ReactPaginate from 'react-paginate';
 import {Button, Modal, Pagination} from "antd";
 import {ModalBody, ModalFooter, ModalHeader, ModalTitle} from "react-bootstrap";
 import {InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
+import UserDetail from "../user/UserDetail";
 // import {Button, Modal} from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 
 
 const UserTable = () => {
     const [users, setUsers] = useState([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(5);
+    const [totalItems, setTotalItems] = useState(0);
     const [pageCount, setPageCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
+    const navigate = useNavigate();
 
     const fetchUsers = async (currentPage) => {
         setLoading(true);
         try {
             const token = localStorage.getItem('jwtToken'); // Lấy token từ localStorage
             const response = await axios.get(`http://localhost:8080/api/admin/users`, {
-                params: {page: currentPage, size: 5},
+                params: {page: currentPage-1, size: pageSize},
                 headers: {
                     'Authorization': `Bearer ${token}` // Thêm token vào header
                 }
             });
             setUsers(response.data.content);
-            setPageCount(response.data.totalPages);
+            setTotalItems(response.data.totalElements);
         } catch (error) {
             console.error('Error fetching users:', error);
         } finally {
@@ -100,6 +105,10 @@ const UserTable = () => {
             console.error('Error denying user:', error);
         }
     };
+    const handleDetailClick = (userId, token) => {
+        navigate('/user/detail', { state: { userId, token } });
+    };
+
 
     useEffect(() => {
         fetchUsers(page);
@@ -159,13 +168,13 @@ const UserTable = () => {
                 )}
             </div>
             <div>
-                {/*<Pagination*/}
-                {/*    align="center"*/}
-                {/*    defaultCurrent={1}*/}
-                {/*    total={pageCount}*/}
-                {/*    pageSize={5}*/}
-                {/*    onChange={handlePageClick}*/}
-                {/*/>*/}
+                <Pagination
+                    align="center"
+                    defaultCurrent={page}
+                    total={pageCount}
+                    pageSize={5}
+                    onChange={handlePageClick}
+                />
                 {/*<Pagination*/}
                 {/*    align="center"*/}
                 {/*    current={page}*/}
@@ -177,28 +186,28 @@ const UserTable = () => {
                 {/*    marginPagesDisplayed={2} // Number of page links on either side of the current page*/}
                 {/*    pageRangeDisplayed={5}*/}
                 {/*/>*/}
-                <ReactPaginate
-                    previousLabel={'<'}
-                    nextLabel={'>'}
-                    breakLabel={'...'}
-                    breakClassName={'page-item'}
-                    pageCount={pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={'pagination justify-content-center'}
-                    pageClassName={'page-item'}
-                    pageLinkClassName={'page-link '}
-                    previousClassName={'page-item'}
-                    previousLinkClassName={'page-link'}
-                    nextClassName={'page-item'}
-                    nextLinkClassName={'page-link'}
-                    activeClassName={'active'}
-                    disabledClassName={'disabled'}
-                />
+                {/*<ReactPaginate*/}
+                {/*    previousLabel={'<'}*/}
+                {/*    nextLabel={'>'}*/}
+                {/*    breakLabel={'...'}*/}
+                {/*    breakClassName={'page-item'}*/}
+                {/*    pageCount={pageCount}*/}
+                {/*    marginPagesDisplayed={2}*/}
+                {/*    pageRangeDisplayed={5}*/}
+                {/*    onPageChange={handlePageClick}*/}
+                {/*    containerClassName={'pagination justify-content-center'}*/}
+                {/*    pageClassName={'page-item'}*/}
+                {/*    pageLinkClassName={'page-link '}*/}
+                {/*    previousClassName={'page-item'}*/}
+                {/*    previousLinkClassName={'page-link'}*/}
+                {/*    nextClassName={'page-item'}*/}
+                {/*    nextLinkClassName={'page-link'}*/}
+                {/*    activeClassName={'active'}*/}
+                {/*    disabledClassName={'disabled'}*/}
+                {/*/>*/}
             </div>
             <Modal
-                title="Thông tin chi tiết"
+                title="Thông tin người dùng"
                 open={showModal}
                 onCancel={() => setShowModal(false)}
                 footer={[
@@ -214,10 +223,14 @@ const UserTable = () => {
                         <p><strong>Họ và tên:</strong> {selectedUser.fullName}</p>
                         <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
-                        <p><strong>Số tiền đã chi tiêu:</strong></p>
-                        <p><strong>Lịch sử thuê nhà:</strong></p>
+                        {/*<p><strong>Số tiền đã chi tiêu:</strong></p>*/}
+                        {/*<p><strong>Lịch sử thuê nhà:</strong></p>*/}
+                        <Button type="primary" onClick={() => handleDetailClick(selectedUser.userId, localStorage.getItem('jwtToken'))}>
+                            Thông tin chi tiết
+                        </Button>
                     </div>
                 )}
+                {/*<UserDetail/>*/}
             </Modal>
         </div>
     );

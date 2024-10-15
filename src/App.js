@@ -21,6 +21,8 @@ import SuccessPage from './components/user/SuccessPage';
 import UserDetail from "./components/user/UserDetail"; // Import SuccessPage
 import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
 import ChangePassword from "./components/user/ChangePassword"
+import UserTable from "./components/admin/UserTable";
+import HostTable from "./components/admin/HostTable";
 const App = () => {
     return (
         <AuthProvider>
@@ -37,6 +39,8 @@ const App = () => {
                         <Route path="/user/detail" element={<UserDetail />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
+                        <Route path="/admin/users" element={<UserTable />} />
+                        <Route path="/admin/hosts" element={<HostTable />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         <Route path="/user/view-profile" element={<ViewUserProfile />} />
                         <Route path="/profile-update" element={<UpdateUserProfile />} />

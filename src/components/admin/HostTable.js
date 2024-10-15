@@ -123,7 +123,7 @@ const  HostTable = () => {
                                 </Button>
                             </td>
                             <td>{user.phoneNumber}</td>
-                            <td></td>
+                            <td>{user.totalRevenue.toLocaleString()} VND</td>
                             <td><PropertyCount ownerId={user.userId} token={token}/></td>
                             <td>{user.status}</td>
                             <td>
@@ -180,9 +180,9 @@ const  HostTable = () => {
                         <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
                         <p><strong>Địa chỉ:</strong> {selectedUser.address}</p>
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
-                        <p><strong>Tổng doanh thu:</strong> </p>
+                        <p><strong>Tổng doanh thu:</strong>{selectedUser.totalRevenue.toLocaleString()} VND</p>
                         {/*<p><strong>Danh sách nhà đang cho thuê:</strong> </p>*/}
-                    <Button type="primary" onClick={() => navigate('/host/listMyHome',{state:{hostName:selectedUser.fullName}})}>
+                    <Button type="primary" onClick={() => navigate('/host/listMyHome',{state:{hostName:selectedUser.fullName, hostId: selectedUser.userId,jwtToken: token}})}>
                         Danh sách nhà đang cho thuê
                     </Button>
                 </div>

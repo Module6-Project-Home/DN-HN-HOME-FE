@@ -14,10 +14,10 @@ const AdminDashboard = () => {
                         <Col sm={3}>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="userTable">Người dùng</Nav.Link>
+                                    <Nav.Link to="http://localhost:8080/api/admin/users" eventKey="userTable">Người dùng</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="hostTable">Chủ nhà</Nav.Link>
+                                    <Nav.Link to="http://localhost:8080/api/admin/hosts" eventKey="hostTable">Chủ nhà</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Col>
