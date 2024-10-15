@@ -47,7 +47,7 @@ const UpdateUserProfile = () => {
         let errors = {};
 
         // Kiểm tra username (chỉ chứa chữ cái và số)
-        if (!/[^\w\s]/.test(userProfile.fullName)) {
+        if (/[^a-zA-Z0-9\s]/.test(userProfile.fullName)) {
             errors.fullName = 'Họ tên không được chứa ký tự đặc biệt!';
         }
 
