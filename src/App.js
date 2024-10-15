@@ -18,7 +18,7 @@ import RegisterForm from "./components/user/Register";
 import ViewUserProfile from "./components/user/ViewUserProfile"
 import PrivateRoute from './components/PrivateRoute';
 import SuccessPage from './components/user/SuccessPage';
-import UserDetail from "./components/user/UserDetail"; // Import SuccessPage
+import UserHistoryBooking from "./components/admin/UserHistoryBooking"; // Import SuccessPage
 import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
@@ -34,10 +34,10 @@ const App = () => {
                         <Route path="/booking/:id" element={<BookingForm />} />
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
 
-                        <Route path="/post" element={<PostForm />} />
+                        <Route path="/host/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/host/dashboard" element={<HostDashboard />} />
-                        <Route path="/user/detail" element={<UserDetail />} />
+                        <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />

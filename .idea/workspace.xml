@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/UpdateProperty.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/layout/AdminStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/layout/HeaderAdmin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/layout/SidebarAdmin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/admin/UserHistoryBooking.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/AuthContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/AuthContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/UserTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/UserTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/host/HostDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/HostDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/user/UserDetail.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/UserHistoryBooking.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/user/UserDetail.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +76,11 @@
     &amp;quot;vue.rearranger.settings.migration&amp;quot;: &amp;quot;true&amp;quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\codegym\module6\project\DN-HN-HOME-FE\src\components\admin" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import {Button, Modal, Pagination} from "antd";
-import {ModalBody, ModalFooter, ModalHeader, ModalTitle} from "react-bootstrap";
-import {InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
-// import {Button, Modal} from "react-bootstrap";
-
+import { Button, Modal } from "antd";
+import { InfoCircleOutlined, LockOutlined, UnlockOutlined } from "@ant-design/icons";
+import { useNavigate } from 'react-router-dom';
 
 const UserTable = () => {
     const [users, setUsers] = useState([]);
@@ -13,16 +11,36 @@ const UserTable = () => {
     const [pageCount, setPageCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [userDetail, setUserDetail] = useState(null);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    // Hàm lấy thông tin người dùng chi tiết
+    const fetchUserDetail = async (userId) => {
+        setLoading(true);
+        try {
+            const token = localStorage.getItem('jwtToken');
+            const response = await axios.get(`http://localhost:8080/api/admin/user-detail?userId=${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setUserDetail(response.data);
+        } catch (error) {
+            setError('Có lỗi xảy ra khi tải thông tin người dùng.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchUsers = async (currentPage) => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('jwtToken'); // Lấy token từ localStorage
+            const token = localStorage.getItem('jwtToken');
             const response = await axios.get(`http://localhost:8080/api/admin/users`, {
-                params: {page: currentPage, size: 5},
+                params: { page: currentPage, size: 5 },
                 headers: {
-                    'Authorization': `Bearer ${token}` // Thêm token vào header
+                    'Authorization': `Bearer ${token}`
                 }
             });
             setUsers(response.data.content);
@@ -33,6 +51,7 @@ const UserTable = () => {
             setLoading(false);
         }
     };
+
     const handlePageClick = (data) => {
         setPage(data.selected);
         fetchUsers(data.selected);
@@ -40,11 +59,11 @@ const UserTable = () => {
 
     const handleStatusChange = async (userId, newStatus) => {
         try {
-            const token = localStorage.getItem('jwtToken'); // Get token from localStorage
+            const token = localStorage.getItem('jwtToken');
             await axios.put(`http://localhost:8080/api/admin/update-status`, null, {
-                params: {userId, status: newStatus},
+                params: { userId, status: newStatus },
                 headers: {
-                    'Authorization': `Bearer ${token}` // Add token to header
+                    'Authorization': `Bearer ${token}`
                 }
             });
             fetchUsers(page);
@@ -53,27 +72,22 @@ const UserTable = () => {
             alert('Failed to update status. Please try again later.');
         }
     };
-    const handleInfoClick = (user) => {
-        setSelectedUser(user);
+
+    const handleInfoClick = (userId) => {
+        fetchUserDetail(userId);
         setShowModal(true);
     };
 
     const approveUser = async (userId) => {
         try {
             const token = localStorage.getItem('jwtToken');
-            if (!token) {
-                throw new Error('Token not found');
-            }
-            console.log('Approving user with ID:', userId);
             await axios.put(`http://localhost:8080/api/admin/approve-upgrade`, null, {
                 params: { userId, isApproved: true },
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log('User approved');
             setUsers(users.map(user => user.userId === userId ? { ...user, isApproved: true } : user));
-            // fetchUsers(page);
         } catch (error) {
             console.error('Error approving user:', error);
         }
@@ -82,23 +96,20 @@ const UserTable = () => {
     const denyUser = async (userId) => {
         try {
             const token = localStorage.getItem('jwtToken');
-            if (!token) {
-                throw new Error('Token not found');
-            }
-            console.log('Denying user with ID:', userId);
             await axios.put(`http://localhost:8080/api/admin/deny-upgrade`, null, {
                 params: { userId },
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log('User denied');
             setUsers(users.map(user => user.userId === userId ? { ...user, isApproved: false } : user));
-
-            // fetchUsers(page);
         } catch (error) {
             console.error('Error denying user:', error);
         }
+    };
+
+    const handleViewHistory = (userId, fullName) => {
+        navigate(`/admin/user-detail/${userId}`, {state: {fullName}});
     };
 
     useEffect(() => {
@@ -125,30 +136,26 @@ const UserTable = () => {
                         {users.map((user) => (
                             <tr key={user.userId}>
                                 <td>{user.fullName}
-                                    <Button color="default" variant="text" style={{marginLeft: '10px'}}
-                                            onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined />}>
+                                    <Button color="default" variant="text" style={{ marginLeft: '10px' }}
+                                            onClick={() => handleInfoClick(user.userId)} icon={<InfoCircleOutlined />}>
                                     </Button>
                                 </td>
                                 <td>{user.phoneNumber}</td>
-                                <td>{user.status}</td>
+                                <td>{user.status === 'ACTIVE'?'Đang hoạt động':'Khoá'}</td>
                                 <td>
-
                                     {user.status === 'ACTIVE' ? (
-                                        <Button type="primary" icon={<LockOutlined />} style={{backgroundColor: 'indianred'}}
+                                        <Button type="primary" icon={<LockOutlined />} style={{ backgroundColor: 'indianred' }}
                                                 onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}>Khoá</Button>
                                     ) : (
-                                        <Button type="primary" icon={<UnlockOutlined />} style={{backgroundColor: 'cornflowerblue'}}
-                                                onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở
-                                            Khoá</Button>
+                                        <Button type="primary" icon={<UnlockOutlined />} style={{ backgroundColor: 'cornflowerblue' }}
+                                                onClick={() => handleStatusChange(user.userId, 'ACTIVE')}>Mở Khoá</Button>
                                     )}
                                 </td>
                                 <td>
                                     {user.upgradeRequested && (
                                         <div id="approval-buttons">
-                                            <Button color="default" variant="outlined" id="approve-button" onClick={() => approveUser(user.userId)}>Duyệt
-                                            </Button>
-                                            <Button color="default" variant="dashed" id="deny-button" onClick={() => denyUser(user.userId)}>Từ chối
-                                            </Button>
+                                            <Button color="default" variant="outlined" id="approve-button" onClick={() => approveUser(user.userId)}>Duyệt</Button>
+                                            <Button color="default" variant="dashed" id="deny-button" onClick={() => denyUser(user.userId)}>Từ chối</Button>
                                         </div>
                                     )}
                                 </td>
@@ -159,24 +166,6 @@ const UserTable = () => {
                 )}
             </div>
             <div>
-                {/*<Pagination*/}
-                {/*    align="center"*/}
-                {/*    defaultCurrent={1}*/}
-                {/*    total={pageCount}*/}
-                {/*    pageSize={5}*/}
-                {/*    onChange={handlePageClick}*/}
-                {/*/>*/}
-                {/*<Pagination*/}
-                {/*    align="center"*/}
-                {/*    current={page}*/}
-                {/*    total={pageCount}*/}
-                {/*    pageSize={5}    // Số lượng mục trên mỗi trang*/}
-                {/*    onChange={handlePageClick} // Hàm xử lý khi chuyển trang*/}
-                {/*    showSizeChanger={false}    // Ẩn chức năng thay đổi số mục trên mỗi trang*/}
-                {/*    showQuickJumper={true}     // Hiển thị ô để nhảy nhanh đến trang*/}
-                {/*    marginPagesDisplayed={2} // Number of page links on either side of the current page*/}
-                {/*    pageRangeDisplayed={5}*/}
-                {/*/>*/}
                 <ReactPaginate
                     previousLabel={'<'}
                     nextLabel={'>'}
@@ -205,17 +194,21 @@ const UserTable = () => {
                     <Button key="close" onClick={() => setShowModal(false)}>Đóng</Button>
                 ]}
             >
-                {selectedUser && (
+                {loading ? (
+                    <p>Loading user details...</p>
+                ) : error ? (
+                    <p>{error}</p>
+                ) : userDetail && (
                     <div>
                         <div className="text-center">
-                            <img src={selectedUser.avatar} alt="Avatar" className="img-thumbnail" style={{ width: '150px', height: '150px' }} />
+                            <img src={userDetail.avatar} alt="Avatar" className="img-thumbnail" style={{ width: '150px', height: '150px' }} />
                         </div>
-                        <p><strong>Username:</strong> {selectedUser.userName}</p>
-                        <p><strong>Họ và tên:</strong> {selectedUser.fullName}</p>
-                        <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
-                        <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
-                        <p><strong>Số tiền đã chi tiêu:</strong></p>
-                        <p><strong>Lịch sử thuê nhà:</strong></p>
+                        <p><strong>Username:</strong> {userDetail.username}</p>
+                        <p><strong>Họ và tên:</strong> {userDetail.fullName}</p>
+                        <p><strong>Số điện thoại:</strong> {userDetail.phoneNumber}</p>
+                        <p><strong>Trạng thái:</strong> {userDetail.userStatus === 1 ? 'Đang hoạt động' : 'Khoá'}</p>
+                        <p><strong>Số tiền đã chi tiêu:</strong> {userDetail.totalSpent.toLocaleString()} Đ</p>
+                        <Button type="primary" onClick={() => handleViewHistory(userDetail.id, userDetail.fullName)}>Xem Lịch Sử Thuê Nhà</Button>
                     </div>
                 )}
             </Modal>
