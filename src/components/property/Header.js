@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './HeroBanner.css'
 
 const Header = () => {
     const { user, roles, logout, login } = useAuth();
@@ -118,7 +119,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/host/properties">Quản lý Homestay</Link>
+                        <Link className="dropdown-item" to="/host/dashboard">Quản lý Homestay</Link>
                     </li>
                     <li>
                         <Link className="dropdown-item" to="/host/history">Lịch sử thuê nhà</Link>
@@ -167,7 +168,7 @@ const Header = () => {
             <div className="container px-0">
                 <nav className="navbar navbar-light bg-white navbar-expand-xl">
                     <Link to="/home" className="navbar-brand">
-                        <h1 className="text-primary display-6">3 NKQ Homestay</h1>
+                        <h1 className="text-primary display-6">3NKQ Homestay</h1>
                     </Link>
                     <button className="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span className="fa fa-bars text-primary"></span>

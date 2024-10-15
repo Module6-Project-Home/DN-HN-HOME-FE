@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
 import './UserDetail.css';
 import HeroBanner from "../property/HeroBanner";
 
 const UserDetail = () => {
-    const location = useLocation();
-    // const userId = localStorage.getItem('userId');
-    const { userId, token } = location.state || {};
+    const userId = localStorage.getItem('userId');
     const [userDetail, setUserDetail] = useState(null);
     const [bookingHistory, setBookingHistory] = useState([]); // State lưu lịch sử thuê nhà
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
     const [itemsPerPage] = useState(5); // Số mục trên mỗi trang
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    // const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('jwtToken');
 
     // Tính toán chỉ số của mục đầu tiên và mục cuối cùng cho trang hiện tại
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -54,7 +51,7 @@ const UserDetail = () => {
     useEffect(() => {
         fetchUserDetail();
         fetchBookingHistory(); // Lấy lịch sử thuê nhà
-    }, [userId,token]);
+    }, [userId]);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -85,7 +82,7 @@ const UserDetail = () => {
                     <p><strong>Tên đăng nhập:</strong> {userDetail.username}</p>
                     <p><strong>Số điện thoại:</strong> {userDetail.phoneNumber}</p>
                     <p><strong>Tổng chi tiêu:</strong> {userDetail.totalSpent.toLocaleString()} VNĐ</p>
-                    <p className={`user-status ${userDetail.userStatus === 1 ? 'ACTIVE' : 'SUSPENDED'}`}>
+                    <p className={`user-status ${userDetail.userStatus === 1 ? 'active' : 'inactive'}`}>
                         <strong>Trạng thái người dùng:</strong> {userDetail.userStatus === 1 ? 'Hoạt động' : 'Không hoạt động'}
                     </p>
                 </div>

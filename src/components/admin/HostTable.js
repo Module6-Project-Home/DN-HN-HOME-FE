@@ -8,6 +8,8 @@ import ReactPaginate from "react-paginate";
 import PropertyCount from "../host/PropertyCount";
 import { useNavigate } from 'react-router-dom';
 
+
+
 const { confirm } = Modal; //tạo hộp thoại xác nhận
 
 const  HostTable = () => {
@@ -123,16 +125,17 @@ const  HostTable = () => {
                                 </Button>
                             </td>
                             <td>{user.phoneNumber}</td>
-                            <td>{user.totalRevenue.toLocaleString()} VND</td>
+                            <td></td>
                             <td><PropertyCount ownerId={user.userId} token={token}/></td>
-                            <td>{user.status}</td>
+                            <td>{user.status === 'ACTIVE'?'Đang hoạt động':'Khoá'}</td>
                             <td>
 
                                 {user.status === 'ACTIVE' ? (
                                     <Button type="primary" icon={<LockOutlined />} style={{ backgroundColor: 'indianred' }}
                                             onClick={() => showConfirmLock(user.userId)}>Khoá</Button>
                                 ) : (
-                                    <Button type="primary" icon={<UnlockOutlined />} style={{ backgroundColor: 'cornflowerblue' }}
+                                    <Button type="primary" icon={<UnlockOutlined/>}
+                                            style={{backgroundColor: 'cornflowerblue'}}
                                             onClick={() => showConfirmUnlock(user.userId)}>Mở Khoá</Button>
                                 )}
                             </td>
@@ -180,9 +183,9 @@ const  HostTable = () => {
                         <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
                         <p><strong>Địa chỉ:</strong> {selectedUser.address}</p>
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
-                        <p><strong>Tổng doanh thu:</strong>{selectedUser.totalRevenue.toLocaleString()} VND</p>
+                        <p><strong>Tổng doanh thu:</strong> </p>
                         {/*<p><strong>Danh sách nhà đang cho thuê:</strong> </p>*/}
-                    <Button type="primary" onClick={() => navigate('/host/listMyHome',{state:{hostName:selectedUser.fullName, hostId: selectedUser.userId,jwtToken: token}})}>
+                    <Button type="primary" onClick={() => navigate('/host/listMyHome',{state:{hostName:selectedUser.fullName}})}>
                         Danh sách nhà đang cho thuê
                     </Button>
                 </div>

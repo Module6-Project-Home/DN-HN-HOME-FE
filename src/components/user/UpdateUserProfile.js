@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
 import {uploadImageToFirebase} from "../firebaseUpload";
+import {API_URL} from "../constants/constants";
 
 const UpdateUserProfile = () => {
     const [userProfile, setUserProfile] = useState({
@@ -35,7 +36,7 @@ const UpdateUserProfile = () => {
     }, []);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setUserProfile(prevState => ({
             ...prevState,
             [name]: value
@@ -46,7 +47,7 @@ const UpdateUserProfile = () => {
         let errors = {};
 
         // Kiểm tra username (chỉ chứa chữ cái và số)
-        if (!/[^\w\s]/.test(userProfile.fullName)) {
+        if (/[^a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]/.test(userProfile.fullName)) {
             errors.fullName = 'Họ tên không được chứa ký tự đặc biệt!';
         }
 
@@ -65,7 +66,7 @@ const UpdateUserProfile = () => {
         if (validateForm()) {
             try {
                 console.log(userProfile.avatar);
-                await axios.put('http://localhost:8080/api/users/update-profile', userProfile, {
+                await axios.put(`${API_URL}/api/users/update-profile`, userProfile, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
                     },
@@ -102,73 +103,78 @@ const UpdateUserProfile = () => {
                     ...prevState,
                     avatar: avatarUrl  // Cập nhật URL ảnh vào profile
                 }));
-                toast.success('Upload ảnh thành công!', { position: 'top-right' });
+                toast.success('Upload ảnh thành công!', {position: 'top-right'});
             } catch (err) {
-                toast.error('Có lỗi xảy ra khi upload ảnh!', { position: 'top-right' });
+                toast.error('Có lỗi xảy ra khi upload ảnh!', {position: 'top-right'});
                 console.error('Error uploading avatar:', err);
             }
         }
     };
 
     return (
-        <div className="container mt-5 custom-margin ">
-            <br/>
-            <br/>
-            <h2>Cập nhật thông tin cá nhân</h2>
+        <div className="container pt-5 mt-5">
             <ToastContainer/>
             {error.fullName && <p className="text-danger">{error.fullName}</p>}
             {error.phoneNumber && <p className="text-danger">{error.phoneNumber}</p>}
-            <form onSubmit={handleSubmit} className="form-control">
-                <div className="mb-3">
-                    <label htmlFor="fullName" className="form-label">Họ và tên</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="fullName"
-                        name="fullName"
-                        value={userProfile.fullName}
-                        onChange={handleChange}
-                        required
-                    />
+            <div className="card mx-auto" style={{width: "40rem"}}>
+                <div className="card-body">
+                    <h2>Cập nhật thông tin cá nhân</h2>
+                    <form onSubmit={handleSubmit} className="">
+                        <div className="mb-3">
+                            <label htmlFor="fullName" className="form-label"><strong>Họ và tên:</strong></label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="fullName"
+                                name="fullName"
+                                value={userProfile.fullName}
+                                onChange={handleChange}
+                                placeholder="Nhập họ và tên"
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="avatar" className="form-label"><strong>Ảnh đại diện:</strong></label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="avatar"
+                                name="avatar"
+                                accept="image/png, image/jpeg"
+                                onChange={handleUpload}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="phoneNumber" className="form-label"><strong>Số điện thoại:</strong></label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                value={userProfile.phoneNumber}
+                                onChange={handleChange}
+                                placeholder="Nhập số điện thoại"
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="address" className="form-label"><strong>Địa chỉ:</strong></label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="address"
+                                name="address"
+                                value={userProfile.address}
+                                onChange={handleChange}
+                                placeholder="Nhập địa chỉ"
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Lưu thay đổi</button>
+                        <button type="button" className="btn btn-danger ms-2" onClick={handleCancel}>Huỷ</button>
+                    </form>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="avatar" className="form-label">Link ảnh đại diện</label>
-                    <input
-                        type="file"
-                        className="form-control"
-                        id="avatar"
-                        name="avatar"
-                        accept="image/png, image/jpeg"
-                        onChange={handleUpload}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="phoneNumber" className="form-label">Số điện thoại</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        value={userProfile.phoneNumber}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="address" className="form-label">Địa chỉ</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="address"
-                        name="address"
-                        value={userProfile.address}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Lưu thay đổi</button>
-                <button type="button" className="btn btn-danger ms-2" onClick={handleCancel}>Huỷ</button>
-            </form>
+            </div>
         </div>
     );
 };
