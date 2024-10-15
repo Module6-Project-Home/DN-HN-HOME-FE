@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {API_URL} from "../constants/constants";
 
 const RegisterForm = () => {
     const [formValues, setFormValues] = useState({
@@ -16,7 +17,7 @@ const RegisterForm = () => {
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormValues({
             ...formValues,
             [name]: value
@@ -61,7 +62,7 @@ const RegisterForm = () => {
 
         if (validateForm()) {
             // Thực hiện logic khi form hợp lệ (ví dụ: gửi dữ liệu lên server)
-            fetch('http://localhost:8080/api/users/register', {
+            fetch(`${API_URL}/api/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -72,7 +73,9 @@ const RegisterForm = () => {
                     if (response.ok) {
                         return response.text();
                     } else {
-                        return response.text().then((text) => { throw new Error(text); });
+                        return response.text().then((text) => {
+                            throw new Error(text);
+                        });
                     }
                 })
                 .then(data => {
@@ -89,74 +92,81 @@ const RegisterForm = () => {
 
     return (
         <div className="container-fluid container-md custom-margin">
-            <div className="mt-5">
-                {/* Toast container để hiển thị thông báo */}
-                <ToastContainer />
-                <form className="mt-5 " onSubmit={handleSubmit}>
-                    <div className="form-group col-md-3">
-                        <label>Tên người dùng</label>
-                        <input
-                            type="text"
-                            name="username"
-                            className="form-control"
-                            value={formValues.username}
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.username && <small className="text-danger">{formErrors.username}</small>}
-                    </div>
+            <div className="card mx-auto shadow" style={{width: '40rem'}}>
+                <div className="card-body">
+                    <ToastContainer/>
+                    <h1 className="text-center mb-0">Đăng ký</h1>
+                    <form className="mt-5 " onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="username">Tên người dùng</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                className="form-control"
+                                value={formValues.username}
+                                onChange={handleInputChange}
+                                placeholder="Nhập tên người dùng"
+                            />
+                            {formErrors.username && <small className="text-danger">{formErrors.username}</small>}
+                        </div>
 
-                    <div className="form-group col-md-3">
-                        <label>Mật khẩu</label>
-                        <input
-                            type="password"
-                            name="password"
-                            className="form-control"
-                            value={formValues.password}
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
-                    </div>
+                        <div className="form-group">
+                            <label>Mật khẩu</label>
+                            <input
+                                type="password"
+                                name="password"
+                                className="form-control"
+                                value={formValues.password}
+                                onChange={handleInputChange}
+                                placeholder="Nhập mật khẩu"
+                            />
+                            {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
+                        </div>
 
-                    <div className="form-group col-md-3">
-                        <label>Xác nhận mật khẩu</label>
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            className="form-control"
-                            value={formValues.confirmPassword}
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.confirmPassword &&
-                            <small className="text-danger">{formErrors.confirmPassword}</small>}
-                    </div>
+                        <div className="form-group">
+                            <label>Xác nhận mật khẩu</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                className="form-control"
+                                value={formValues.confirmPassword}
+                                onChange={handleInputChange}
+                                placeholder="Xác nhận mật khẩu"
+                            />
+                            {formErrors.confirmPassword &&
+                                <small className="text-danger">{formErrors.confirmPassword}</small>}
+                        </div>
 
-                    <div className="form-group col-md-3">
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            className="form-control"
-                            value={formValues.email}
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
-                    </div>
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                className="form-control"
+                                value={formValues.email}
+                                onChange={handleInputChange}
+                                placeholder="Nhập email"
+                            />
+                            {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
+                        </div>
 
-                    <div className="form-group col-md-3">
-                        <label>Số điện thoại</label>
-                        <input
-                            type="text"
-                            name="phoneNumber"
-                            className="form-control"
-                            value={formValues.phoneNumber}
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.phoneNumber && <small className="text-danger">{formErrors.phoneNumber}</small>}
-                    </div>
+                        <div className="form-group">
+                            <label>Số điện thoại</label>
+                            <input
+                                type="text"
+                                name="phoneNumber"
+                                className="form-control"
+                                value={formValues.phoneNumber}
+                                placeholder="Nhập số điện thoại"
+                                onChange={handleInputChange}
+                            />
+                            {formErrors.phoneNumber && <small className="text-danger">{formErrors.phoneNumber}</small>}
+                        </div>
 
-                    <button type="submit" className="btn btn-primary mt-3">Đăng ký</button>
-                </form>
-
+                        <button type="submit" className="btn btn-primary">Đăng ký</button>
+                    </form>
+                </div>
             </div>
         </div>
     );

@@ -8,6 +8,8 @@ import ReactPaginate from "react-paginate";
 import PropertyCount from "../host/PropertyCount";
 import { useNavigate } from 'react-router-dom';
 
+
+
 const { confirm } = Modal; //tạo hộp thoại xác nhận
 
 const  HostTable = () => {
@@ -36,6 +38,10 @@ const  HostTable = () => {
             setLoading(false);
         }
     };
+
+
+
+
 
     const showConfirmLock = (userId) => {
         confirm({
