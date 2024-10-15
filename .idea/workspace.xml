@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/admin/UserHistoryBooking.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/UserTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/UserTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/HostDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/HostDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/user/UserDetail.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/UserHistoryBooking.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/user/UserDetail.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +32,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
+  &quot;customColor&quot;: "",
   &quot;associatedIndex&quot;: 0 }</component>
   <component name="ProjectId" id="2nERA9Job09bZhfAaXdJH0facY1" />
   <component name="ProjectViewState">
