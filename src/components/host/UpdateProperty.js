@@ -39,8 +39,8 @@ const UpdateProperty = () => {
                 const response = await axios.get(`http://localhost:8080/api/properties/${id}`);
                 setPropertyData(response.data);
             } catch (error) {
-                console.error("Error fetching property:", error);
-                setError("Failed to load property.");
+                console.error("Lỗi khi tải dữ liệu tài sản:", error);
+                setError("Lỗi khi tải dữ liệu tài sản");
             }
         };
 
@@ -50,7 +50,7 @@ const UpdateProperty = () => {
                 const response = await axios.get("http://localhost:8080/api/property-types");
                 setPropertyTypes(response.data);
             } catch (error) {
-                console.error("Error fetching property types:", error);
+                console.error("Lỗi khi tải dữ liệu loại tài sản:", error);
             }
         };
 
@@ -59,7 +59,7 @@ const UpdateProperty = () => {
                 const response = await axios.get("http://localhost:8080/api/room-types");
                 setRoomTypes(response.data);
             } catch (error) {
-                console.error("Error fetching room types:", error);
+                console.error("Lỗi khi tải dữ liệu loại phòng:", error);
             }
         };
 
@@ -84,10 +84,10 @@ const UpdateProperty = () => {
 
     // Upload ảnh lên Firebase
     const handleUploadImage = async (files) => {
-        if (files.length === 0) {
-            alert("Please select images to upload!");
-            return;
-        }
+        // if (files.length === 0) {
+        //     alert("Please select images to upload!");
+        //     return;
+        // }
 
         setIsUploading(true);
         const imageUrls = []; // URL các ảnh đã upload
@@ -105,8 +105,8 @@ const UpdateProperty = () => {
                 imageUrls: [...prevData.imageUrls, ...imageUrls]
             }));
         } catch (error) {
-            console.error("Error uploading images:", error);
-            setError("Failed to upload images.");
+            console.error("Lỗi tải ảnh lên:", error);
+            setError("Lỗi tải ảnh lên.");
         } finally {
             setIsUploading(false);
             setSelectedFiles([]); // Clear input file
@@ -146,6 +146,11 @@ const UpdateProperty = () => {
             newErrors.bathrooms = "Số phòng tắm phải từ 1 đến 3.";
         }
 
+        // Kiểm tra giá thuê (tối thiểu 100.000, tối đa 10.000.000)
+        if (propertyData.pricePerNight < 10000 || propertyData.pricePerNight > 10000000) {
+            newErrors.pricePerNight = "Giá thuê 1 đêm phải từ 100.000VNĐ đến 10.000.000VNĐ ";
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -174,11 +179,10 @@ const UpdateProperty = () => {
         }
     };
 
-    const roles = JSON.parse(localStorage.getItem("roles")) || [];
 
     return (
         <div>
-            {roles[0] === 'ROLE_HOST' ? (
+
                 <div className="sb-nav-fixed">
                     <HeaderAdmin/>
                     <div id="layoutSidenav">
@@ -188,10 +192,10 @@ const UpdateProperty = () => {
                         <div id="layoutSidenav_content">
                             <div className="container mt-4">
 
-                                <h2 className="text-center mb-4">Cập nhật Property</h2>
+                                <h2 className="text-center mb-4">Cập nhật tài sản</h2>
 
                                 <form onSubmit={handleSubmit}>
-                                    <div className="col-md-6">
+                                    <div className="col-md-6 ">
                                         <label className="form-label">Tên homestay:</label>
                                         <input
                                             type="text"
@@ -203,7 +207,7 @@ const UpdateProperty = () => {
                                         {errors.name && <div className="invalid-feedback">{errors.name}</div>}
                                     </div>
 
-                                    <div className="form-group mb-3">
+                                    <div className="form-group mb-3 col-md-6">
                                         <label htmlFor="propertyType">Loại tài sản:</label>
                                         <select
                                             className="form-select"
@@ -221,7 +225,7 @@ const UpdateProperty = () => {
                                         </select>
                                     </div>
 
-                                    <div className="form-group mb-3">
+                                    <div className="form-group mb-3 col-md-6">
                                         <label htmlFor="roomType">Loại phòng:</label>
                                         <select
                                             className="form-select"
@@ -290,15 +294,16 @@ const UpdateProperty = () => {
                                         <label className="form-label">Giá mỗi đêm:</label>
                                         <input
                                             type="number"
-                                            className="form-control"
+                                            className={`form-control ${errors.pricePerNight ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
                                             name="pricePerNight"
                                             value={propertyData.pricePerNight}
                                             onChange={handleChange}
                                         />
+                                        {errors.pricePerNight && <div className="invalid-feedback">{errors.pricePerNight}</div>}
                                     </div>
 
                                     {/* Phần upload và hiển thị ảnh */}
-                                    <div className="mb-3">
+                                    <div className="mb-3 col-md-6">
                                         <label className="form-label">Chọn ảnh:</label>
                                         <input
                                             type="file"
@@ -307,18 +312,6 @@ const UpdateProperty = () => {
                                             onChange={handleFileChange}
                                         />
                                     </div>
-
-                                    {/*{isUploading ? (*/}
-                                    {/*    <p>Đang tải lên ảnh...</p>*/}
-                                    {/*) : (*/}
-                                    {/*    <button*/}
-                                    {/*        type="button"*/}
-                                    {/*        className="btn btn-primary"*/}
-                                    {/*        onClick={handleUploadImage}*/}
-                                    {/*    >*/}
-                                    {/*        Tải ảnh lên*/}
-                                    {/*    </button>*/}
-                                    {/*)}*/}
 
                                     {propertyData.imageUrls.length > 0 && (
                                         <div>
@@ -350,16 +343,14 @@ const UpdateProperty = () => {
                                     ) : (
 
                                     <div className="mt-3">
-                                        <button type="submit" className="btn btn-success">Cập nhật Property</button>
+                                        <button type="submit" className="btn btn-success">Cập nhật tài sản</button>
                                     </div>)}
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            ) : (
-                <div>Bạn không có quyền truy cập.</div>
-            )}
+
         </div>
     );
 };

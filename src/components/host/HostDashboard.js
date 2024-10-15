@@ -142,9 +142,9 @@ const HostDashboard = () => {
                                                 onChange={(e) => setSearchStatus(e.target.value)}
                                             >
                                                 <option value="">Tất cả trạng thái</option>
-                                                <option value="Còn Trống">Còn Trống</option>
-                                                <option value="Đã cho thuê">Đã cho thuê</option>
-                                                <option value="Đang bảo trì">Đang bảo trì</option>
+                                                <option value="VACANT">Đang trống</option>
+                                                <option value="RENTED">Đang cho thuê</option>
+                                                <option value="MAINTENANCE">Đang bảo trì</option>
                                             </select>
                                         </div>
                                     </div>
@@ -177,9 +177,6 @@ const HostDashboard = () => {
                                                     <th>Tên nhà</th>
                                                     <th>Địa chỉ</th>
                                                     <th>Giá mỗi đêm</th>
-                                                    <th>Số phòng ngủ</th>
-                                                    <th>Số phòng tắm</th>
-                                                    <th>Loại tài sản</th>
                                                     <th>Trạng thái</th>
                                                     <th>Hình Ảnh</th>
                                                     <th>Hành động</th>
@@ -192,18 +189,21 @@ const HostDashboard = () => {
                                                             <td>{indexOfFirstProperty + index + 1}</td>
                                                             <td>{property.name}</td>
                                                             <td>{property.address}</td>
-                                                            <td>{property.pricePerNight}</td>
-                                                            <td>{property.bedrooms}</td>
-                                                            <td>{property.bathrooms}</td>
-                                                            <td>{property.propertyType}</td>
-
-                                                            <td>{property.status}</td>
+                                                            <td>{property.pricePerNight.toLocaleString()} VNĐ </td>
                                                             <td>
+                                                                {property.status === 'VACANT' ? 'Đang trống' :
+                                                                    property.status === 'RENTED' ? 'Đang cho thuê' :
+                                                                        property.status === 'MAINTENANCE' ? 'Đang bảo trì' : ''}
+                                                            </td>
+                                                            <td   style={{
+                                                                width: '150px',
+                                                                height: '120px',
+                                                            }}>
                                                                 <img
                                                                     style={{
-                                                                        width: '120px',
+                                                                        width: '80px',
                                                                         height: '120px',
-                                                                        objectFit: 'fill'
+                                                                        objectFit: 'cover'
                                                                     }}
                                                                     src={property.imageUrls && property.imageUrls.length > 0
                                                                         ? property.imageUrls[0]

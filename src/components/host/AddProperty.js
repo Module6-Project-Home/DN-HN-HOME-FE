@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import HeroBanner from "./HeroBanner";
 import { useAuth } from '../auth/AuthContext';
 import {useNavigate} from "react-router-dom";
-import {uploadImageToFirebase} from "../firebaseUpload"; // Import context để lấy token
+import {uploadImageToFirebase} from "../firebaseUpload";
+import HeaderAdmin from "./layout/HeaderAdmin";
+import SidebarAdmin from "./layout/SidebarAdmin";
+import {toast, ToastContainer} from "react-toastify"; // Import context để lấy token
 
-const AddProperty = () => {
+const AddNewProperty = () => {
     const { user } = useAuth(); // Lấy user và token từ context
 
     const [propertyData, setPropertyData] = useState({
@@ -49,8 +51,8 @@ const AddProperty = () => {
                     }));
                 }
             } catch (error) {
-                console.error("Error fetching property types:", error);
-                setError("Failed to load property types.");
+                console.error("Lỗi khi tải dữ liệu loại tài sản", error);
+                setError("Lỗi khi tải dữ liệu loại tài sản.");
             }
         };
         const fetchRoomTypes = async () => {
@@ -67,8 +69,8 @@ const AddProperty = () => {
                     }));
                 }
             } catch (error) {
-                console.error("Error fetching property types:", error);
-                setError("Failed to load property types.");
+                console.error("Lỗi khi tải dữ liệu loại phòng:", error);
+                setError("Lỗi khi tải dữ liệu loại phòng.");
             }
         };
         fetchRoomTypes();
@@ -81,39 +83,42 @@ const AddProperty = () => {
     };
 
     // Xử lý khi chọn nhiều file ảnh
-    const handleFileChange = (e) => {
-        setSelectedFiles([...e.target.files]); // Lưu trữ tất cả các file đã chọn
+    const handleFileChange = async (e) => {
+        const files = Array.from(e.target.files);
+        setSelectedFiles(files); // Lưu trữ các file được chọn
+
+        // Gọi hàm upload ngay sau khi có file mới
+        await handleUploadImage(files);
     };
 
-    // Upload nhiều ảnh lên Firebase và lưu URL vào state
-    const handleUploadImage = async () => {
-        if (selectedFiles.length === 0) {
-            alert("Please select images to upload!");
-            return;
-        }
+    // Upload ảnh lên Firebase
+    const handleUploadImage = async (files) => {
+        // if (files.length === 0) {
+        //     alert("Please select images to upload!");
+        //     return;
+        // }
 
         setIsUploading(true);
-        const imageUrls = []; // Lưu URL của các ảnh
+        const imageUrls = []; // URL các ảnh đã upload
 
         try {
-            // Upload từng file lên Firebase
-            for (const file of selectedFiles) {
+            // Upload từng ảnh lên Firebase
+            for (const file of files) {
                 const url = await uploadImageToFirebase(file);
-                imageUrls.push(url); // Thêm URL vào mảng
+                imageUrls.push(url);
             }
 
-            // Lưu URL của tất cả các ảnh vào propertyData
+            // Cập nhật imageUrls vào propertyData
             setPropertyData((prevData) => ({
                 ...prevData,
-                imageUrls: [...prevData.imageUrls, ...imageUrls] // Gộp URL mới vào state
+                imageUrls: [...prevData.imageUrls, ...imageUrls]
             }));
-
-            setSelectedFiles([]); // Clear file input sau khi upload
         } catch (error) {
-            console.error("Error uploading images:", error);
-            setError("Failed to upload images.");
+            console.error("Lỗi tải ảnh lên:", error);
+            setError("Lỗi tải ảnh lên.");
         } finally {
             setIsUploading(false);
+            setSelectedFiles([]); // Clear input file
         }
     };
 
@@ -152,10 +157,6 @@ const AddProperty = () => {
             newErrors.pricePerNight = "Giá thuê 1 đêm phải từ 100.000VNĐ đến 10.000.000VNĐ ";
         }
 
-        // Kiểm tra số lượng ảnh đã tải lên
-        if (propertyData.imageUrls.length === 0) {
-            newErrors.imageUrls = "Vui lòng upload ít nhất 1 ảnh.";
-        }
 
         // Cập nhật trạng thái lỗi
         setErrors(newErrors);
@@ -184,42 +185,55 @@ const AddProperty = () => {
                         'Content-Type': 'application/json', // Thêm Content-Type nếu cần
                     },
                 });
-                alert("Property added successfully!");
-                console.log(response.data);
-                navigate('/host/dashboard');
+                toast.success("Cập nhật thành công!");
+                setTimeout(() => {
+                    navigate('/host/dashboard');
+                }, 2000);
 
-                setPropertyData({ // Reset form sau khi thêm thành công
-                    name: "",
-                    propertyType: "",
-                    roomType: "",
-                    address: "",
-                    bedrooms: 0,
-                    bathrooms: 0,
-                    description: "",
-                    pricePerNight: 0,
-                    status: "Còn Trống",
-                    imageUrls: []
-                });
+                // setPropertyData({ // Reset form sau khi thêm thành công
+                //     name: "",
+                //     propertyType: "",
+                //     roomType: "",
+                //     address: "",
+                //     bedrooms: 0,
+                //     bathrooms: 0,
+                //     description: "",
+                //     pricePerNight: 0,
+                //     status: "VACANT",
+                //     imageUrls: []
+                // });
             } catch (error) {
-                console.error("Error adding property:", error);
-                setError("Failed to add property. Please check if you're logged in and have the right permissions.");
+                console.error("Tạo mới thất bại:", error);
+                setError("Không thể tạo mới tài sản. Vui lòng kiểm tra xem bạn đã đăng nhập và có quyền phù hợp hay chưa.");
             }
         }
     };
-    const roles = JSON.parse(localStorage.getItem("roles")) || [];
-    console.log(roles[0])
+    const handleDeleteImage = (index) => {
+        const updatedImageUrls = propertyData.imageUrls.filter((_, i) => i !== index);
+        setPropertyData({
+            ...propertyData,
+            imageUrls: updatedImageUrls
+        });
+    };
 
 
     return (
         <div>
-            {roles[0] ==='ROLE_HOST' ? (
-                <div className="container mt-4">
-                    <HeroBanner />
-                    <h2 className="text-center mb-4">Thêm mới Property</h2>
+            <div className="sb-nav-fixed">
+                <HeaderAdmin />
+                <div id="layoutSidenav">
+                    <SidebarAdmin />
+                    <ToastContainer />
+
+                    <div id="layoutSidenav_content">
+                        <main>
+                            <div className="container d-flex justify-content-center align-items-center min-vh-100">
+                                <div className="w-100"> {/* Đảm bảo nội dung không bị thu hẹp */}
+                    <h2 className="text-center mb-4">Thêm mới tài sản</h2>
 
                     <form onSubmit={handleSubmit}>
                         {/* Tên nhà */}
-                        <div className="col-md-6">
+                        <div className="col-md-6 ">
                             <label className="form-label">Tên homestay:</label>
                             <input
                                 type="text"
@@ -233,7 +247,7 @@ const AddProperty = () => {
                         </div>
 
                         {/* Loại tài sản */}
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-6 col-md-6">
                             <label htmlFor="propertyType">Loại tài sản:</label>
                             <select
                                 className="form-select"
@@ -252,7 +266,7 @@ const AddProperty = () => {
                         </div>
 
                         {/* Loại phòng */}
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-6 col-md-6">
                             <label htmlFor="roomType">Loại phòng:</label>
                             <select
                                 className="form-select"
@@ -312,7 +326,7 @@ const AddProperty = () => {
                         </div>
 
                         {/* Mô tả */}
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-6 col-md-6">
                             <label htmlFor="description">Mô tả:</label>
                             <textarea
                                 className={`form-control ${errors.description ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
@@ -325,22 +339,20 @@ const AddProperty = () => {
                             {errors.description && <div className="invalid-feedback">{errors.description}</div>}
                         </div>
 
-                {/* Giá mỗi đêm */}
-                <div className="form-group mb-3">
-                    <label htmlFor="pricePerNight">Giá mỗi đêm:</label>
-                    <input
-                        type="number"
-                        className={`form-control ${errors.pricePerNight ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
-                        id="pricePerNight"
-                        name="pricePerNight"
-                        value={propertyData.pricePerNight}
-                        onChange={handleChange}
-                        required
-                    />
-                    {errors.pricePerNight && <div className="invalid-feedback">{errors.pricePerNight}</div>}
+                        {/* Giá mỗi đêm */}
+                        <div className="form-group mb-6 col-md-6">
+                            <label htmlFor="pricePerNight">Giá mỗi đêm:</label>
+                            <input
+                                type="number"
+                                className={`form-control  ${errors.pricePerNight ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
+                                id="pricePerNight"
+                                name="pricePerNight"
+                                value={propertyData.pricePerNight}
+                                onChange={handleChange}
+                            />
+                            {errors.pricePerNight && <div className="invalid-feedback">{errors.pricePerNight}</div>}
 
-                </div>
-
+                        </div>
 
                         {/* Trạng thái */}
                         <div className="form-group mb-3">
@@ -356,54 +368,58 @@ const AddProperty = () => {
                         </div>
 
                         {/* Upload file ảnh */}
-                        <div className="form-group mb-3">
-                            <label htmlFor="imageUpload">Chọn ảnh để tải lên:</label>
+                        {/* Phần upload và hiển thị ảnh */}
+                        <div className="mb-3 col-md-6">
+                            <label className="form-label">Chọn ảnh:</label>
                             <input
                                 type="file"
                                 className="form-control"
-                                id="imageUpload"
-                                accept="image/png, image/jpeg"
                                 multiple
                                 onChange={handleFileChange}
                             />
-                            <button
-                                type="button"
-                                className="btn btn-primary mt-2"
-                                onClick={handleUploadImage}
-                                disabled={isUploading}
-                            >
-                                {isUploading ? "Uploading..." : "Upload Images"}
-                            </button>
                         </div>
 
-                        {/* Hiển thị các ảnh đã thêm */}
-                        <div className="mb-3">
-                            <label>Các ảnh đã thêm:</label>
-                            <ul className="list-unstyled">
-                                {propertyData.imageUrls.map((url, index) => (
-                                    <li key={index} className="mb-2">
-                                        <img src={url} alt={`Uploaded ${index}`} width="100" className="img-thumbnail" />
-                                    </li>
-                                ))}
-                            </ul>
-                            {errors.imageUrls && <div className="text-danger">{errors.imageUrls}</div>} {/* Hiển thị lỗi nếu có */}
+                        {propertyData.imageUrls.length > 0 && (
+                            <div>
+                                <label className="form-label">Các ảnh đã tải lên:</label>
+                                <div className="row">
+                                    {propertyData.imageUrls.map((url, index) => (
+                                        <div key={index} className="col-md-3 position-relative">
+                                            <img
+                                                style={{ width: '100%', height: '300px' }}
+                                                src={url}
+                                                alt={`Property ${index}`}
+                                                className="img-fluid"
+                                            />
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger position-absolute top-0 end-0 m-2"
+                                                onClick={() => handleDeleteImage(index)} // Gọi hàm xử lý xóa ảnh
+                                            >
+                                                Xóa
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
 
-                        </div>
+                            </div>
+                        )}
+                        {isUploading ? (
+                            <p>Đang tải lên ảnh...</p>
+                        ) : (
 
-                        {/* Nút submit */}
-                        <button type="submit" className="btn btn-success">Thêm mới Property</button>
+                            <div className="mt-3">
+                                <button type="submit" className="btn btn-success">Thêm mới tài sản</button>
+                            </div>)}
                     </form>
-                </div>) : (        <div className="container-fluid py-5 mb-5 hero-header">
-                <div className="container py-5">
-                    <div className="row g-5 align-items-center">
-
-                        <h1 className="text-center">Bạn không có quyền truy cập vào trang này!</h1>
-
+                </div>
+                            </div>
+                        </main>
                     </div>
                 </div>
-            </div>)}
+            </div>
         </div>
     );
 };
 
-export default AddProperty;
+export default AddNewProperty;

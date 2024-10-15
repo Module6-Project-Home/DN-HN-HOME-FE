@@ -1,5 +1,6 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
+import './HeroBanner.css';
 
 const HeroBanner = () => {
     return (

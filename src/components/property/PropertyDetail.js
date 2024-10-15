@@ -90,7 +90,7 @@ const PropertyDetail = () => {
             toast.success(`Đặt phòng thành công! Bạn đã đặt ${totalDays} ngày, tổng tiền của bạn là ${totalPrice.toLocaleString()} VND`);
             setTimeout(() => {
                 navigate('/home');
-            }, 2000);
+            }, 5000);
         } catch (error) {
             console.error('Error creating booking:', error);
             if (error.response && error.response.data) {

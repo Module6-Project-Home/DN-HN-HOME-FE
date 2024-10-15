@@ -20,6 +20,7 @@ import UserHistoryBooking from "./components/admin/UserHistoryBooking"; // Impor
 import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import SuccessPage
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
+import AddNewProperty from "./components/host/AddProperty";
 
 const MainLayout = () => (
     <>
@@ -63,7 +64,7 @@ const App = () => {
                         <Route path="/host/dashboard" element={<HostDashboard />} />
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
-                        <Route path="/host/create-property" element={<PostForm />} />
+                        <Route path="/host/create-property" element={<AddNewProperty />} />
                     </Route>
 
                     <Route
