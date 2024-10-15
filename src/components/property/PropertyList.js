@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import HeroBanner from "./HeroBanner";
 import {Link} from "react-router-dom";
+import './PropertyList.css'
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
