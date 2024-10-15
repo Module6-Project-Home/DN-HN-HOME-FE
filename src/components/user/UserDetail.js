@@ -3,6 +3,7 @@ import axios from 'axios';
 import './UserDetail.css';
 import HeroBanner from "../property/HeroBanner";
 
+
 const UserDetail = () => {
     const userId = localStorage.getItem('userId');
     const [userDetail, setUserDetail] = useState(null);

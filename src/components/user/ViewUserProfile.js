@@ -14,7 +14,7 @@ const ViewUserProfile = () => {
                         'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
                     },
                 });
-                setUserProfile(response.data); // Set the user profile data
+                setUserProfile(response.data);
             } catch (err) {
                 setError('Error fetching user profile');
                 console.error('Error fetching user profile:', err);

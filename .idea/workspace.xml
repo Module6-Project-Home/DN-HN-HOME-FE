@@ -4,144 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/UpdateProperty.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/layout/AdminStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/layout/HeaderAdmin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/host/layout/SidebarAdmin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+    <list default="true" id="3b2ef606-9334-41c5-a26b-336ab7e24c51" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/auth/AuthContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/AuthContext.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/HostDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/HostDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyList.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-        <option value="CSS File" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 0 }</component>
-  <component name="ProjectId" id="2nERA9Job09bZhfAaXdJH0facY1" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ngoc&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  &lt;component name=&quot;PropertiesComponent&quot;&gt;{
-  &amp;quot;keyToString&amp;quot;: {
-    &amp;quot;RunOnceActivity.OpenProjectViewOnStart&amp;quot;: &amp;quot;true&amp;quot;,
-    &amp;quot;RunOnceActivity.ShowReadmeOnStart&amp;quot;: &amp;quot;true&amp;quot;,
-    &amp;quot;git-widget-placeholder&amp;quot;: &amp;quot;ttngoc&amp;quot;,
-    &amp;quot;node.js.detected.package.eslint&amp;quot;: &amp;quot;true&amp;quot;,
-    &amp;quot;node.js.detected.package.tslint&amp;quot;: &amp;quot;true&amp;quot;,
-    &amp;quot;node.js.selected.package.eslint&amp;quot;: &amp;quot;(autodetect)&amp;quot;,
-    &amp;quot;node.js.selected.package.tslint&amp;quot;: &amp;quot;(autodetect)&amp;quot;,
-    &amp;quot;nodejs_package_manager_path&amp;quot;: &amp;quot;npm&amp;quot;,
-    &amp;quot;ts.external.directory.path&amp;quot;: &amp;quot;D:\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&amp;quot;,
-    &amp;quot;vue.rearranger.settings.migration&amp;quot;: &amp;quot;true&amp;quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "kien-fix-login",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
-}</component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23339.15" />
-      </set>
-    </attachedChunks>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+}]]></component>
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="" />
-      <created>1728536106404</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1728536106404</updated>
-      <workItem from="1728536108039" duration="13321000" />
-      <workItem from="1728717909472" duration="4810000" />
-      <workItem from="1728719758894" duration="10250000" />
-      <workItem from="1728814651328" duration="7342000" />
-      <workItem from="1728717699112" duration="7410000" />
-      <workItem from="1728826073341" duration="13203000" />
-    </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ID_ORDER">
-      <list>
-        <option value="Default.Root" />
-        <option value="Default.Author" />
-        <option value="Default.Date" />
-        <option value="Default.Subject" />
-        <option value="Space.CommitStatus" />
-      </list>
-    </option>
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="ttngoc" />
-    <option name="LAST_COMMIT_MESSAGE" value="ttngoc" />
   </component>
 </project>
