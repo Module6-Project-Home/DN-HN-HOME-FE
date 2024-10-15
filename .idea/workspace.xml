@@ -7,7 +7,6 @@
     <list default="true" id="38729741-d234-46c8-ab7e-a7e4be4e5431" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/components/property/PropertyList.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/property/HeroBanner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/HeroBanner.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/property/PropertyList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyList.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
