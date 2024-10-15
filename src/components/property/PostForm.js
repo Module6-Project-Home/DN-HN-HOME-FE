@@ -17,7 +17,7 @@ const AddProperty = () => {
         bathrooms: 0,
         description: "",
         pricePerNight: 0,
-        status: "Còn Trống",
+        status: "VACANT",
         imageUrls: [] // Chứa URL ảnh đã upload lên Firebase
     });
     const navigate = useNavigate(); // Sử dụng hook useNavigate để điều hướng
@@ -145,6 +145,11 @@ const AddProperty = () => {
         // Kiểm tra số phòng tắm (tối thiểu 1, tối đa 3)
         if (propertyData.bathrooms < 1 || propertyData.bathrooms > 3) {
             newErrors.bathrooms = "Số phòng tắm phải từ 1 đến 3.";
+        }
+
+        // Kiểm tra giá thuê (tối thiểu 100.000, tối đa 10.000.000)
+        if (propertyData.pricePerNight < 10000 || propertyData.pricePerNight > 10000000) {
+            newErrors.pricePerNight = "Giá thuê 1 đêm phải từ 100.000VNĐ đến 10.000.000VNĐ ";
         }
 
         // Kiểm tra số lượng ảnh đã tải lên
@@ -325,13 +330,15 @@ const AddProperty = () => {
                     <label htmlFor="pricePerNight">Giá mỗi đêm:</label>
                     <input
                         type="number"
-                        className="form-control"
+                        className={`form-control ${errors.pricePerNight ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
                         id="pricePerNight"
                         name="pricePerNight"
                         value={propertyData.pricePerNight}
                         onChange={handleChange}
                         required
                     />
+                    {errors.pricePerNight && <div className="invalid-feedback">{errors.pricePerNight}</div>}
+
                 </div>
 
                 {/* Trạng thái */}

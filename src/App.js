@@ -21,6 +21,7 @@ import UserDetail from "./components/user/UserDetail";
 import UpdateUserProfile from "./components/user/UpdateUserProfile";
 import ChangePassword from "./components/user/ChangePassword";
 import UpdateProperty from "./components/host/UpdateProperty";
+import AddNewProperty from "./components/host/AddProperty";
 
 // Main Layout: Dùng cho tất cả các route không thuộc host
 const MainLayout = () => (
@@ -63,7 +64,7 @@ const App = () => {
                         <Route path="/host/dashboard" element={<HostDashboard />} />
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
-                        <Route path="/host/create-property" element={<PostForm />} />
+                        <Route path="/host/create-property" element={<AddNewProperty />} />
                     </Route>
 
                     <Route
