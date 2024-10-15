@@ -5,8 +5,6 @@
 /.pnp
 .pnp.js
 
-.idea/workspace.xml
-
 # testing
 /coverage
 
