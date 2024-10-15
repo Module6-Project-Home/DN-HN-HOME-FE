@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b2ef606-9334-41c5-a26b-336ab7e24c51" name="Changes" comment="" />
+    <list default="true" id="3b2ef606-9334-41c5-a26b-336ab7e24c51" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/HostTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/HostTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/UserTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/UserTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyList.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +35,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -48,7 +54,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728953756769</updated>
-      <workItem from="1728953758564" duration="753000" />
+      <workItem from="1728953758564" duration="9529000" />
     </task>
     <servers />
   </component>
