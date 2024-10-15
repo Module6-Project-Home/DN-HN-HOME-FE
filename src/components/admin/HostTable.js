@@ -129,7 +129,7 @@ const  HostTable = () => {
                                 </Button>
                             </td>
                             <td>{user.phoneNumber}</td>
-                            <td>{user.totalRevenue} VND</td>
+                            <td>{user.totalRevenue ? user.totalRevenue.toLocaleString() : '0'} VND</td>
                             <td><PropertyCount ownerId={user.userId} token={token}/></td>
                             <td>{user.status === 'ACTIVE'?'Đang hoạt động':'Khoá'}</td>
                             <td>
@@ -138,7 +138,8 @@ const  HostTable = () => {
                                     <Button type="primary" icon={<LockOutlined />} style={{ backgroundColor: 'indianred' }}
                                             onClick={() => showConfirmLock(user.userId)}>Khoá</Button>
                                 ) : (
-                                    <Button type="primary" icon={<UnlockOutlined />} style={{ backgroundColor: 'cornflowerblue' }}
+                                    <Button type="primary" icon={<UnlockOutlined/>}
+                                            style={{backgroundColor: 'cornflowerblue'}}
                                             onClick={() => showConfirmUnlock(user.userId)}>Mở Khoá</Button>
                                 )}
                             </td>

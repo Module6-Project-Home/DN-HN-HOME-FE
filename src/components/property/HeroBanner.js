@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel } from 'react-bootstrap';
+import {Carousel} from 'react-bootstrap';
 import './HeroBanner.css';
 
 const HeroBanner = () => {
@@ -8,7 +8,7 @@ const HeroBanner = () => {
             <div className="container py-5">
                 <div className="row g-5 align-items-center">
                     <div className="col-md-12 col-lg-7">
-                        <h4 className="mb-3 text-secondary">NKQ Homestay</h4>
+                        <h4 className="mb-3 text-secondary">3NKQ Homestay</h4>
                         <h1 className="mb-5 display-3 text-primary">Nơi chốn yên bình, dành riêng cho bạn</h1>
                         <div className="position-relative mx-auto">
                             <form action="/property" method="get" className="d-flex">
@@ -23,7 +23,7 @@ const HeroBanner = () => {
                                     type="submit"
                                     id="search-icon-1"
                                     className="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100"
-                                    style={{ top: 0, right: '25%' }}
+                                    style={{top: 0, right: '25%'}}
                                 >
                                     Tìm kiếm
                                 </button>
