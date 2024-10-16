@@ -1,14 +1,35 @@
-// components/MonthlyRevenue.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import HeaderAdmin from "./layout/HeaderAdmin";
 import SidebarAdmin from "./layout/SidebarAdmin";
-import {toast} from "react-toastify";
+import { toast } from 'react-toastify';
 
 const MonthlyRevenue = () => {
+    const today = new Date();
+
+    // Lấy ngày đầu tháng hiện tại
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    firstDayOfMonth.setHours(0, 0, 0, 0);
+
+    // Định dạng ngày thành 'YYYY-MM-DD'
+    const formatDateToInput = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng 0-11 => cần +1
+        const day = String(date.getDate()).padStart(2, '0'); // Ngày 1-31
+        return `${year}-${month}-${day}`;
+    };
+
+    // Định dạng ngày thành 'DD/MM/YYYY'
+    const formatDateToDisplay = (date) => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng 0-11 => cần +1
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     const [revenues, setRevenues] = useState([]);
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(formatDateToInput(firstDayOfMonth));
+    const [endDate, setEndDate] = useState(formatDateToInput(today));
 
     const validateData = () => {
         if (!startDate || !endDate) {
@@ -77,10 +98,16 @@ const MonthlyRevenue = () => {
                                 <div className="col-md-6">
                                     <label htmlFor="startDate" className="form-label">Ngày bắt đầu:</label>
                                     <input type="date" id="startDate" name="startDate" className="form-control" value={startDate} onChange={handleDateChange} />
+                                    <div className="mt-2">
+                                        <strong>Ngày hiển thị:</strong> {formatDateToDisplay(new Date(startDate))}
+                                    </div>
                                 </div>
                                 <div className="col-md-6">
                                     <label htmlFor="endDate" className="form-label">Ngày kết thúc:</label>
                                     <input type="date" id="endDate" name="endDate" className="form-control" value={endDate} onChange={handleDateChange} />
+                                    <div className="mt-2">
+                                        <strong>Ngày hiển thị:</strong> {formatDateToDisplay(new Date(endDate))}
+                                    </div>
                                 </div>
                             </div>
                             <button className="btn btn-primary mb-4" onClick={fetchRevenue}>Lấy doanh thu</button>
