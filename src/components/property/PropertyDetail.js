@@ -89,7 +89,7 @@ const PropertyDetail = () => {
             });
             toast.success(`Đặt phòng thành công! Bạn đã đặt ${totalDays} ngày, tổng tiền của bạn là ${totalPrice.toLocaleString()} VND`);
             setTimeout(() => {
-                navigate('/home');
+                navigate('/user/history-booking');
             }, 5000);
         } catch (error) {
             console.error('Error creating booking:', error);

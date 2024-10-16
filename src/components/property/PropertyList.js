@@ -41,8 +41,7 @@ const PropertyList = () => {
     console.log('tokenFromParams', tokenFromParams);
 
     useEffect(() => {
-
-        document.title = "Property List";
+        document.title = "Danh sách nhà";
         const fetchUser = async () => {
             if (tokenFromParams) {
                 const decoded = jwtDecode(tokenFromParams);
