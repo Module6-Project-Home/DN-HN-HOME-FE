@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useParams, useNavigate, Link} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { differenceInDays, isBefore, isToday } from 'date-fns';
@@ -8,6 +8,8 @@ import { useAuth } from '../auth/AuthContext';
 import HeroBanner from "./HeroBanner";
 import './PropertyDetail.css';
 import {toast, ToastContainer} from "react-toastify";
+import {AlertLink} from "react-bootstrap";
+import ChatWindow from "../comunication/ChatWindow";
 
 const PropertyDetail = () => {
     const { id } = useParams();
@@ -15,6 +17,7 @@ const PropertyDetail = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const token = localStorage.getItem('jwtToken');
+    const [showChat, setShowChat] = useState(false);
 
     // State cho việc đặt phòng
     const [checkInDate, setCheckInDate] = useState(null);
@@ -113,6 +116,7 @@ const PropertyDetail = () => {
     return (
         <div>
             <HeroBanner />
+            <Link to="/home" className="text-decoration-none m-lg-5">Trang chủ</Link>
             <ToastContainer />
             <div className="property-detail-container">
                 {/* Cột bên trái - thông tin ngôi nhà */}
@@ -143,6 +147,15 @@ const PropertyDetail = () => {
                             <p>{property.bedrooms} phòng ngủ</p>
                             <p>{property.bathrooms} phòng tắm</p>
                         </div>
+                        <button
+                            className="chat-button"
+                            onClick={() => setShowChat(true)} // Hiển thị cửa sổ chat
+                        >
+                            💬
+                        </button>
+                        {showChat && (
+                            <ChatWindow onClose={() => setShowChat(false)} /> // Đóng chat
+                        )}
                     </div>
                 </div>
 

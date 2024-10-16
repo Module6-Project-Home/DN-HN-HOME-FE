@@ -21,6 +21,8 @@ import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import S
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
 import AddNewProperty from "./components/host/AddProperty";
+import Chat from "./components/comunication/Messages";
+import Messages from "./components/comunication/Messages";
 
 const MainLayout = () => (
     <>
@@ -57,6 +59,7 @@ const App = () => {
                         <Route path="/profile-update" element={<UpdateUserProfile />} />
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/user/view-profile" element={<ViewUserProfile />} />
+                        <Route path="/message" element={<Messages />} />
                     </Route>
 
                     {/* Các route dùng HostLayout */}
