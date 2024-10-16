@@ -59,8 +59,8 @@ const HeaderAdmin = () => {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item as={Link} to="/user/detail">Lịch sử đặt nhà</Dropdown.Item>
-                            <Dropdown.Item href="#!">Thông tin tài khoản</Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/user/view-profile">Quản lý tài khoản</Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/user/history-booking">Lịch sử thuê nhà</Dropdown.Item>
                             <Dropdown.Divider />
                             <Dropdown.Item as="button">
                                 <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
