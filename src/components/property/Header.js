@@ -122,7 +122,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="/host/dashboard">Quản lý Homestay</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/host/history">Lịch sử thuê nhà</Link>
+                        <Link className="dropdown-item" to="/user/history-booking">Lịch sử thuê nhà</Link>
                     </li>
                     <li>
                         <hr className="dropdown-divider"/>
@@ -145,7 +145,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/property/history">Lịch sử thuê nhà</Link>
+                        <Link className="dropdown-item" to="/user/history-booking">Lịch sử thuê nhà</Link>
                     </li>
                     <li>
                         <button type="button" className="dropdown-item" onClick={handleUpgradeRequest}>

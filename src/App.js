@@ -21,7 +21,11 @@ import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import S
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
 import AddNewProperty from "./components/host/AddProperty";
+
 import MonthlyRevenue from "./components/host/MonthlyRevenue";
+
+import UserBooking from "./components/booking/UserBooking";
+
 
 const MainLayout = () => (
     <>
@@ -52,6 +56,7 @@ const App = () => {
                         <Route path="/host/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
+                        <Route path="/user/history-booking" element={<UserBooking />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
                         <Route path="/success-page" element={<SuccessPage />} />
