@@ -3,7 +3,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    max-width: 800px; /* Chiều rộng lớn hơn để chứa lịch sử */
+    max-width: 800px; /* Increased width to accommodate the history */
     margin: 20px auto;
     transition: transform 0.3s;
 }
@@ -11,7 +11,7 @@
 .booking-history {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid #ddd; /* Đường phân cách */
+    border-top: 1px solid #ddd; /* Divider line */
 }
 
 .booking-item {
@@ -28,8 +28,12 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.booking-name {
+    color: #0056b3;
+}
+
 .booking-item h3 {
-    color: #007bff; /* Màu xanh cho tên bất động sản */
+    color: #007bff; /* Blue color for property name */
     margin-bottom: 10px;
 }
 
@@ -37,15 +41,27 @@
     font-weight: bold;
 }
 
+.booking-status {
+    font-weight: bold;
+}
+
 .booking-status.checkin {
-    color: green;
+    color: green; /* Đang ở */
 }
 
 .booking-status.pending {
-    color: orange;
+    color: orange; /* Chờ nhận phòng */
 }
 
-/* Responsive cho màn hình nhỏ */
+.booking-status.completed {
+    color: black; /* Đã trả phòng */
+}
+
+.booking-status.cancelled {
+    color: red; /* Đã huỷ */
+}
+
+/* Responsive for small screens */
 @media (max-width: 600px) {
     .user-detail-container {
         padding: 15px;
@@ -55,6 +71,7 @@
         padding: 10px;
     }
 }
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -84,4 +101,5 @@
 .pagination span {
     margin: 0 10px;
     font-weight: bold;
+    align-self: center; /* Center text vertically */
 }

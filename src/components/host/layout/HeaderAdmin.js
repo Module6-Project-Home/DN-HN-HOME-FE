@@ -42,7 +42,7 @@ const HeaderAdmin = () => {
 
 
             {/* Navbar Brand */}
-            <Link className="navbar-brand ps-3" to="/home">QNK Homestay</Link>
+            <Link className="navbar-brand ps-3" to="/home">3NKQ Homestay</Link>
 
             {/* Sidebar Toggle */}
             <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
@@ -50,6 +50,7 @@ const HeaderAdmin = () => {
             </button>
 
             {/* Navbar */}
+
             <ul className="navbar-nav ms-auto me-3"> {/* Thêm ms-auto để căn về bên phải */}
                 <li className="nav-item">
                     <Dropdown align="end">
@@ -66,6 +67,7 @@ const HeaderAdmin = () => {
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
+
                 </li>
             </ul>
             <ToastContainer

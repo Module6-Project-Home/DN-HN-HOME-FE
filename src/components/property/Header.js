@@ -168,7 +168,7 @@ const Header = () => {
             <div className="container px-0">
                 <nav className="navbar navbar-light bg-white navbar-expand-xl">
                     <Link to="/home" className="navbar-brand">
-                        <h1 className="text-primary display-6">3 NKQ Homestay</h1>
+                        <h1 className="text-primary display-6">3NKQ Homestay</h1>
                     </Link>
                     <button className="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span className="fa fa-bars text-primary"></span>

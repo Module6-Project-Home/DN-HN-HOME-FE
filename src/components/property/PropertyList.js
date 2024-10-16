@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import HeroBanner from "./HeroBanner";
+import './PropertyList.css'
 import {Link, useLocation} from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../auth/AuthContext";
@@ -40,6 +41,8 @@ const PropertyList = () => {
     console.log('tokenFromParams', tokenFromParams);
 
     useEffect(() => {
+
+        document.title = "Property List";
         const fetchUser = async () => {
             if (tokenFromParams) {
                 const decoded = jwtDecode(tokenFromParams);
