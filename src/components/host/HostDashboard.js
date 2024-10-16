@@ -199,6 +199,15 @@ const HostDashboard = () => {
                                                                 {property.revenue.toLocaleString()} VNĐ
                                                             </td>
                                                             <td>
+                                                                {/* Link tới Google Maps */}
+                                                                {/*<a*/}
+                                                                {/*    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.address)}`}*/}
+                                                                {/*    target="_blank"*/}
+                                                                {/*    rel="noopener noreferrer"*/}
+                                                                {/*    className="btn btn-info"*/}
+                                                                {/*>*/}
+                                                                {/*    Xem chỉ dẫn*/}
+                                                                {/*</a>*/}
 
                                                                 <Link to={`/host/update-property/${property.id}`} className="btn btn-warning bi bi-save"> Chỉnh Sửa</Link>
                                                             </td>
