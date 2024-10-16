@@ -21,6 +21,7 @@ import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import S
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
 import AddNewProperty from "./components/host/AddProperty";
+import MonthlyRevenue from "./components/host/MonthlyRevenue";
 
 const MainLayout = () => (
     <>
@@ -65,6 +66,7 @@ const App = () => {
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         <Route path="/host/create-property" element={<AddNewProperty />} />
+                        <Route path="/host/monthlyRevenue" element={<MonthlyRevenue />} />
                     </Route>
 
                     <Route

@@ -16,11 +16,11 @@ const SidebarAdmin = () => {
                         </Link>
                     </div>
                     <div className="nav">
-                        <Link className="nav-link" to="/host/dashboard">
+                        <Link className="nav-link" to="/host/monthlyRevenue">
                             <div className="sb-nav-link-icon">
                                 <i className="fas fa-tachometer-alt"></i>
                             </div>
-                            Nhà
+                            Doanh thu tháng
                         </Link>
                     </div>
                     <div className="nav">
