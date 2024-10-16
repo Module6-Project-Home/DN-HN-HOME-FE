@@ -7,12 +7,16 @@ import { differenceInDays, isBefore, isToday } from 'date-fns';
 import { useAuth } from '../auth/AuthContext';
 import HeroBanner from "./HeroBanner";
 import './PropertyDetail.css';
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { Modal, Button } from 'react-bootstrap';
+import {Pagination} from "antd";
 
 const PropertyDetail = () => {
     const { id } = useParams();
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [totalBooking, setTotalBooking] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const token = localStorage.getItem('jwtToken');
 
@@ -34,7 +38,15 @@ const PropertyDetail = () => {
                 setLoading(false);
             }
         };
-
+        const fetchTotalBooking = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/reviews/total?propertyId=${id}`);
+                setTotalBooking(response.data);
+            } catch (error) {
+                console.error('Error fetching total bookings:', error);
+            }
+        };
+        fetchTotalBooking();
         fetchProperty();
     }, [id]);
 
@@ -102,6 +114,18 @@ const PropertyDetail = () => {
         }
     };
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const indexOfLastReview = currentPage * itemsPerPage;
+    const indexOfFirstReview = indexOfLastReview - itemsPerPage;
+    const currentReviews = property && property.reviews ? property.reviews.slice(indexOfFirstReview, indexOfLastReview) : [];
+    const totalPages = property && property.reviews ? Math.ceil(property.reviews.length / itemsPerPage) : 0;
+
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -143,6 +167,15 @@ const PropertyDetail = () => {
                             <p>{property.bedrooms} phòng ngủ</p>
                             <p>{property.bathrooms} phòng tắm</p>
                         </div>
+                    </div>
+                    <div className="total-booking">
+                        <h5>
+                            <i className="fas fa-star"></i> {totalBooking && totalBooking.reviewed ? totalBooking.reviewed.toFixed(1) : 'N/A'}
+                        </h5>
+                        <span className="separator">|</span>
+                        <h5 className="underlined" onClick={handleShow} style={{ cursor: 'pointer' }}>
+                            {totalBooking ? totalBooking.total : 0} Đánh giá
+                        </h5>
                     </div>
                 </div>
 
@@ -186,9 +219,85 @@ const PropertyDetail = () => {
                         <p>Tổng tiền: {totalPrice.toLocaleString()} Đ</p>
                     </div>
 
-                    <button className="booking-button" onClick={handleBooking}>Đặt ngay</button>
+                    <button className="btn btn-primary" onClick={handleBooking}>Đặt phòng</button>
                 </div>
             </div>
+
+            <Modal show={showModal} onHide={handleClose} className="custom-modal" size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>{totalBooking ? totalBooking.total : 0} lượt đánh giá</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {currentReviews.length > 0 ?(
+                    currentReviews.map((review, index) => (
+                        <div key={index} className="review-item">
+                            <div className="d-flex align-items-center">
+                                <img
+                                    src={review.avatar}
+                                    alt="Avatar"
+                                    className="img-thumbnail me-2"
+                                />
+                                <p className="mb-0">{review.guest}</p>
+                            </div>
+                            <div className="d-flex align-items-center">
+                                <p className="mb-0 me-2">
+                                    <strong>Rating:</strong>
+                                </p>
+                                {[...Array(5)].map((_, starIndex) => (
+                                    <span
+                                        key={starIndex}
+                                        className={starIndex < review.rating ? 'text-warning' : 'text-secondary'}
+                                    >
+                            ★
+                        </span>
+                                ))}
+                                <p className="mb-0 ms-2">{review.createdAt}</p>
+                            </div>
+                            <p>{review.comment}</p>
+                        </div>
+                    ))) : (
+                        <p>Chưa có đánh giá nào!</p>
+                        )
+                    }
+
+                </Modal.Body>
+                <Modal.Footer className="d-flex justify-content-between align-items-center">
+                    <div className="pagination d-flex justify-content-center align-items-center w-100">
+                        <Button
+                            variant="light"
+                            disabled={currentPage === 1}
+                            onClick={() => paginate(currentPage - 1)}
+                            className="mx-2"
+                        >
+                            Trang trước
+                        </Button>
+
+                        <span className="mx-3">{currentPage} / {totalPages}</span>
+
+                        <Button
+                            variant="light"
+                            disabled={currentPage === totalPages}
+                            onClick={() => paginate(currentPage + 1)}
+                            className="mx-2"
+                        >
+                            Trang sau
+                        </Button>
+                    </div>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Đóng
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+
+
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={property.reviews.length}
+                paginate={paginate}
+                currentPage={currentPage}
+                totalPages={totalPages}
+            />
         </div>
     );
 };
