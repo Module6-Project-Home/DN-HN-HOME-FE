@@ -1,8 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './AdminStyle.css';
-import {Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Dropdown } from 'react-bootstrap';
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import { useAuth } from "../../auth/AuthContext";
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
 
 const HeaderAdmin = () => {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+    const [notifications, setNotifications] = useState([]);
+
+    // Lấy danh sách thông báo từ API
+    useEffect(() => {
+        fetchNotifications();
+    }, []);
+
+    const fetchNotifications = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/notification', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            });
+            setNotifications(response.data);
+        } catch (error) {
+            console.error('Failed to fetch notifications', error);
+            toast.error('Không thể tải thông báo.');
+        }
+    };
+
+    // Lọc và đếm thông báo chưa đọc
+    const unreadCount = notifications.filter(notification => !notification.isRead).length;
+
+    // Gọi API để đánh dấu một thông báo là đã đọc
+    const markNotificationAsRead = async (notificationId) => {
+        try {
+            await axios.post(`http://localhost:8080/api/notification/markAsRead/${notificationId}`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            });
+            fetchNotifications(); // Lấy lại thông báo sau khi cập nhật
+        } catch (error) {
+            console.error('Failed to mark notification as read', error);
+            // toast.error('Không thể đánh dấu thông báo.');
+        }
+    };
+
+    // Xử lý đăng xuất
+    const handleLogout = async () => {
+        try {
+            await axios.post('http://localhost:8080/api/logout', {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            });
+
+            logout(); // Gọi hàm logout từ context
+            toast.success('Đăng xuất thành công!');
+            setTimeout(() => navigate('/login'), 1000);
+        } catch (error) {
+            console.error('Logout failed', error);
+            toast.error('Đăng xuất không thành công.');
+        }
+    };
+
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             {/* Navbar Brand */}
@@ -13,23 +77,67 @@ const HeaderAdmin = () => {
                 <i className="fas fa-bars"></i>
             </button>
 
-            {/* Navbar */}
-            <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li className="nav-item dropdown">
-                    <Link className="nav-link dropdown-toggle" id="navbarDropdown" to="#" role="button"
-                          data-bs-toggle="dropdown" aria-expanded="false">
-                        <i className="fas fa-user fa-fw"></i>
-                    </Link>
-                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><Link className="dropdown-item" to="/user/detail">Lịch sử đặt nhà</Link></li>
-                        <li><a className="dropdown-item" href="#!">Thông tin tài khoản</a></li>
-                        <li>
-                            <hr className="dropdown-divider"/>
-                        </li>
-                        <li><Link className="dropdown-item" to="/logout">Đăng xuất</Link></li>
-                    </ul>
+            {/* Navbar Right Side */}
+            <ul className="navbar-nav ms-auto me-3">
+                {/* Bell Icon for Notifications */}
+                <li className="nav-item">
+                    <Dropdown align="end">
+                        <Dropdown.Toggle variant="dark" id="dropdown-notifications">
+                            <i className="fas fa-bell"></i>
+                            {unreadCount > 0 && <span className="badge badge-danger">{unreadCount}</span>}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {notifications.length === 0 ? (
+                                <Dropdown.Item>Không có thông báo</Dropdown.Item>
+                            ) : (
+                                notifications.map(notification => (
+                                    <Dropdown.Item
+                                        key={notification.id}
+                                        style={{ backgroundColor: notification.isRead ? 'white' : 'yellow' }}
+                                        onClick={() => markNotificationAsRead(notification.id)}
+                                    >
+                                        {notification.message}
+
+                                        {/*{notification.message} - {new Date(notification.timestamp).toLocaleString()}*/}
+                                    </Dropdown.Item>
+                                ))
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </li>
+
+                {/* User Icon and Dropdown */}
+                <li className="nav-item">
+                    <Dropdown align="end">
+                        <Dropdown.Toggle variant="dark" id="dropdown-user">
+                            <i className="fas fa-user fa-fw"></i>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item as={Link} to="/user/view-profile">Quản lý tài khoản</Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/user/history-booking">Lịch sử thuê nhà</Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item as="button">
+                                <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </li>
             </ul>
+
+            {/* Toast Container for Notifications */}
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </nav>
     );
 };

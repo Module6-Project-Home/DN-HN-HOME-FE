@@ -37,6 +37,8 @@ const AddNewProperty = () => {
     const [roomTypes, setRoomTypes] = useState([]); // Lưu danh sách property types từ API
 
     useEffect(() => {
+        document.title = "Thêm mới nhà";
+
         const fetchPropertyTypes = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/api/property-types");

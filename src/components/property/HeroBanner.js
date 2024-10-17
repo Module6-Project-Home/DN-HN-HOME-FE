@@ -42,14 +42,14 @@ const HeroBanner = () => {
                             <Carousel.Item className="rounded">
                                 <img
                                     className="img-fluid w-100 h-100 rounded"
-                                    src="https://i.pinimg.com/736x/58/e1/d8/58e1d80e88167cc44d2d92efa2decbd0.jpg"
+                                    src="https://i.pinimg.com/736x/68/af/0c/68af0c5239dfc3660758b525befd8f12.jpg"
                                     alt="Second slide"
                                 />
                             </Carousel.Item>
                             <Carousel.Item className="rounded">
                                 <img
                                     className="img-fluid w-100 h-100 rounded"
-                                    src="https://i.pinimg.com/736x/58/e1/d8/58e1d80e88167cc44d2d92efa2decbd0.jpg"
+                                    src="https://i.pinimg.com/564x/a8/62/ca/a862ca8ed663108231b5776129d92c62.jpg"
                                     alt="Third slide"
                                 />
                             </Carousel.Item>

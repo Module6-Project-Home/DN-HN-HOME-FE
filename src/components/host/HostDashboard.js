@@ -50,7 +50,7 @@ const HostDashboard = () => {
     useEffect(() => {
         const jwtToken = localStorage.getItem("jwtToken");
 
-        axios.get('http://localhost:8080/api/host/listMyHomestay', {
+        axios.get('http://localhost:8080/api/host/revenue', {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
                 'Content-Type': 'application/json',
@@ -120,9 +120,9 @@ const HostDashboard = () => {
                                 <h1 className="mt-4">Quản lý nhà</h1>
                                 <ol className="breadcrumb mb-4">
                                     <li className="breadcrumb-item">
-                                        <Link to="/admin">Tổng quan</Link>
+                                        <Link to="/host/dashboard">Tổng quan</Link>
                                     </li>
-                                    <li className="breadcrumb-item active">Nhà</li>
+
                                 </ol>
                                 <div className="mt-5">
                                     <div className="row mb-3">
@@ -165,7 +165,7 @@ const HostDashboard = () => {
                                     <div className="row">
                                         <div className="col-12 mx-auto">
                                             <div className="d-flex justify-content-between">
-                                                <Link to="/host/post" className="btn btn-primary">Thêm nhà mới</Link>
+                                                <Link to="/host/create-property" className="btn btn-primary">Thêm nhà mới</Link>
                                                 <Link to="/host/history" className="btn btn-primary">Quản lý cho thuê</Link>
                                             </div>
 
@@ -178,7 +178,7 @@ const HostDashboard = () => {
                                                     <th>Địa chỉ</th>
                                                     <th>Giá mỗi đêm</th>
                                                     <th>Trạng thái</th>
-                                                    <th>Hình Ảnh</th>
+                                                    <th>Doanh thu</th>
                                                     <th>Hành động</th>
                                                 </tr>
                                                 </thead>
@@ -195,23 +195,12 @@ const HostDashboard = () => {
                                                                     property.status === 'RENTED' ? 'Đang cho thuê' :
                                                                         property.status === 'MAINTENANCE' ? 'Đang bảo trì' : ''}
                                                             </td>
-                                                            <td   style={{
-                                                                width: '150px',
-                                                                height: '120px',
-                                                            }}>
-                                                                <img
-                                                                    style={{
-                                                                        width: '80px',
-                                                                        height: '120px',
-                                                                        objectFit: 'cover'
-                                                                    }}
-                                                                    src={property.imageUrls && property.imageUrls.length > 0
-                                                                        ? property.imageUrls[0]
-                                                                        : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-1.jpg?alt=media&token=6318290c-f6d3-450e-8be6-6ae51a36e9ba"}
-                                                                    alt="Property Image"
-                                                                    className="img-fluid w-100 rounded-top"
-                                                                /></td>
                                                             <td>
+                                                                {property.revenue.toLocaleString()} VNĐ
+                                                            </td>
+                                                            <td>
+
+
                                                                 <Link to={`/host/update-property/${property.id}`} className="btn btn-warning bi bi-save"> Chỉnh Sửa</Link>
                                                             </td>
                                                         </tr>

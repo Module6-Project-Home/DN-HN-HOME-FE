@@ -8,27 +8,27 @@ const SidebarAdmin = () => {
             <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div className="sb-sidenav-menu">
                     <div className="nav">
-                        <Link className="nav-link" to="/admin">
+                        <Link className="nav-link" to="/host/dashboard">
                             <div className="sb-nav-link-icon">
                                 <i className="fas fa-tachometer-alt"></i>
                             </div>
-                            Tổng quan
+                            Danh sách nhà
                         </Link>
                     </div>
                     <div className="nav">
-                        <Link className="nav-link" to="/admin/property">
+                        <Link className="nav-link" to="/host/monthlyRevenue">
                             <div className="sb-nav-link-icon">
                                 <i className="fas fa-tachometer-alt"></i>
                             </div>
-                            Nhà
+                            Doanh thu tháng
                         </Link>
                     </div>
                     <div className="nav">
-                        <Link className="nav-link" to="/admin">
+                        <Link className="nav-link" to="/host/ownerBookingHistory">
                             <div className="sb-nav-link-icon">
                                 <i className="fas fa-tachometer-alt"></i>
                             </div>
-                            Đặt nhà
+                            Lịch sử đặt thuê nhà
                         </Link>
                     </div>
                 </div>
