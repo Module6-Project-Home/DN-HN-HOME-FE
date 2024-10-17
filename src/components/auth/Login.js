@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import {useNavigate} from 'react-router-dom';
+import {useAuth} from './AuthContext';
 
 
 const Login = () => {
-    const { login } = useAuth();
+    const {login} = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -35,12 +35,13 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/login', { username, password });
-            const { id, token, authorities } = response.data;
+            const response = await axios.post('http://localhost:8080/api/login', {username, password});
+            const {id, token, authorities} = response.data;
             const roles = authorities.map(auth => auth.authority);
 
             // Call login function from AuthContext with full information
             login(username, roles, id, token);
+
 
             setPassword('');
 
@@ -55,10 +56,10 @@ const Login = () => {
         } catch (error) {
             console.error(error);
             //Thêm lỗi 403 - tài khoản bị khoá không cho đăng nhập
-            if(error.response && error.response.status === 403){
+            if (error.response && error.response.status === 403) {
                 setError('Tài khoản đang bị khoá');
                 localStorage.setItem('loginMessage', 'Tài khoản đang bị khoá');
-            }else {
+            } else {
                 setError('Tài khoản hoặc mật khẩu không đúng');
                 localStorage.setItem('loginMessage', 'Tài khoản hoặc mật khẩu không đúng');
             }
@@ -69,6 +70,7 @@ const Login = () => {
 
     const handleGoogleLogin = () => {
         window.location.href = 'http://localhost:8080/auth/v1/SSO/google';
+        console.log()
     };
 
     return (
@@ -112,7 +114,7 @@ const Login = () => {
                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     ) : 'Đăng Nhập'}
                 </button>
-                <hr />
+                <hr/>
                 <button type="button" className="btn btn-danger w-100" onClick={handleGoogleLogin}>
                     Đăng Nhập bằng Google
                 </button>
