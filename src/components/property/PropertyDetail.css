@@ -52,6 +52,9 @@
     font-size: 16px;
     margin-bottom:0px ;
 }
+.total-booking {
+    display: flex;
+}
 
 .rooms-info {
     margin-top: 0px;
@@ -131,9 +134,75 @@
 }
 
 .error-message {
-    color: red; /* Đặt màu chữ thành đỏ */
-    font-size: 14px; /* Có thể điều chỉnh kích thước chữ nếu cần */
-    margin-top: 5px; /* Thêm khoảng cách phía trên nếu cần */
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.total-booking {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.total-booking .fas.fa-star {
+    color: gold;
+}
+
+.separator {
+    margin: 0 10px;
+    font-weight: bold;
+    color: #888;
+}
+
+.underlined {
+    text-decoration: underline;
+}
+
+.review-item {
+    margin-bottom: 30px; /* Tăng khoảng cách giữa các bài viết */
+}
+
+.review-item .d-flex {
+    margin-bottom: 5px; /* Giảm khoảng cách giữa các hàng trong một bài viết */
+}
+
+.review-item img {
+    border-radius: 50%; /* Avatar hình tròn */
+    width: 60px; /* Điều chỉnh kích thước */
+    height: 60px; /* Đảm bảo hình tròn */
+}
+
+.review-item p {
+    margin-bottom: 0.3rem; /* Giảm khoảng cách giữa các dòng trong một bài viết */
+}
+.review-form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.review-form h3 {
+    margin-bottom: 15px;
+}
+
+.review-form .form-group {
+    margin-bottom: 15px;
+}
+.star-rating {
+    display: flex;
+    cursor: pointer;
+}
+
+.star {
+    font-size: 30px; /* Kích thước ngôi sao */
+    color: black; /* Màu ngôi sao chưa chọn */
+    transition: color 0.2s; /* Hiệu ứng chuyển màu */
+}
+
+.star.filled {
+    color: gold; /* Màu ngôi sao đã chọn */
 }
 
 /* Nút tròn liên hệ chủ nhà */

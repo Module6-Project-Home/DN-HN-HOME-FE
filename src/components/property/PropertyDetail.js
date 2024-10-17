@@ -7,7 +7,9 @@ import { differenceInDays, isBefore, isToday } from 'date-fns';
 import { useAuth } from '../auth/AuthContext';
 import HeroBanner from "./HeroBanner";
 import './PropertyDetail.css';
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { Modal, Button } from 'react-bootstrap';
+import {Pagination} from "antd";
 import {AlertLink} from "react-bootstrap";
 import ChatWindow from "../comunication/ChatWindow";
 
@@ -15,6 +17,8 @@ const PropertyDetail = () => {
     const { id } = useParams();
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [totalBooking, setTotalBooking] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const token = localStorage.getItem('jwtToken');
     const [showChat, setShowChat] = useState(false);
@@ -24,22 +28,36 @@ const PropertyDetail = () => {
     const [checkOutDate, setCheckOutDate] = useState(null);
     const [totalPrice, setTotalPrice] = useState(0);
     const [bookingStatusId] = useState(1);
-    const [errorMessage, setErrorMessage] = useState(''); // State để lưu thông báo lỗi
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const [rating, setRating] = useState(5); // Mặc định là 5 sao
+    const [comment, setComment] = useState('');
 
     useEffect(() => {
-        const fetchProperty = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/properties/detail/${id}`);
-                setProperty(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching property:', error);
-                setLoading(false);
-            }
-        };
-
+        fetchTotalBooking();
         fetchProperty();
     }, [id]);
+
+    const fetchProperty = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/properties/detail/${id}`);
+            setProperty(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching property:', error);
+            setLoading(false);
+        }
+    };
+
+    const fetchTotalBooking = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/reviews/total?propertyId=${id}`);
+            setTotalBooking(response.data);
+        } catch (error) {
+            console.error('Error fetching total bookings:', error);
+        }
+    };
+
 
     const calculateTotalPrice = (checkInDate, checkOutDate, pricePerNight) => {
         const totalDays = differenceInDays(checkOutDate, checkInDate);
@@ -47,7 +65,6 @@ const PropertyDetail = () => {
     };
 
     const handleBooking = async () => {
-        // Kiểm tra hợp lệ cho check-in và check-out
         if (!checkInDate || !checkOutDate) {
             setErrorMessage('Vui lòng chọn ngày.');
             return;
@@ -63,10 +80,8 @@ const PropertyDetail = () => {
             return;
         }
 
-        // Nếu hợp lệ, reset thông báo lỗi
         setErrorMessage('');
 
-        // Kiểm tra xem người dùng đã đăng nhập chưa
         if (!token) {
             toast.success('Bạn cần đăng nhập để đặt phòng. Vui lòng đăng ký tài khoản.');
             navigate('/login'); // Điều hướng đến trang đăng nhập
@@ -104,6 +119,63 @@ const PropertyDetail = () => {
             }
         }
     };
+
+    const handleReviewSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!token) {
+            toast.error('Bạn cần đăng nhập để gửi đánh giá.');
+            return;
+        }
+
+        const reviewData = {
+            guest: { username: localStorage.getItem('username') },
+            property: { id },
+            rating: rating,
+            comment: comment,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/bookings/review', reviewData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            toast.success(response.data.message || 'Đánh giá của bạn đã được gửi thành công!');
+
+            setComment('');
+            setRating(5);
+
+            await fetchProperty(); // Cập nhật lại thông tin bất động sản, bao gồm đánh giá mới
+            await fetchTotalBooking(); // Cập nhật lại tổng số đánh giá
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                toast.error(error.response.data || "Đã có lỗi xảy ra khi gửi đánh giá.");
+            } else {
+                toast.error("Đã có lỗi xảy ra, vui lòng thử lại.");
+            }
+
+            console.error('Error submitting review:', error);
+        }
+    };
+
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const indexOfLastReview = currentPage * itemsPerPage;
+    const indexOfFirstReview = indexOfLastReview - itemsPerPage;
+    const currentReviews = property && property.reviews
+        ? property.reviews
+            .slice(indexOfFirstReview, indexOfLastReview)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        : [];
+    const totalPages = property && property.reviews ? Math.ceil(property.reviews.length / itemsPerPage) : 0;
+
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -156,16 +228,25 @@ const PropertyDetail = () => {
                         >
                             Xem chỉ dẫn
                         </a>
-                        <button
-                            className="chat-button"
-                            onClick={() => setShowChat(true)} // Hiển thị cửa sổ chat
-                        >
-                            💬
-                        </button>
-                        {showChat && (
-                            <ChatWindow onClose={() => setShowChat(false)} /> // Đóng chat
-                        )}
                     </div>
+                    <div className="total-booking">
+                        <h5>
+                            <i className="fas fa-star"></i> {totalBooking && totalBooking.reviewed ? totalBooking.reviewed.toFixed(1) : 'N/A'}
+                        </h5>
+                        <span className="separator">|</span>
+                        <h5 className="underlined" onClick={handleShow} style={{ cursor: 'pointer' }}>
+                            {totalBooking ? totalBooking.total : 0} Đánh giá
+                        </h5>
+                    </div>
+                    <button
+                        className="chat-button"
+                        onClick={() => setShowChat(true)} // Hiển thị cửa sổ chat
+                    >
+                        💬
+                    </button>
+                    {showChat && (
+                        <ChatWindow onClose={() => setShowChat(false)} /> // Đóng chat
+                    )}
                 </div>
 
                 {/* Cột bên phải - form đặt phòng */}
@@ -208,9 +289,114 @@ const PropertyDetail = () => {
                         <p>Tổng tiền: {totalPrice.toLocaleString()} Đ</p>
                     </div>
 
-                    <button className="booking-button" onClick={handleBooking}>Đặt ngay</button>
+                    <button className="btn btn-primary" onClick={handleBooking}>Đặt phòng</button>
                 </div>
             </div>
+
+            <div className="review-form">
+                <form onSubmit={handleReviewSubmit}>
+                    <div className="form-group">
+                        <label>Đánh giá:</label>
+                        <div className="star-rating">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <span
+                                    key={star}
+                                    className={`star ${rating >= star ? 'filled' : ''}`}
+                                    onClick={() => setRating(star)}
+                                >
+                                ★
+                            </span>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label>Nhận xét:</label>
+                        <textarea
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            className="form-control"
+                            rows="4"
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-success">Gửi đánh giá</button>
+                </form>
+            </div>
+
+            <Modal show={showModal} onHide={handleClose} className="custom-modal" size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>{totalBooking ? totalBooking.total : 0} lượt đánh giá</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {currentReviews.length > 0 ?(
+                    currentReviews.map((review, index) => (
+                        <div key={index} className="review-item">
+                            <div className="d-flex align-items-center">
+                                <img
+                                    src={review.avatar}
+                                    alt="Avatar"
+                                    className="img-thumbnail me-2"
+                                />
+                                <p className="mb-0">{review.guest}</p>
+                            </div>
+                            <div className="d-flex align-items-center">
+                                <p className="mb-0 me-2">
+                                    <strong>Rating:</strong>
+                                </p>
+                                {[...Array(5)].map((_, starIndex) => (
+                                    <span
+                                        key={starIndex}
+                                        className={starIndex < review.rating ? 'text-warning' : 'text-secondary'}
+                                    >
+                            ★
+                        </span>
+                                ))}
+                                <p className="mb-0 ms-2">{review.createdAt}</p>
+                            </div>
+                            <p>{review.comment}</p>
+                        </div>
+                    ))) : (
+                        <p>Chưa có đánh giá nào!</p>
+                        )
+                    }
+
+                </Modal.Body>
+                <Modal.Footer className="d-flex justify-content-between align-items-center">
+                    <div className="pagination d-flex justify-content-center align-items-center w-100">
+                        <Button
+                            variant="light"
+                            disabled={currentPage === 1}
+                            onClick={() => paginate(currentPage - 1)}
+                            className="mx-2"
+                        >
+                            Trang trước
+                        </Button>
+
+                        <span className="mx-3">{currentPage} / {totalPages}</span>
+
+                        <Button
+                            variant="light"
+                            disabled={currentPage === totalPages}
+                            onClick={() => paginate(currentPage + 1)}
+                            className="mx-2"
+                        >
+                            Trang sau
+                        </Button>
+                    </div>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Đóng
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+
+
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={property.reviews.length}
+                paginate={paginate}
+                currentPage={currentPage}
+                totalPages={totalPages}
+            />
         </div>
     );
 };
