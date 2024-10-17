@@ -25,6 +25,7 @@ import AddNewProperty from "./components/host/AddProperty";
 import MonthlyRevenue from "./components/host/MonthlyRevenue";
 
 import UserBooking from "./components/booking/UserBooking";
+import OwnerBookingHistory from "./components/host/OwnerBookingHistory";
 
 
 const MainLayout = () => (
@@ -76,6 +77,8 @@ const App = () => {
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         <Route path="/host/create-property" element={<AddNewProperty />} />
                         <Route path="/host/monthlyRevenue" element={<MonthlyRevenue />} />
+                        <Route path="/host/ownerBookingHistory" element={<OwnerBookingHistory />} />
+
                     </Route>
 
 

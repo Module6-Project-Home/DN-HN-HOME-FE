@@ -24,11 +24,11 @@ const SidebarAdmin = () => {
                         </Link>
                     </div>
                     <div className="nav">
-                        <Link className="nav-link" to="/host/dashboard">
+                        <Link className="nav-link" to="/host/ownerBookingHistory">
                             <div className="sb-nav-link-icon">
                                 <i className="fas fa-tachometer-alt"></i>
                             </div>
-                            Đặt nhà
+                            Lịch sử đặt thuê nhà
                         </Link>
                     </div>
                 </div>
