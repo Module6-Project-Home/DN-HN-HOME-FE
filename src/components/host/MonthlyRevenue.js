@@ -3,6 +3,7 @@ import axios from 'axios';
 import HeaderAdmin from "./layout/HeaderAdmin";
 import SidebarAdmin from "./layout/SidebarAdmin";
 import { toast } from 'react-toastify';
+import DatePicker from "react-datepicker";
 
 const MonthlyRevenue = () => {
     const today = new Date();
@@ -30,6 +31,10 @@ const MonthlyRevenue = () => {
     const [revenues, setRevenues] = useState([]);
     const [startDate, setStartDate] = useState(formatDateToInput(firstDayOfMonth));
     const [endDate, setEndDate] = useState(formatDateToInput(today));
+
+    useEffect(() => {
+        fetchRevenue(); // Gọi hàm fetchRevenue ngay khi component được render lần đầu tiên
+    }, []);
 
     const validateData = () => {
         if (!startDate || !endDate) {
@@ -64,11 +69,12 @@ const MonthlyRevenue = () => {
                     'Content-Type': 'application/json'
                 }
             });
+            console.log(response)
             toast.success("Doanh thu của bạn đã được lấy ra thành công");
             const revenueData = response.data.map(item => ({
                 year: item.year,
                 month: item.month,
-                revenue: item.revenue.toString(), // Chuyển đổi doanh thu thành chuỗi
+                revenue: item.revenue, // Chuyển đổi doanh thu thành chuỗi
             }));
 
             setRevenues(revenueData);
@@ -86,10 +92,10 @@ const MonthlyRevenue = () => {
     };
 
     return (
-        <div className="container-fluid">
+        <div>
             <div className="sb-nav-fixed">
                 <HeaderAdmin />
-                <div className="row" id="layoutSidenav">
+                <div id="layoutSidenav">
                     <SidebarAdmin className="col-md-3 col-lg-2" />
                     <div id="layoutSidenav_content" className="col-md-9 col-lg-10">
                         <main className="container mt-4">
@@ -97,17 +103,27 @@ const MonthlyRevenue = () => {
                             <div className="row mb-4">
                                 <div className="col-md-6">
                                     <label htmlFor="startDate" className="form-label">Ngày bắt đầu:</label>
-                                    <input type="date" id="startDate" name="startDate" className="form-control" value={startDate} onChange={handleDateChange} />
-                                    <div className="mt-2">
-                                        <strong>Ngày hiển thị:</strong> {formatDateToDisplay(new Date(startDate))}
-                                    </div>
+                                    <DatePicker
+                                        selected={startDate ? new Date(startDate) : null} // Kiểm tra nếu có giá trị startDate
+                                        onChange={date => handleDateChange({ target: { name: 'startDate', value: date } })}
+                                        dateFormat="dd-MM-yyyy"
+                                        className="form-control"
+                                        placeholderText="Chọn ngày bắt đầu"
+                                    />
+
                                 </div>
+
                                 <div className="col-md-6">
                                     <label htmlFor="endDate" className="form-label">Ngày kết thúc:</label>
-                                    <input type="date" id="endDate" name="endDate" className="form-control" value={endDate} onChange={handleDateChange} />
-                                    <div className="mt-2">
-                                        <strong>Ngày hiển thị:</strong> {formatDateToDisplay(new Date(endDate))}
-                                    </div>
+                                    <DatePicker
+                                        selected={endDate ? new Date(endDate) : null} // Kiểm tra nếu có giá trị endDate
+                                        onChange={date => handleDateChange({ target: { name: 'endDate', value: date } })}
+                                        dateFormat="dd-MM-yyyy"
+                                        className="form-control"
+                                        placeholderText="Chọn ngày kết thúc"
+                                        minDate={startDate ? new Date(startDate) : null} // Ngày kết thúc phải sau ngày bắt đầu
+                                    />
+
                                 </div>
                             </div>
                             <button className="btn btn-primary mb-4" onClick={fetchRevenue}>Lấy doanh thu</button>
@@ -126,7 +142,7 @@ const MonthlyRevenue = () => {
                                             <tr key={index}>
                                                 <td>{revenue.year}</td>
                                                 <td>{revenue.month}</td>
-                                                <td>{revenue.revenue}</td>
+                                                <td>{revenue.revenue.toLocaleString()} VNĐ</td>
                                             </tr>
                                         ))
                                     ) : (

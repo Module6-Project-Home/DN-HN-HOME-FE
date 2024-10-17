@@ -252,21 +252,32 @@ const PropertyDetail = () => {
                 <div className="property-info">
                     <div className="property-images">
                         <img
-                            src={property.images[0].imageUrl}
+                            src={property.images && property.images.length > 0
+                                ? property.images[0].imageUrl
+                                : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-2.jpg?alt=media&token=5fbefe7b-8a85-488a-9f53-b6be11fcaece"}
                             alt={`Main image of ${property.name}`}
                             className="main-property-image"
                         />
                         <div className="small-property-images">
-                            {property.images.slice(1).map((url, index) => (
-                                <img
-                                    key={index}
-                                    src={url.imageUrl}
-                                    alt={`${property.name} image ${index + 2}`}
-                                    className="small-property-image"
-                                />
-                            ))}
+                            {property.images && property.images.length > 1
+                                ? property.images.slice(1).map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image.imageUrl}
+                                        alt={`${property.name} image ${index + 2}`}
+                                        className="small-property-image"
+                                    />
+                                ))
+                                : (
+                                    <img
+                                        src="https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-2.jpg?alt=media&token=5fbefe7b-8a85-488a-9f53-b6be11fcaece"
+                                        alt="Default small image"
+                                        className="small-property-image"
+                                    />
+                                )}
                         </div>
                     </div>
+
 
                     <div className="property-details">
                         <h4>{property.name}</h4>
