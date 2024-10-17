@@ -53,8 +53,6 @@ const App = () => {
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
-                        <Route path="/host/update-property/:id" element={<UpdateProperty />} />
-                        <Route path="/host/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                         <Route path="/user/history-booking" element={<UserBooking />} />
