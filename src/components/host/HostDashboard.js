@@ -200,6 +200,7 @@ const HostDashboard = () => {
                                                             </td>
                                                             <td>
 
+
                                                                 <Link to={`/host/update-property/${property.id}`} className="btn btn-warning bi bi-save"> Chỉnh Sửa</Link>
                                                             </td>
                                                         </tr>

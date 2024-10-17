@@ -147,6 +147,15 @@ const PropertyDetail = () => {
                             <p>{property.bedrooms} phòng ngủ</p>
                             <p>{property.bathrooms} phòng tắm</p>
                         </div>
+                        Link tới Google Maps:
+                        <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.address)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-info"
+                        >
+                            Xem chỉ dẫn
+                        </a>
                         <button
                             className="chat-button"
                             onClick={() => setShowChat(true)} // Hiển thị cửa sổ chat
