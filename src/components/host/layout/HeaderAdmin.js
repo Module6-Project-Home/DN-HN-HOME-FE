@@ -45,7 +45,7 @@ const HeaderAdmin = () => {
             fetchNotifications(); // Lấy lại thông báo sau khi cập nhật
         } catch (error) {
             console.error('Failed to mark notification as read', error);
-            toast.error('Không thể đánh dấu thông báo.');
+            // toast.error('Không thể đánh dấu thông báo.');
         }
     };
 
@@ -97,7 +97,9 @@ const HeaderAdmin = () => {
                                         style={{ backgroundColor: notification.isRead ? 'white' : 'yellow' }}
                                         onClick={() => markNotificationAsRead(notification.id)}
                                     >
-                                        {notification.message} - {new Date(notification.timestamp).toLocaleString()}
+                                        {notification.message}
+
+                                        {/*{notification.message} - {new Date(notification.timestamp).toLocaleString()}*/}
                                     </Dropdown.Item>
                                 ))
                             )}
