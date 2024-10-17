@@ -10,8 +10,6 @@ const ListMyHomestay = () => {
     const [properties, setProperties] = useState([]);
     const [error, setError] = useState('');
     const location = useLocation();
-    const hostName = location.state?.hostName||'';
-
     const { login } = useAuth();
     // Function to get token from query string
     const getQueryParams = (urlSearchParams) => {
@@ -69,7 +67,6 @@ const ListMyHomestay = () => {
     return (
         <div className="table-responsive">
             <HeroBanner></HeroBanner>
-            {hostName && <h2>Danh sách nhà của {hostName}</h2>} {/* Hiển thị tên chủ nhà */}
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                 <tr>

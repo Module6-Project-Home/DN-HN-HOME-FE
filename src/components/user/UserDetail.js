@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './UserDetail.css';
+// import './UserDetail.css';
 import HeroBanner from "../property/HeroBanner";
 
 const UserDetail = () => {

@@ -54,7 +54,7 @@ const HostDashboard = () => {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
                 'Content-Type': 'application/json',
-            },
+            }
         })
             .then(response => {
                 console.log("Dữ liệu trả về từ API:", response.data); // Kiểm tra dữ liệu
