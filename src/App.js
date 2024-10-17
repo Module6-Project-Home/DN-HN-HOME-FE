@@ -42,6 +42,16 @@ const HostLayout = () => (
     </>
 );
 
+const LoginLayout = () => (
+    <>
+        <Outlet /> {/* Không có Header và Footer */}
+    </>
+);
+const AdminLayout = () => (
+    <>
+        <Outlet /> {/* Không có Header và Footer */}
+    </>
+);
 const App = () => {
     return (
         <AuthProvider>
@@ -53,10 +63,8 @@ const App = () => {
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
+
                         <Route path="/user/history-booking" element={<UserBooking />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
 
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
@@ -78,6 +86,18 @@ const App = () => {
                         <Route path="/host/ownerBookingHistory" element={<OwnerBookingHistory />} />
 
                     </Route>
+                    <Route element={<LoginLayout />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<RegisterForm />} />
+                    </Route>
+
+                    <Route element={<AdminLayout />}>
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                        <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    </Route>
+
+
 
 
 
