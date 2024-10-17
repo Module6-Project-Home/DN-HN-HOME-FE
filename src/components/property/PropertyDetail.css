@@ -176,3 +176,31 @@
 .review-item p {
     margin-bottom: 0.3rem; /* Giảm khoảng cách giữa các dòng trong một bài viết */
 }
+.review-form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.review-form h3 {
+    margin-bottom: 15px;
+}
+
+.review-form .form-group {
+    margin-bottom: 15px;
+}
+.star-rating {
+    display: flex;
+    cursor: pointer;
+}
+
+.star {
+    font-size: 30px; /* Kích thước ngôi sao */
+    color: black; /* Màu ngôi sao chưa chọn */
+    transition: color 0.2s; /* Hiệu ứng chuyển màu */
+}
+
+.star.filled {
+    color: gold; /* Màu ngôi sao đã chọn */
+}
