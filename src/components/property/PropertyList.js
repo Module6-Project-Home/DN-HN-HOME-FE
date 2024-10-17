@@ -282,13 +282,14 @@ const PropertyList = () => {
                                                                     height: '200px',
                                                                     objectFit: 'cover'
                                                                 }}
-                                                                src={property.imageUrls && property.imageUrls.length > 0
-                                                                    ? property.imageUrls[0]
-                                                                    : "https://via.placeholder.com/200"}
+                                                                src={
+                                                                    property.imageUrls.length > 0
+                                                                        ? property.imageUrls[0]
+                                                                        : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-2.jpg?alt=media&token=5fbefe7b-8a85-488a-9f53-b6be11fcaece"
+                                                                }
                                                                 alt="Property Image"
                                                                 className="img-fluid w-100 rounded-top"
                                                             />
-
                                                         </Link>
                                                     </div>
                                                     <div
