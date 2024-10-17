@@ -21,7 +21,12 @@ import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import S
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
 import AddNewProperty from "./components/host/AddProperty";
+
+import MonthlyRevenue from "./components/host/MonthlyRevenue";
+
 import UserBooking from "./components/booking/UserBooking";
+import OwnerBookingHistory from "./components/host/OwnerBookingHistory";
+
 
 const MainLayout = () => (
     <>
@@ -48,8 +53,6 @@ const App = () => {
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
-                        <Route path="/host/update-property/:id" element={<UpdateProperty />} />
-                        <Route path="/host/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                         <Route path="/user/history-booking" element={<UserBooking />} />
@@ -67,6 +70,9 @@ const App = () => {
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         <Route path="/host/create-property" element={<AddNewProperty />} />
+                        <Route path="/host/monthlyRevenue" element={<MonthlyRevenue />} />
+                        <Route path="/host/ownerBookingHistory" element={<OwnerBookingHistory />} />
+
                     </Route>
 
                     <Route
