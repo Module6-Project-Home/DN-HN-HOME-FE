@@ -122,7 +122,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="/host/dashboard">Quản lý Homestay</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/host/history">Lịch sử thuê nhà</Link>
+                        <Link className="dropdown-item" to="/user/history-booking">Lịch sử thuê nhà</Link>
                     </li>
                     <li>
                         <hr className="dropdown-divider"/>
@@ -145,7 +145,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="/user/view-profile">Quản lý tài khoản</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/property/history">Lịch sử thuê nhà</Link>
+                        <Link className="dropdown-item" to="/user/history-booking">Lịch sử thuê nhà</Link>
                     </li>
                     <li>
                         <button type="button" className="dropdown-item" onClick={handleUpgradeRequest}>
@@ -168,7 +168,7 @@ const Header = () => {
             <div className="container px-0">
                 <nav className="navbar navbar-light bg-white navbar-expand-xl">
                     <Link to="/home" className="navbar-brand">
-                        <h1 className="text-primary display-6">3 NKQ Homestay</h1>
+                        <h1 className="text-primary display-6">3NKQ Homestay</h1>
                     </Link>
                     <button className="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span className="fa fa-bars text-primary"></span>

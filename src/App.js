@@ -22,8 +22,11 @@ import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
 import AddNewProperty from "./components/host/AddProperty";
 
+import MonthlyRevenue from "./components/host/MonthlyRevenue";
 
-// Main Layout: Dùng cho tất cả các route không thuộc host
+import UserBooking from "./components/booking/UserBooking";
+
+
 const MainLayout = () => (
     <>
         <Header />
@@ -32,14 +35,11 @@ const MainLayout = () => (
     </>
 );
 
-// Host Layout: Dùng cho tất cả các route liên quan đến host
 const HostLayout = () => (
     <>
         <Outlet /> {/* Không có Header và Footer */}
     </>
 );
-
-
 
 const App = () => {
     return (
@@ -48,12 +48,16 @@ const App = () => {
                 <Routes>
                     {/* Các route dùng MainLayout */}
                     <Route element={<MainLayout />}>
+                        <Route path="/" element={<PropertyList />} />
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
-                        <Route path="/host/create-property" element={<PostForm />} />
+                        <Route path="/host/post" element={<PostForm />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
+                        <Route path="/user/history-booking" element={<UserBooking />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/register" element={<RegisterForm />} />
 
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
@@ -71,8 +75,7 @@ const App = () => {
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         <Route path="/host/create-property" element={<AddNewProperty />} />
-                        <Route path="/host/post" element={<PostForm />} />
-
+                        <Route path="/host/monthlyRevenue" element={<MonthlyRevenue />} />
                     </Route>
 
 
@@ -90,5 +93,6 @@ const App = () => {
         </AuthProvider>
     );
 };
+
 
 export default App;

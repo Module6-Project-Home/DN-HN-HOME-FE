@@ -34,6 +34,7 @@ const UpdateProperty = () => {
 
     // Lấy thông tin property để cập nhật
     useEffect(() => {
+        document.title = "Cập nhật nhà";
         const fetchProperty = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/properties/${id}`);

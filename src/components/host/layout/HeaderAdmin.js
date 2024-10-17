@@ -1,12 +1,48 @@
 import React from 'react';
 import './AdminStyle.css';
-import {Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Dropdown } from 'react-bootstrap';
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import { useAuth } from "../../auth/AuthContext";
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
 
 const HeaderAdmin = () => {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await axios.post('http://localhost:8080/api/logout', {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            });
+
+            // Gọi hàm logout
+            logout();
+
+            // Hiển thị thông báo thành công
+            toast.success('Đăng xuất thành công!');
+
+            // Chuyển hướng về trang đăng nhập sau khi đăng xuất
+            setTimeout(() => {
+                navigate('/login');
+            }, 1000);  // Chờ 1 giây để toast hiển thị trước khi điều hướng
+        } catch (error) {
+            console.error('Logout failed', error);
+
+            // Hiển thị thông báo lỗi
+            toast.error('Đăng xuất không thành công.');
+        }
+    };
+
     return (
-        <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark   ">
+
+
             {/* Navbar Brand */}
-            <Link className="navbar-brand ps-3" to="/home">QNK Homestay</Link>
+            <Link className="navbar-brand ps-3" to="/home">3NKQ Homestay</Link>
 
             {/* Sidebar Toggle */}
             <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
@@ -14,21 +50,36 @@ const HeaderAdmin = () => {
             </button>
 
             {/* Navbar */}
-            <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li className="nav-item dropdown">
-                    <Link className="nav-link dropdown-toggle" id="navbarDropdown" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i className="fas fa-user fa-fw"></i>
-                    </Link>
-                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><Link className="dropdown-item" to="/user/detail">Lịch sử đặt nhà</Link></li>
-                        <li><a className="dropdown-item" href="#!">Thông tin tài khoản</a></li>
-                        <li>
-                            <hr className="dropdown-divider" />
-                        </li>
-                        <li><Link className="dropdown-item" to="/logout">Đăng xuất</Link></li>
-                    </ul>
+
+            <ul className="navbar-nav ms-auto me-3"> {/* Thêm ms-auto để căn về bên phải */}
+                <li className="nav-item">
+                    <Dropdown align="end">
+                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                            <i className="fas fa-user fa-fw"></i>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item as={Link} to="/user/view-profile">Quản lý tài khoản</Dropdown.Item>
+                            <Dropdown.Item as={Link} to="/user/history-booking">Lịch sử thuê nhà</Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item as="button">
+                                <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+
                 </li>
             </ul>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </nav>
     );
 };
