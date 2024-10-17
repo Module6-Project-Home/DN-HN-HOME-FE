@@ -35,11 +35,11 @@ const ChatWindow = ({ onClose }) => {
             </div>
 
             <div className="chat-body" ref={chatBodyRef}>
-                {message.map((msg, index) => (
+                {message.map((message, index) => (
                     <div
                         key={index} className={`chat-message ${message.sender === 'user' ? 'user' : 'other'}`}
                     >
-                        {msg.text}
+                        {message.text}
                     </div>
                 ))}
             </div>
