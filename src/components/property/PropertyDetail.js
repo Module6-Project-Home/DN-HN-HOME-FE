@@ -43,6 +43,8 @@ const PropertyDetail = () => {
             const response = await axios.get(`http://localhost:8080/api/properties/detail/${id}`);
             setProperty(response.data);
             setLoading(false);
+
+            localStorage.setItem('propertyId', id);
         } catch (error) {
             console.error('Error fetching property:', error);
             setLoading(false);
