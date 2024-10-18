@@ -108,6 +108,90 @@ const HostDashboard = () => {
         setCurrentPage(1); // Đặt lại về trang 1 khi thay đổi số lượng mục trên mỗi trang
     };
 
+    // const handleStatusChange = async (propertyId, newStatus) => {
+    //     console.log('propertyId', propertyId);
+    //     console.log('newStatus', newStatus);
+    //     const property = properties.find(p => p.id === propertyId);
+    //     if (property.status === 'RENTED') {
+    //         alert('Không thể thay đổi trạng thái khi nhà đang cho thuê.');
+    //         return;
+    //     }
+    //     console.log('property', property);
+    //     const confirmChange = window.confirm('Bạn có chắc chắn muốn thay đổi trạng thái?');
+    //     if (confirmChange) {
+    //         try {
+    //             const jwtToken = localStorage.getItem("jwtToken");
+    //             console.log('jwtToken', jwtToken);
+    //             const response = await axios.put(`http://localhost:8080/api/properties/change-status/${propertyId}`, null, {
+    //                 params: { newStatus },
+    //                 headers: {
+    //                     'Authorization': `Bearer ${jwtToken}`,
+    //                     'Content-Type': 'application/json',
+    //                 }
+    //             });
+    //
+    //             if (response.status === 200) {
+    //                 console.log(newStatus)
+    //                 console.log(property)
+    //                 setProperties(properties.map(p => p.id === propertyId ? { ...p, status: newStatus } : p));
+    //                 alert('Trạng thái đã được cập nhật thành công.');
+    //             } else {
+    //                 alert('Có lỗi xảy ra khi thay đổi trạng thái.');
+    //             }
+    //         } catch (error) {
+    //             console.error('Lỗi khi thay đổi trạng thái:', error);
+    //             alert('Có lỗi xảy ra khi thay đổi trạng thái.');
+    //         }
+    //     }
+    // };
+
+    const handleStatusChange = async (propertyId, newStatus) => {
+        console.log('propertyId', propertyId);
+        console.log('newStatus', newStatus);
+        const property = properties.find(p => p.id === propertyId);
+        console.log(property);
+        if (property.status === 'RENTED') {
+            alert('Không thể thay đổi trạng thái khi nhà đang cho thuê.');
+            return;
+        }
+        console.log('property', property);
+        const confirmChange = window.confirm('Bạn có chắc chắn muốn thay đổi trạng thái?');
+        if (confirmChange) {
+            try {
+                const jwtToken = localStorage.getItem("jwtToken");
+                console.log('jwtToken', jwtToken);
+                const response = await axios.put(`http://localhost:8080/api/properties/change-status/${propertyId}`, null, {
+                    params: { newStatus },
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                console.log('response', response.data);
+
+                if (response.status === 200) {
+                    const updatedProperty = response.data;
+                    console.log('updatedProperty', updatedProperty);
+                    setProperties(properties.map(p => p.id === propertyId ? {...p,status:newStatus} : p));
+                    console.log(properties[0].status);
+                }else if(response.status==400){
+                    alert('Không thể thay đổi trạng thái khi nhà đang cho thuê.');
+                } else{
+                    alert('Có lỗi xảy ra khi thay đổi trạng thái.');
+                }
+            } catch (error) {
+                if (error && error.status === 400) {
+                    alert('Không thể thay đổi trạng thái khi nhà đang cho thuê.');
+                } else {
+                        console.error('Lỗi khi thay đổi trạng thái:', error);
+                    alert('Có lỗi xảy ra khi thay đổi trạng thái.');
+                }
+            }
+        }
+    };
+
+
     return (
         <div>
             <div className="sb-nav-fixed">
@@ -189,25 +273,35 @@ const HostDashboard = () => {
                                                             <td>{indexOfFirstProperty + index + 1}</td>
                                                             <td>{property.name}</td>
                                                             <td>{property.address}</td>
-                                                            <td>{property.pricePerNight.toLocaleString()} VNĐ </td>
+                                                            <td>{property.pricePerNight.toLocaleString()} VNĐ</td>
                                                             <td>
-                                                                {property.status === 'VACANT' ? 'Đang trống' :
-                                                                    property.status === 'RENTED' ? 'Đang cho thuê' :
-                                                                        property.status === 'MAINTENANCE' ? 'Đang bảo trì' : ''}
+                                                                <select
+                                                                    value={property.status}
+                                                                    onChange={(e) => handleStatusChange(property.id, e.target.value)}
+                                                                    disabled={property.status === 'RENTED'}
+                                                                >
+                                                                    <option value="VACANT">Đang trống</option>
+                                                                    <option value="RENTED">Đang cho thuê</option>
+                                                                    <option value="MAINTENANCE">Đang bảo trì</option>
+                                                                </select>
                                                             </td>
                                                             <td>
-                                                                {property.revenue.toLocaleString()} VNĐ
+                                                                {property.revenue} VNĐ
                                                             </td>
                                                             <td>
 
 
-                                                                <Link to={`/host/update-property/${property.id}`} className="btn btn-warning bi bi-save"> Chỉnh Sửa</Link>
+                                                                <Link to={`/host/update-property/${property.id}`}
+                                                                      className="btn btn-warning bi bi-save"> Chỉnh
+                                                                    Sửa</Link>
                                                             </td>
                                                         </tr>
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="9" className="text-center">Không có tài sản nào để hiển thị</td>
+                                                        <td colSpan="9" className="text-center">Không có tài sản nào để
+                                                            hiển thị
+                                                        </td>
                                                     </tr>
                                                 )}
                                                 </tbody>

@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="366328d6-7fab-40f4-a5c6-0fd18cd72400" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/admin/HostTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/HostTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/UserTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/UserTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/host/HostDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/HostDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/ListMyHomestay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/ListMyHomestay.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/PropertyCount.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/user/UserDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/user/UserDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +44,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;git-widget-placeholder&quot;: &quot;ngoc&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -95,7 +86,9 @@
       <workItem from="1729097710448" duration="4261000" />
       <workItem from="1729103798357" duration="1191000" />
       <workItem from="1729130848204" duration="1321000" />
-      <workItem from="1729133214617" duration="16209000" />
+      <workItem from="1729133214617" duration="20351000" />
+      <workItem from="1729183069744" duration="9544000" />
+      <workItem from="1729218743105" duration="21900000" />
     </task>
     <servers />
   </component>
@@ -124,7 +117,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="origin/ngoc" />
                       </list>
                     </value>
                   </entry>

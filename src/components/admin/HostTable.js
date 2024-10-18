@@ -127,7 +127,7 @@ const  HostTable = () => {
                             </td>
                             <td>{user.phoneNumber}</td>
                             <td>{user.totalRevenue !== null && user.totalRevenue !== undefined ? user.totalRevenue : 'Chưa có doanh thu'}</td>
-                            <td>{user.propertyCount}</td>
+                            <td>{user.propertyCount !==null && user.propertyCount !== undefined ? user.propertyCount : 'Chưa có tài sản'}</td>
                             <td>{user.status === 'ACTIVE' ? 'Đang hoạt động' : 'Khoá'}</td>
                             <td>
 
