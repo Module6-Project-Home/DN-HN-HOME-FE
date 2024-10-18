@@ -2,8 +2,11 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {Button, Modal, Table, notification, Spin, Input} from 'antd';
 import ReactPaginate from 'react-paginate';
-import {InfoCircleOutlined, LockOutlined, UnlockOutlined} from '@ant-design/icons';
-import {useNavigate} from "react-router-dom";
+import {ModalBody, ModalFooter, ModalHeader, ModalTitle} from "react-bootstrap";
+import {InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
+import UserDetail from "../user/UserDetail";
+// import {Button, Modal} from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 
 
 const UserTable = () => {
@@ -86,8 +89,6 @@ const UserTable = () => {
             setLoading(false);
         }
     };
-
-    // Show user details in modal
     const handleInfoClick = (user) => {
         fetchUserDetails(user.userId); // Fetch user details using the new API
     };
