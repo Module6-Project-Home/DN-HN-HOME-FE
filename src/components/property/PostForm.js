@@ -17,7 +17,7 @@ const AddProperty = () => {
         bathrooms: 0,
         description: "",
         pricePerNight: 0,
-        status: "Còn Trống",
+        status: "VACANT",
         imageUrls: [] // Chứa URL ảnh đã upload lên Firebase
     });
     const navigate = useNavigate(); // Sử dụng hook useNavigate để điều hướng
@@ -147,6 +147,11 @@ const AddProperty = () => {
             newErrors.bathrooms = "Số phòng tắm phải từ 1 đến 3.";
         }
 
+        // Kiểm tra giá thuê (tối thiểu 100.000, tối đa 10.000.000)
+        if (propertyData.pricePerNight < 10000 || propertyData.pricePerNight > 10000000) {
+            newErrors.pricePerNight = "Giá thuê 1 đêm phải từ 100.000VNĐ đến 10.000.000VNĐ ";
+        }
+
         // Kiểm tra số lượng ảnh đã tải lên
         if (propertyData.imageUrls.length === 0) {
             newErrors.imageUrls = "Vui lòng upload ít nhất 1 ảnh.";
@@ -181,7 +186,7 @@ const AddProperty = () => {
                 });
                 alert("Property added successfully!");
                 console.log(response.data);
-                navigate('/home'); // Điều hướng về trang chủ ("/")
+                navigate('/host/dashboard');
 
                 setPropertyData({ // Reset form sau khi thêm thành công
                     name: "",
@@ -208,188 +213,191 @@ const AddProperty = () => {
     return (
         <div>
             {roles[0] ==='ROLE_HOST' ? (
-        <div className="container mt-4">
-            <HeroBanner />
-            <h2 className="text-center mb-4">Thêm mới Property</h2>
+                <div className="container mt-4">
+                    <HeroBanner />
+                    <h2 className="text-center mb-4">Thêm mới Property</h2>
 
-            <form onSubmit={handleSubmit}>
-                {/* Tên nhà */}
-                <div className="col-md-6">
-                    <label className="form-label">Tên homestay:</label>
-                    <input
-                        type="text"
-                        className={`form-control ${errors.name ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
-                        name="name"
-                        value={propertyData.name}
-                        onChange={handleChange}
+                    <form onSubmit={handleSubmit}>
+                        {/* Tên nhà */}
+                        <div className="col-md-6">
+                            <label className="form-label">Tên homestay:</label>
+                            <input
+                                type="text"
+                                className={`form-control ${errors.name ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
+                                name="name"
+                                value={propertyData.name}
+                                onChange={handleChange}
 
-                    />
-                    {errors.name && <div className="invalid-feedback">{errors.name}</div>}
-                </div>
+                            />
+                            {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+                        </div>
 
-                {/* Loại tài sản */}
-                <div className="form-group mb-3">
-                    <label htmlFor="propertyType">Loại tài sản:</label>
-                    <select
-                        className="form-select"
-                        id="propertyType"
-                        name="propertyType"
-                        value={propertyData.propertyType}
-                        onChange={handleChange}
-                        required
-                    >
-                        {propertyTypes.map((type) => (
-                            <option key={type.id} value={type.name}>
-                                {type.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                        {/* Loại tài sản */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="propertyType">Loại tài sản:</label>
+                            <select
+                                className="form-select"
+                                id="propertyType"
+                                name="propertyType"
+                                value={propertyData.propertyType}
+                                onChange={handleChange}
+                                required
+                            >
+                                {propertyTypes.map((type) => (
+                                    <option key={type.id} value={type.name}>
+                                        {type.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                {/* Loại phòng */}
-                <div className="form-group mb-3">
-                    <label htmlFor="roomType">Loại phòng:</label>
-                    <select
-                        className="form-select"
-                        id="roomType"
-                        name="roomType"
-                        value={propertyData.roomType}
-                        onChange={handleChange}
-                        required
-                    >
-                        {roomTypes.map((type) => (
-                            <option key={type.id} value={type.name}>
-                                {type.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                        {/* Loại phòng */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="roomType">Loại phòng:</label>
+                            <select
+                                className="form-select"
+                                id="roomType"
+                                name="roomType"
+                                value={propertyData.roomType}
+                                onChange={handleChange}
+                                required
+                            >
+                                {roomTypes.map((type) => (
+                                    <option key={type.id} value={type.name}>
+                                        {type.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                {/* Địa chỉ */}
-                <div className="col-md-6">
-                    <label className="form-label">Địa chỉ:</label>
-                    <input
-                        type="text"
-                        className={`form-control ${errors.address ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
-                        name="address"
-                        value={propertyData.address}
-                        onChange={handleChange}
+                        {/* Địa chỉ */}
+                        <div className="col-md-6">
+                            <label className="form-label">Địa chỉ:</label>
+                            <input
+                                type="text"
+                                className={`form-control ${errors.address ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
+                                name="address"
+                                value={propertyData.address}
+                                onChange={handleChange}
 
-                    />
-                    {errors.address && <div className="invalid-feedback">{errors.address}</div>}
-                </div>
+                            />
+                            {errors.address && <div className="invalid-feedback">{errors.address}</div>}
+                        </div>
 
-                {/* Số phòng ngủ */}
-                <div className="col-md-6">
-                    <label className="form-label">Số phòng ngủ:</label>
-                    <input
-                        type="number"
-                        className={`form-control ${errors.bedrooms ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
-                        name="bedrooms"
-                        value={propertyData.bedrooms}
-                        onChange={handleChange}
+                        {/* Số phòng ngủ */}
+                        <div className="col-md-6">
+                            <label className="form-label">Số phòng ngủ:</label>
+                            <input
+                                type="number"
+                                className={`form-control ${errors.bedrooms ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
+                                name="bedrooms"
+                                value={propertyData.bedrooms}
+                                onChange={handleChange}
 
-                    />
-                    {errors.bedrooms && <div className="invalid-feedback">{errors.bedrooms}</div>}
-                </div>
+                            />
+                            {errors.bedrooms && <div className="invalid-feedback">{errors.bedrooms}</div>}
+                        </div>
 
-                <div className="col-md-6">
-                    <label className="form-label">Số phòng tắm:</label>
-                    <input
-                        type="number"
-                        className={`form-control ${errors.bathrooms ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
-                        name="bathrooms"
-                        value={propertyData.bathrooms}
-                        onChange={handleChange}
+                        <div className="col-md-6">
+                            <label className="form-label">Số phòng tắm:</label>
+                            <input
+                                type="number"
+                                className={`form-control ${errors.bathrooms ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
+                                name="bathrooms"
+                                value={propertyData.bathrooms}
+                                onChange={handleChange}
 
-                    />
-                    {errors.bathrooms && <div className="invalid-feedback">{errors.bathrooms}</div>}
-                </div>
+                            />
+                            {errors.bathrooms && <div className="invalid-feedback">{errors.bathrooms}</div>}
+                        </div>
 
-                {/* Mô tả */}
-                <div className="form-group mb-3">
-                    <label htmlFor="description">Mô tả:</label>
-                    <textarea
-                        className={`form-control ${errors.description ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
-                        id="description"
-                        name="description"
-                        value={propertyData.description}
-                        onChange={handleChange}
+                        {/* Mô tả */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="description">Mô tả:</label>
+                            <textarea
+                                className={`form-control ${errors.description ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
+                                id="description"
+                                name="description"
+                                value={propertyData.description}
+                                onChange={handleChange}
 
-                    ></textarea>
-                    {errors.description && <div className="invalid-feedback">{errors.description}</div>}
-                </div>
+                            ></textarea>
+                            {errors.description && <div className="invalid-feedback">{errors.description}</div>}
+                        </div>
 
                 {/* Giá mỗi đêm */}
                 <div className="form-group mb-3">
                     <label htmlFor="pricePerNight">Giá mỗi đêm:</label>
                     <input
                         type="number"
-                        className="form-control"
+                        className={`form-control ${errors.pricePerNight ? 'is-invalid' : ''}`} // Hiển thị lỗi nếu có
                         id="pricePerNight"
                         name="pricePerNight"
                         value={propertyData.pricePerNight}
                         onChange={handleChange}
                         required
                     />
-                </div>
-
-                {/* Trạng thái */}
-                <div className="form-group mb-3">
-                    <input
-                        type="hidden"
-                        className="form-control"
-                        id="status"
-                        name="status"
-                        value={propertyData.status}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                {/* Upload file ảnh */}
-                <div className="form-group mb-3">
-                    <label htmlFor="imageUpload">Chọn ảnh để tải lên:</label>
-                    <input
-                        type="file"
-                        className="form-control"
-                        id="imageUpload"
-                        accept="image/png, image/jpeg"
-                        multiple
-                        onChange={handleFileChange}
-                    />
-                    <button
-                        type="button"
-                        className="btn btn-primary mt-2"
-                        onClick={handleUploadImage}
-                        disabled={isUploading}
-                    >
-                        {isUploading ? "Uploading..." : "Upload Images"}
-                    </button>
-                </div>
-
-                {/* Hiển thị các ảnh đã thêm */}
-                <div className="mb-3">
-                    <label>Các ảnh đã thêm:</label>
-                    <ul className="list-unstyled">
-                        {propertyData.imageUrls.map((url, index) => (
-                            <li key={index} className="mb-2">
-                                <img src={url} alt={`Uploaded ${index}`} width="100" className="img-thumbnail" />
-                            </li>
-                        ))}
-                    </ul>
-                    {errors.imageUrls && <div className="text-danger">{errors.imageUrls}</div>} {/* Hiển thị lỗi nếu có */}
+                    {errors.pricePerNight && <div className="invalid-feedback">{errors.pricePerNight}</div>}
 
                 </div>
 
-                {/* Nút submit */}
-                <button type="submit" className="btn btn-success">Thêm mới Property</button>
-            </form>
-        </div>) : (        <div className="container-fluid py-5 mb-5 hero-header">
+
+                        {/* Trạng thái */}
+                        <div className="form-group mb-3">
+                            <input
+                                type="hidden"
+                                className="form-control"
+                                id="status"
+                                name="status"
+                                value={propertyData.status}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        {/* Upload file ảnh */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="imageUpload">Chọn ảnh để tải lên:</label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="imageUpload"
+                                accept="image/png, image/jpeg"
+                                multiple
+                                onChange={handleFileChange}
+                            />
+                            <button
+                                type="button"
+                                className="btn btn-primary mt-2"
+                                onClick={handleUploadImage}
+                                disabled={isUploading}
+                            >
+                                {isUploading ? "Uploading..." : "Upload Images"}
+                            </button>
+                        </div>
+
+                        {/* Hiển thị các ảnh đã thêm */}
+                        <div className="mb-3">
+                            <label>Các ảnh đã thêm:</label>
+                            <ul className="list-unstyled">
+                                {propertyData.imageUrls.map((url, index) => (
+                                    <li key={index} className="mb-2">
+                                        <img src={url} alt={`Uploaded ${index}`} width="100" className="img-thumbnail" />
+                                    </li>
+                                ))}
+                            </ul>
+                            {errors.imageUrls && <div className="text-danger">{errors.imageUrls}</div>} {/* Hiển thị lỗi nếu có */}
+
+                        </div>
+
+                        {/* Nút submit */}
+                        <button type="submit" className="btn btn-success">Thêm mới Property</button>
+                    </form>
+                </div>) : (        <div className="container-fluid py-5 mb-5 hero-header">
                 <div className="container py-5">
                     <div className="row g-5 align-items-center">
 
-                <h1 className="text-center">Bạn không có quyền truy cập vào trang này!</h1>
+                        <h1 className="text-center">Bạn không có quyền truy cập vào trang này!</h1>
 
                     </div>
                 </div>

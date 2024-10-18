@@ -2,19 +2,55 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import HeroBanner from "../property/HeroBanner";
 import {useLocation} from "react-router-dom";
+import {useAuth} from "../auth/AuthContext";
+import {jwtDecode} from "jwt-decode";
+
 
 const ListMyHomestay = () => {
     const [properties, setProperties] = useState([]);
     const [error, setError] = useState('');
     const location = useLocation();
-    const hostName = location.state?.hostName||''; // Lấy hostName từ location.state
+    const { login } = useAuth();
+    // Function to get token from query string
+    const getQueryParams = (urlSearchParams) => {
+        const params = new URLSearchParams(urlSearchParams);
+        return params.get('token'); // Get token value
+    };
+    const tokenFromParams = getQueryParams(location.search);
+    console.log('tokenFromParams', tokenFromParams);
 
 
     useEffect(() => {
-        let jwtToken = localStorage.getItem("jwtToken");
+        const fetchUser = async () => {
+            if (tokenFromParams) {
+                const decoded = jwtDecode(tokenFromParams);
+                const username = decoded.sub;
+                try {
+                    const response = await axios.get(`http://localhost:8080/api/users/findByUsername?username=${username}`);
+                    console.log(response.data, 'response');
+                    const { roles, id } = response.data;
+                    const rolesArr = roles.map(role => role.name);
+                    // Gọi login để cập nhật context
+                    login(username, rolesArr, id, tokenFromParams);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            }
+        };
+        fetchUser();
+    }, []);
+
+
+    useEffect(() => {
+        let jwtToken = localStorage.getItem("jwtToken"); // Lấy token từ localStorage
+        if (!jwtToken) {
+            setError("JWT token is missing.");
+            console.error("JWT token is missing.");
+            return;
+        }
 
         // Gọi API để lấy danh sách tài sản của chủ nhà
-        axios.get('http://localhost:8080/api/host/listMyHomestay', {
+        axios.get(`http://localhost:8080/api/host/listMyHomestay`, {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`, // Gửi token ở đây
                 'Content-Type': 'application/json', // Thêm Content-Type nếu cần
@@ -31,7 +67,6 @@ const ListMyHomestay = () => {
     return (
         <div className="table-responsive">
             <HeroBanner></HeroBanner>
-            {hostName && <h2>Danh sách nhà của {hostName}</h2>} {/* Hiển thị tên chủ nhà */}
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                 <tr>
