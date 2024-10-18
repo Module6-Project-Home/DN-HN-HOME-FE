@@ -189,41 +189,41 @@ const PropertyList = () => {
                                             <input id={"address"} type="text" className="form-control mb-2" placeholder="Địa chỉ"
                                                    value={address} onChange={(e) => setAddress(e.target.value)}/>
                                         </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="propertyType" className="mr-2 mb-2 fw-bold">Loại Nhà: </label>
-                                            {/* Chọn Loại Nhà */}
-                                            <select
-                                                id={"propertyType"}
-                                                className="form-control mb-2"
-                                                value={propertyType}
-                                                onChange={(e) => setPropertyType(e.target.value)}
-                                            >
-                                                <option value="">-- Chọn loại nhà--</option>
-                                                {propertyTypes.map((type) => (
-                                                    <option key={type.id} value={type.id}>
-                                                        {type.name}
-                                                    </option>
-                                                ))}
+                                        {/*<div className="form-group mr-2 mb-3">*/}
+                                        {/*    <label htmlFor="propertyType" className="mr-2 mb-2 fw-bold">Loại Nhà: </label>*/}
+                                        {/*    /!* Chọn Loại Nhà *!/*/}
+                                        {/*    <select*/}
+                                        {/*        id={"propertyType"}*/}
+                                        {/*        className="form-control mb-2"*/}
+                                        {/*        value={propertyType}*/}
+                                        {/*        onChange={(e) => setPropertyType(e.target.value)}*/}
+                                        {/*    >*/}
+                                        {/*        <option value="">-- Chọn loại nhà--</option>*/}
+                                        {/*        {propertyTypes.map((type) => (*/}
+                                        {/*            <option key={type.id} value={type.id}>*/}
+                                        {/*                {type.name}*/}
+                                        {/*            </option>*/}
+                                        {/*        ))}*/}
 
-                                            </select>
-                                        </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="roomType" className="mr-2 mb-2 fw-bold">Loại Phòng: </label>
-                                            {/* Chọn Loại Phòng */}
-                                            <select
-                                                id={"roomType"}
-                                                className="form-control mb-2"
-                                                value={roomType}
-                                                onChange={(e) => setRoomType(e.target.value)}
-                                            >
-                                                <option value="">-- Chọn loại phòng --</option>
-                                                {roomTypes.map((type) => (
-                                                    <option key={type.id} value={type.id}>
-                                                        {type.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
+                                        {/*    </select>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="form-group mr-2 mb-3">*/}
+                                        {/*    <label htmlFor="roomType" className="mr-2 mb-2 fw-bold">Loại Phòng: </label>*/}
+                                        {/*    /!* Chọn Loại Phòng *!/*/}
+                                        {/*    <select*/}
+                                        {/*        id={"roomType"}*/}
+                                        {/*        className="form-control mb-2"*/}
+                                        {/*        value={roomType}*/}
+                                        {/*        onChange={(e) => setRoomType(e.target.value)}*/}
+                                        {/*    >*/}
+                                        {/*        <option value="">-- Chọn loại phòng --</option>*/}
+                                        {/*        {roomTypes.map((type) => (*/}
+                                        {/*            <option key={type.id} value={type.id}>*/}
+                                        {/*                {type.name}*/}
+                                        {/*            </option>*/}
+                                        {/*        ))}*/}
+                                        {/*    </select>*/}
+                                        {/*</div>*/}
                                         {/*<input type="text" className="form-control mb-2" placeholder="Loại nhà" value={propertyType} onChange={(e) => setPropertyType(e.target.value)} />*/}
                                         {/*<input type="text" className="form-control mb-2" placeholder="Loại phòng" value={roomType} onChange={(e) => setRoomType(e.target.value)} />*/}
                                         <div className="form-group mr-2 mb-3">
