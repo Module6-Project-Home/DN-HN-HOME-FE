@@ -135,7 +135,7 @@ const PropertyList = () => {
     };
 
     return (
-        <div className="container-fluid fruite py-5">
+        <div className=" fruite py-5">
             <HeroBanner />
             {/* Danh sách 5 property có lượt booking cao nhất */}
             <div className="container py-5">

@@ -2,22 +2,22 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div className="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
-            <div className="container py-5">
-                <div className="pb-4 mb-4" style={{borderBottom: '1px solid rgba(226, 175, 24, 0.5)'}}>
+        <div className="bg-dark text-white-50 footer pt-4 mt-5" >
+            <div className="container-fluid">
+            <div className="pb-4 mb-4" style={{ borderBottom: '1px solid rgba(226, 175, 24, 0.5)' }}>
                     <div className="row g-4 justify-content-between">
                         <div className="col-lg-3">
-                            <a className=" text-decoration-none" href="#">
+                            <a className="text-decoration-none" href="#">
                                 <h1 className="text-primary mb-0">3NKQ Homestay</h1>
                                 <p className="text-secondary mb-0">Ngôi nhà xinh đẹp</p>
                             </a>
                         </div>
                         <div className="col-lg-3">
                             <div className="d-flex justify-content-end pt-3">
-                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i className="fab fa-twitter"></i></a>
-                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i className="fab fa-facebook-f"></i></a>
-                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i className="fab fa-youtube"></i></a>
-                                <a className="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i className="fab fa-linkedin-in"></i></a>
+                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="#"><i className="fab fa-twitter"></i></a>
+                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="#"><i className="fab fa-facebook-f"></i></a>
+                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="#"><i className="fab fa-youtube"></i></a>
+                                <a className="btn btn-outline-secondary btn-md-square rounded-circle" href="#"><i className="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,8 @@ const Footer = () => {
                             <p>Email: 3Nqkhomestay@gmail.com</p>
                             <p>Phone: +0123 4567 8910</p>
                             <p>Thông tin thanh toán</p>
-                            <img src="/static/customer/img/payment.png" className="img-fluid" alt="Thông tin thanh toán" />
+                            <img src="https://dauthau.asia/uploads/page/vietqr-thanh-toan-dauthau.info.png" className="img-fluid" alt="Thông tin thanh toán"
+                                 style={{ maxWidth: '50px', height: 'auto' }} />
                         </div>
                     </div>
                 </div>

@@ -66,7 +66,7 @@ const App = () => {
                         <Route path="/booking/:id" element={<BookingForm />} />
 
                         <Route path="/user/history-booking" element={<UserBooking />} />
-                        <Route path="/register" element={<RegisterForm />} />
+
 
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                         <Route path="/success-page" element={<SuccessPage />} />
@@ -74,6 +74,7 @@ const App = () => {
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/user/view-profile" element={<ViewUserProfile />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
 
                     </Route>
 

@@ -4,8 +4,7 @@ import './HeroBanner.css';
 
 const HeroBanner = () => {
     return (
-        <div className="container-fluid py-5 mb-5 hero-header">
-            <div className="container py-5">
+        <div className="container py-5 mb-5 hero-header">
                 <div className="row g-5 align-items-center">
                     <div className="col-md-12 col-lg-7">
                         <h4 className="mb-3 text-secondary">3NKQ Homestay</h4>
@@ -56,7 +55,6 @@ const HeroBanner = () => {
                         </Carousel>
                     </div>
                 </div>
-            </div>
         </div>
     );
 };

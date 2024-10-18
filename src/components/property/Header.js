@@ -1,15 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../auth/AuthContext';
-import { Dropdown } from 'react-bootstrap';
-import { useEffect } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import {useAuth} from '../auth/AuthContext';
+import {Dropdown} from 'react-bootstrap';
+import {useEffect} from 'react';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HeroBanner.css'
 
 const Header = () => {
-    const { user, roles, logout, login } = useAuth();
+    const {user, roles, logout, login} = useAuth();
     const navigate = useNavigate();
 
     const handleUpgradeRequest = async () => {
@@ -22,7 +22,7 @@ const Header = () => {
         try {
             const token = localStorage.getItem('jwtToken');
             const response = await axios.put('http://localhost:8080/api/users/request-upgrade', null, {
-                params: { userId: user.id },
+                params: {userId: user.id},
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
@@ -103,10 +103,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="/admin/dashboard">Trang quản trị</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="/admin/property">Danh sách nhà cho thuê</Link>
-                    </li>
-                    <li>
-                        <hr className="dropdown-divider" />
+                        <hr className="dropdown-divider"/>
                     </li>
                     <li>
                         <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
@@ -160,7 +157,7 @@ const Header = () => {
                         </button>
                     </li>
                     <li>
-                        <hr className="dropdown-divider" />
+                        <hr className="dropdown-divider"/>
                     </li>
                     <li>
                         <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
@@ -171,13 +168,14 @@ const Header = () => {
     };
 
     return (
-        <div className="container-fluid fixed-top">
-            <div className="container px-0">
-                <nav className="navbar navbar-light bg-white navbar-expand-xl">
+        <div className="fixed-top">
+            <nav className="navbar navbar-light bg-white navbar-expand-xl">
+                <div className="container">
                     <Link to="/home" className="navbar-brand">
                         <h1 className="text-primary display-6">3NKQ Homestay</h1>
                     </Link>
-                    <button className="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <button className="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarCollapse">
                         <span className="fa fa-bars text-primary"></span>
                     </button>
                     <div className="collapse navbar-collapse bg-white" id="navbarCollapse">
@@ -191,14 +189,14 @@ const Header = () => {
                                 <Dropdown.Toggle id="dropdownMenuLink" variant="link" className="nav-link">
                                     <i className="fas fa-user fa-2x"></i>
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu align="end" style={{ minWidth: '300px' }}>
+                                <Dropdown.Menu align="end" style={{minWidth: '300px'}}>
                                     {renderDropdownMenu()}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
