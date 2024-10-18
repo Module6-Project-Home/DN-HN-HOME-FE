@@ -28,6 +28,7 @@ const AdminDashboard = () => {
                 const username = decoded.sub;
                 try {
                     const response = await axios.get(`http://localhost:8080/api/users/findByUsername?username=${username}`);
+
                     console.log(response.data, 'response');
                     const { roles, id } = response.data;
                     const rolesArr = roles.map(role => role.name);
