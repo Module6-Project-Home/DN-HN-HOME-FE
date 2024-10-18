@@ -28,6 +28,7 @@ import UserBooking from "./components/booking/UserBooking";
 import OwnerBookingHistory from "./components/host/OwnerBookingHistory";
 
 
+
 const MainLayout = () => (
     <>
         <Header />
@@ -89,6 +90,9 @@ const App = () => {
                     <Route element={<LoginLayout />}>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<RegisterForm />} />
+
+
+
                     </Route>
 
                     <Route element={<AdminLayout />}>

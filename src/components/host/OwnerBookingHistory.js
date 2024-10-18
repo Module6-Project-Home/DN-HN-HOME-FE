@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, Alert, Button, Pagination, Form, Card } from "react-bootstrap";
+import { Table, Alert, Button, Pagination, Form, Card, Modal } from "react-bootstrap";
 import { DatePicker, Badge } from "antd";
 import HeaderAdmin from "./layout/HeaderAdmin";
 import SidebarAdmin from "./layout/SidebarAdmin";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { RangePicker } = DatePicker;
 
@@ -11,13 +13,18 @@ const OwnerBookingHistory = () => {
     const [bookings, setBookings] = useState([]);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5); // Number of items per page
+    const [itemsPerPage] = useState(5);
     const [searchCriteria, setSearchCriteria] = useState({
         houseName: '',
         startDate: null,
         endDate: null,
         status: ''
     });
+
+    // State for confirmation modal
+    const [showModal, setShowModal] = useState(false);
+    const [selectedBookingId, setSelectedBookingId] = useState(null);
+    const [actionType, setActionType] = useState('');
 
     const fetchBookingHistory = async () => {
         let jwtToken = localStorage.getItem("jwtToken");
@@ -59,7 +66,6 @@ const OwnerBookingHistory = () => {
         setSearchCriteria({ ...searchCriteria, status: e.target.value });
     };
 
-    // Filter bookings based on search criteria
     const filteredBookings = bookings.filter((booking) => {
         const matchesHouseName = booking.propertyName.toLowerCase().includes(searchCriteria.houseName.toLowerCase());
         const matchesDateRange = (!searchCriteria.startDate || new Date(booking.checkInDate) >= new Date(searchCriteria.startDate)) &&
@@ -69,7 +75,6 @@ const OwnerBookingHistory = () => {
         return matchesHouseName && matchesDateRange && matchesStatus;
     });
 
-    // Calculate pagination data
     const indexOfLastBooking = currentPage * itemsPerPage;
     const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
     const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
@@ -85,6 +90,7 @@ const OwnerBookingHistory = () => {
                 }
             });
             fetchBookingHistory();
+            toast.success("Cho khách nhận phòng thành công!");
         } catch (error) {
             setError("Cannot check in");
             console.error(error);
@@ -101,16 +107,39 @@ const OwnerBookingHistory = () => {
                 }
             });
             fetchBookingHistory();
+            toast.success("Xác nhận khách trả phòng thành công!");
         } catch (error) {
             setError("Cannot check out");
             console.error(error);
         }
     };
 
-    // Count current bookings (active)
     const currentBookingCount = filteredBookings.filter(booking =>
         booking.bookingStatus === "Chờ nhận phòng" || booking.bookingStatus === "Đang ở"
     ).length;
+
+    const handleShowModal = (bookingId, action) => {
+        setSelectedBookingId(bookingId);
+        setActionType(action);
+        setShowModal(true);
+    };
+
+    const handleConfirm = () => {
+        if (actionType === 'checkIn') {
+            handleCheckIn(selectedBookingId);
+        } else if (actionType === 'checkOut') {
+            handleCheckOut(selectedBookingId);
+        }
+        setShowModal(false);
+        setSelectedBookingId(null);
+        setActionType('');
+    };
+
+    const handleCancel = () => {
+        setShowModal(false);
+        setSelectedBookingId(null);
+        setActionType('');
+    };
 
     if (error) {
         return <Alert variant="danger">{error}</Alert>;
@@ -195,45 +224,45 @@ const OwnerBookingHistory = () => {
                                             </td>
                                             <td className="flex justify-content-center">
                                                 {booking.bookingStatus === "Chờ nhận phòng" && (
-                                                    <Button variant="primary" className="me-2" onClick={() => handleCheckIn(booking.id)}>Nhận Phòng</Button>
+                                                    <Button variant="primary" className="me-2" onClick={() => handleShowModal(booking.id, 'checkIn')}>Nhận phòng</Button>
                                                 )}
                                                 {booking.bookingStatus === "Đang ở" && (
-                                                    <Button variant="success" onClick={() => handleCheckOut(booking.id)}>Trả Phòng</Button>
+                                                    <Button variant="success" onClick={() => handleShowModal(booking.id, 'checkOut')}>Trả phòng</Button>
                                                 )}
                                             </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="6" className="text-center">Không có đặt phòng nào</td>
+                                        <td colSpan="6" className="text-center">Không có đặt phòng nào.</td>
                                     </tr>
                                 )}
                                 </tbody>
                             </Table>
-
-                            {/* Pagination Controls */}
                             <Pagination>
-                                <Pagination.Prev
-                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                                    disabled={currentPage === 1}
-                                />
-                                {[...Array(totalPages).keys()].map((number) => (
-                                    <Pagination.Item
-                                        key={number + 1}
-                                        active={number + 1 === currentPage}
-                                        onClick={() => setCurrentPage(number + 1)}
-                                    >
-                                        {number + 1}
-                                    </Pagination.Item>
-                                ))}
-                                <Pagination.Next
-                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                                    disabled={currentPage === totalPages}
-                                />
+                                <Pagination.First onClick={() => setCurrentPage(1)} />
+                                <Pagination.Prev onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)} />
+                                <Pagination.Item>{currentPage}</Pagination.Item>
+                                <Pagination.Next onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)} />
+                                <Pagination.Last onClick={() => setCurrentPage(totalPages)} />
                             </Pagination>
                         </main>
                     </div>
                 </div>
+
+                {/* Confirmation Modal */}
+                <Modal show={showModal} onHide={handleCancel}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Xác Nhận Hành Động</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {actionType === 'checkIn' ? "Bạn có chắc chắn muốn cho khách nhận phòng này không?" : "Bạn có chắc chắn cho khách trả phòng này không?"}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCancel}>Hủy</Button>
+                        <Button variant="primary" onClick={handleConfirm}>Xác Nhận</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </div>
     );
