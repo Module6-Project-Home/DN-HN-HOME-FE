@@ -27,8 +27,12 @@ const PropertyDetail = () => {
     const [bookingStatusId] = useState(1);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const [rating, setRating] = useState(5); // Mặc định là 5 sao
+    const [rating, setRating] = useState(5);
     const [comment, setComment] = useState('');
+
+    const userId = Number(localStorage.getItem('userId'));
+    const [hiddenReviews, setHiddenReviews] = useState([]);
+
 
     useEffect(() => {
         fetchTotalBooking();
@@ -157,20 +161,77 @@ const PropertyDetail = () => {
     };
 
 
+    const handleHideReview = async (reviewId) => {
+        try {
+            const response = await axios.put(`http://localhost:8080/api/host/reviews/${reviewId}/hide`);
 
+            if (response.status === 200) {
+                setCurrentReviews(prevReviews => {
+                    const updatedReviews = prevReviews.map(review =>
+                        review.id === reviewId ? { ...review, isValid: false } : review
+                    );
+
+                    const validReviews = updatedReviews.filter(review => review.isValid);
+
+                    setTotalPages(Math.ceil(validReviews.length / itemsPerPage));
+
+                    if (validReviews.length < (currentPage - 1) * itemsPerPage) {
+                        setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
+                    }
+
+                    const start = (currentPage - 1) * itemsPerPage;
+                    return validReviews.slice(start, start + itemsPerPage);
+                });
+
+                await fetchProperty();
+
+                toast.success("Ẩn đánh giá thành công");
+            }
+        } catch (error) {
+            console.error("Error hiding review:", error);
+        }
+    };
+
+
+
+
+
+    const [currentReviews, setCurrentReviews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
-    const indexOfLastReview = currentPage * itemsPerPage;
-    const indexOfFirstReview = indexOfLastReview - itemsPerPage;
-    const currentReviews = property && property.reviews
-        ? property.reviews
-            .slice(indexOfFirstReview, indexOfLastReview)
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        : [];
-    const totalPages = property && property.reviews ? Math.ceil(property.reviews.length / itemsPerPage) : 0;
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [selectedReviewId, setSelectedReviewId] = useState(null);
+    const [totalPages, setTotalPages] = useState(0);
+
+    const requestHideReview = (reviewId) => {
+        setSelectedReviewId(reviewId);
+        setShowConfirmModal(true);
+    };
+
+
+
+    useEffect(() => {
+        if (property && property.reviews) {
+            const validReviews = property.reviews.filter(review => review.isValid);
+
+            const sortedReviews = validReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            const indexOfLastReview = currentPage * itemsPerPage;
+            const indexOfFirstReview = indexOfLastReview - itemsPerPage;
+
+            setCurrentReviews(sortedReviews.slice(indexOfFirstReview, indexOfLastReview));
+
+            setTotalPages(Math.ceil(validReviews.length / itemsPerPage));
+        }
+    }, [property, currentPage]);
+
+
+
+
 
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
+
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -191,21 +252,32 @@ const PropertyDetail = () => {
                 <div className="property-info">
                     <div className="property-images">
                         <img
-                            src={property.images[0].imageUrl}
+                            src={property.images && property.images.length > 0
+                                ? property.images[0].imageUrl
+                                : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-2.jpg?alt=media&token=5fbefe7b-8a85-488a-9f53-b6be11fcaece"}
                             alt={`Main image of ${property.name}`}
                             className="main-property-image"
                         />
                         <div className="small-property-images">
-                            {property.images.slice(1).map((url, index) => (
-                                <img
-                                    key={index}
-                                    src={url.imageUrl}
-                                    alt={`${property.name} image ${index + 2}`}
-                                    className="small-property-image"
-                                />
-                            ))}
+                            {property.images && property.images.length > 1
+                                ? property.images.slice(1).map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image.imageUrl}
+                                        alt={`${property.name} image ${index + 2}`}
+                                        className="small-property-image"
+                                    />
+                                ))
+                                : (
+                                    <img
+                                        src="https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-2.jpg?alt=media&token=5fbefe7b-8a85-488a-9f53-b6be11fcaece"
+                                        alt="Default small image"
+                                        className="small-property-image"
+                                    />
+                                )}
                         </div>
                     </div>
+
 
                     <div className="property-details">
                         <h4>{property.name}</h4>
@@ -245,7 +317,8 @@ const PropertyDetail = () => {
                         <DatePicker
                             selected={checkInDate}
                             onChange={date => {
-                                setCheckInDate(date);
+                                const adjustedDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+                                setCheckInDate(adjustedDate);
                                 if (checkOutDate) {
                                     setTotalPrice(calculateTotalPrice(date, checkOutDate, property.pricePerNight));
                                 }
@@ -260,7 +333,8 @@ const PropertyDetail = () => {
                         <DatePicker
                             selected={checkOutDate}
                             onChange={date => {
-                                setCheckOutDate(date);
+                                const adjustedDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+                                setCheckOutDate(adjustedDate);
                                 if (checkInDate) {
                                     setTotalPrice(calculateTotalPrice(checkInDate, date, property.pricePerNight));
                                 }
@@ -314,39 +388,52 @@ const PropertyDetail = () => {
                     <Modal.Title>{totalBooking ? totalBooking.total : 0} lượt đánh giá</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {currentReviews.length > 0 ?(
-                    currentReviews.map((review, index) => (
-                        <div key={index} className="review-item">
-                            <div className="d-flex align-items-center">
-                                <img
-                                    src={review.avatar}
-                                    alt="Avatar"
-                                    className="img-thumbnail me-2"
-                                />
-                                <p className="mb-0">{review.guest}</p>
-                            </div>
-                            <div className="d-flex align-items-center">
-                                <p className="mb-0 me-2">
-                                    <strong>Rating:</strong>
-                                </p>
-                                {[...Array(5)].map((_, starIndex) => (
-                                    <span
-                                        key={starIndex}
-                                        className={starIndex < review.rating ? 'text-warning' : 'text-secondary'}
-                                    >
-                            ★
-                        </span>
-                                ))}
-                                <p className="mb-0 ms-2">{review.createdAt}</p>
-                            </div>
-                            <p>{review.comment}</p>
-                        </div>
-                    ))) : (
-                        <p>Chưa có đánh giá nào!</p>
-                        )
-                    }
+                    {currentReviews.length > 0 ? (
+                        currentReviews.map((review) => (
+                            review.isValid && (
+                                <div key={review.id} className="review-item">
+                                    <div className="d-flex align-items-center">
+                                        <img
+                                            src={review.avatar}
+                                            alt="Avatar"
+                                            className="img-thumbnail me-2"
+                                        />
+                                        <p className="mb-0">{review.guest.username}</p>
+                                    </div>
+                                    <div className="d-flex align-items-center">
+                                        <p className="mb-0 me-2">
+                                            <strong>Rating:</strong>
+                                        </p>
+                                        {[...Array(5)].map((_, starIndex) => (
+                                            <span
+                                                key={starIndex}
+                                                className={starIndex < review.rating ? 'text-warning' : 'text-secondary'}
+                                            >
+                                    ★
+                                </span>
+                                        ))}
+                                        <p className="mb-0 ms-2">{new Date(review.createdAt).toLocaleDateString()}</p>
+                                    </div>
 
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <p className="mb-0">{review.comment}</p>
+                                        {property && property.ownerId && Number(userId) === Number(property.ownerId) && (
+                                            <button
+                                                className="btn btn-danger ms-3"
+                                                onClick={() => requestHideReview(review.id)}
+                                            >
+                                                Ẩn
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            )
+                        ))
+                    ) : (
+                        <p>Chưa có đánh giá nào!</p>
+                    )}
                 </Modal.Body>
+
                 <Modal.Footer className="d-flex justify-content-between align-items-center">
                     <div className="pagination d-flex justify-content-center align-items-center w-100">
                         <Button
@@ -373,6 +460,27 @@ const PropertyDetail = () => {
                         Đóng
                     </Button>
                 </Modal.Footer>
+
+                {/* Modal Xác Nhận */}
+                <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} className="custom-modal">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Xác nhận</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Bạn có chắc chắn muốn ẩn đánh giá này không?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
+                            Hủy
+                        </Button>
+                        <Button variant="danger" onClick={() => {
+                            handleHideReview(selectedReviewId);
+                            setShowConfirmModal(false);
+                        }}>
+                            Xác nhận
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Modal>
 
 
