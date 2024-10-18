@@ -85,7 +85,9 @@ const PropertyDetail = () => {
 
         if (!token) {
             toast.success('Bạn cần đăng nhập để đặt phòng. Vui lòng đăng ký tài khoản.');
-            navigate('/login'); // Điều hướng đến trang đăng nhập
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
             return;
         }
 
@@ -109,7 +111,7 @@ const PropertyDetail = () => {
             toast.success(`Đặt phòng thành công! Bạn đã đặt ${totalDays} ngày, tổng tiền của bạn là ${totalPrice.toLocaleString()} VND`);
             setTimeout(() => {
                 navigate('/user/history-booking');
-            }, 5000);
+            }, 3000);
         } catch (error) {
             console.error('Error creating booking:', error);
             if (error.response && error.response.data) {
