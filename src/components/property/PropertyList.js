@@ -189,41 +189,41 @@ const PropertyList = () => {
                                             <input id={"address"} type="text" className="form-control mb-2" placeholder="Địa chỉ"
                                                    value={address} onChange={(e) => setAddress(e.target.value)}/>
                                         </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="propertyType" className="mr-2 mb-2 fw-bold">Loại Nhà: </label>
-                                            {/* Chọn Loại Nhà */}
-                                            <select
-                                                id={"propertyType"}
-                                                className="form-control mb-2"
-                                                value={propertyType}
-                                                onChange={(e) => setPropertyType(e.target.value)}
-                                            >
-                                                <option value="">-- Chọn loại nhà--</option>
-                                                {propertyTypes.map((type) => (
-                                                    <option key={type.id} value={type.id}>
-                                                        {type.name}
-                                                    </option>
-                                                ))}
+                                        {/*<div className="form-group mr-2 mb-3">*/}
+                                        {/*    <label htmlFor="propertyType" className="mr-2 mb-2 fw-bold">Loại Nhà: </label>*/}
+                                        {/*    /!* Chọn Loại Nhà *!/*/}
+                                        {/*    <select*/}
+                                        {/*        id={"propertyType"}*/}
+                                        {/*        className="form-control mb-2"*/}
+                                        {/*        value={propertyType}*/}
+                                        {/*        onChange={(e) => setPropertyType(e.target.value)}*/}
+                                        {/*    >*/}
+                                        {/*        <option value="">-- Chọn loại nhà--</option>*/}
+                                        {/*        {propertyTypes.map((type) => (*/}
+                                        {/*            <option key={type.id} value={type.id}>*/}
+                                        {/*                {type.name}*/}
+                                        {/*            </option>*/}
+                                        {/*        ))}*/}
 
-                                            </select>
-                                        </div>
-                                        <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="roomType" className="mr-2 mb-2 fw-bold">Loại Phòng: </label>
-                                            {/* Chọn Loại Phòng */}
-                                            <select
-                                                id={"roomType"}
-                                                className="form-control mb-2"
-                                                value={roomType}
-                                                onChange={(e) => setRoomType(e.target.value)}
-                                            >
-                                                <option value="">-- Chọn loại phòng --</option>
-                                                {roomTypes.map((type) => (
-                                                    <option key={type.id} value={type.id}>
-                                                        {type.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
+                                        {/*    </select>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="form-group mr-2 mb-3">*/}
+                                        {/*    <label htmlFor="roomType" className="mr-2 mb-2 fw-bold">Loại Phòng: </label>*/}
+                                        {/*    /!* Chọn Loại Phòng *!/*/}
+                                        {/*    <select*/}
+                                        {/*        id={"roomType"}*/}
+                                        {/*        className="form-control mb-2"*/}
+                                        {/*        value={roomType}*/}
+                                        {/*        onChange={(e) => setRoomType(e.target.value)}*/}
+                                        {/*    >*/}
+                                        {/*        <option value="">-- Chọn loại phòng --</option>*/}
+                                        {/*        {roomTypes.map((type) => (*/}
+                                        {/*            <option key={type.id} value={type.id}>*/}
+                                        {/*                {type.name}*/}
+                                        {/*            </option>*/}
+                                        {/*        ))}*/}
+                                        {/*    </select>*/}
+                                        {/*</div>*/}
                                         {/*<input type="text" className="form-control mb-2" placeholder="Loại nhà" value={propertyType} onChange={(e) => setPropertyType(e.target.value)} />*/}
                                         {/*<input type="text" className="form-control mb-2" placeholder="Loại phòng" value={roomType} onChange={(e) => setRoomType(e.target.value)} />*/}
                                         <div className="form-group mr-2 mb-3">
@@ -282,13 +282,14 @@ const PropertyList = () => {
                                                                     height: '200px',
                                                                     objectFit: 'cover'
                                                                 }}
-                                                                src={property.imageUrls && property.imageUrls.length > 0
-                                                                    ? property.imageUrls[0]
-                                                                    : "https://via.placeholder.com/200"}
+                                                                src={
+                                                                    property.imageUrls.length > 0
+                                                                        ? property.imageUrls[0]
+                                                                        : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-2.jpg?alt=media&token=5fbefe7b-8a85-488a-9f53-b6be11fcaece"
+                                                                }
                                                                 alt="Property Image"
                                                                 className="img-fluid w-100 rounded-top"
                                                             />
-
                                                         </Link>
                                                     </div>
                                                     <div
