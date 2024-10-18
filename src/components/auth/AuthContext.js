@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
         setRoles([]);
         setToken(null);
 
+
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('username');
         localStorage.removeItem('userId');
@@ -57,6 +58,8 @@ export const AuthProvider = ({ children }) => {
             setRoles(JSON.parse(storedRoles));
         }
     }, []);
+
+
 
     return (
         <AuthContext.Provider value={{ user, roles, token, login, logout }}>
