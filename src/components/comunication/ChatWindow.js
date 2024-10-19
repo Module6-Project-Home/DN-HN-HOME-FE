@@ -3,7 +3,7 @@ import axios from 'axios';
 import './ChatWindow.css';
 
 const ChatWindow = ({ onClose}) => {
-    const [chatRoomId, setChatRoomId] = useState(null);
+    const [chatRoomId, setChatRoomId] = useState(localStorage.getItem('chatRoomId') || null);
     const [message, setMessage] = useState([]);
     const token = localStorage.getItem('jwtToken');
     const userId = localStorage.getItem('userId');
@@ -14,26 +14,35 @@ const ChatWindow = ({ onClose}) => {
 
     useEffect(() => {
         console.log('propertyId:', propertyId);
+        console.log('Chat Room ID 1:', chatRoomId);
+
         const openChatRoom = async () => {
+            console.log("open chat");
             try {
-                // Gọi API để mở hoặc lấy ChatRoom
                 const response = await axios.post('http://localhost:8080/api/chat/openChatRoom', null, {
                     params: { propertyId },
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                setChatRoomId(response.data.id);  // Lưu chatRoomId vào state
-                localStorage.setItem('chatRoomId', response.data.id);
+                // In toàn bộ response để kiểm tra cấu trúc
+                console.log('API response:', response.data);
+                console.log(response.data.chatRoom.id);
 
-                await fetchChatHistory(response.data.id);
+                const chatRoomIdFromApi = response.data.chatRoom.id;
+                setChatRoomId(chatRoomIdFromApi);  // Lưu chatRoomId vào state
+                localStorage.setItem('chatRoomId', chatRoomIdFromApi);  // Lưu chatRoomId vào localStorage
+                console.log('Chat Room ID:', chatRoomIdFromApi);
+
+                // Lấy danh sách tin nhắn từ phản hồi
+                const chatMessages = response.data.chatMessages; // Giả sử API trả về danh sách tin nhắn
+                setMessage(chatMessages); // Cập nhật state với danh sách tin nhắn
             } catch (error) {
                 console.error('Error opening chat room:', error);
             }
         };
-
         openChatRoom();
-    }, [propertyId]);
+    }, [propertyId, chatRoomId, token]);
 
     const fetchChatHistory = async (chatRoomId) => {
         try {
@@ -50,11 +59,12 @@ const ChatWindow = ({ onClose}) => {
     };
 
     const handleSendMessage = async () => {
-        if (inputMessage.trim() !== '') {
+        const storedChatRoomId = localStorage.getItem('chatRoomId');
+        if (inputMessage.trim() !== '' && storedChatRoomId) {
             const newMessage = {
                 content: inputMessage,
                 senderId: userId,  // Lấy từ thông tin đăng nhập
-                chatRoomId,  // Gửi kèm ID của ChatRoom
+                chatRoomId: storedChatRoomId,
             };
 
             try {
@@ -97,7 +107,9 @@ const ChatWindow = ({ onClose}) => {
                     <div
                         key={index} className={`chat-message ${message.sender === 'user' ? 'user' : 'other'}`}
                     >
-                        {message.text}
+                        <strong>{message.sender?.username}: </strong>
+                        <span>{message.content}</span>
+                        <small> ({new Date(message.sentAt).toLocaleTimeString()})</small>
                     </div>
                 ))}
             </div>
