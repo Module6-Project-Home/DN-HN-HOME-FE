@@ -28,6 +28,7 @@ const AdminDashboard = () => {
                 const username = decoded.sub;
                 try {
                     const response = await axios.get(`http://localhost:8080/api/users/findByUsername?username=${username}`);
+
                     console.log(response.data, 'response');
                     const { roles, id } = response.data;
                     const rolesArr = roles.map(role => role.name);
@@ -51,7 +52,7 @@ const AdminDashboard = () => {
                         <Col sm={3}>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="userTable">Người dùng</Nav.Link>
+                                    <Nav.Link  eventKey="userTable">Người dùng</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link eventKey="hostTable">Chủ nhà</Nav.Link>

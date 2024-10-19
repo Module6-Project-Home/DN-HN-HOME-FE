@@ -12,9 +12,9 @@ const PrivateRoute = ({ element, requiredRole }) => {
             setMessage('Bạn cần đăng nhập để truy cập trang này.');
             localStorage.setItem('authMessage', 'Bạn cần đăng nhập để truy cập trang này.');
             setIsAuthorized(false);
-        } else if (!roles.includes(requiredRole)) {
-            setMessage('Bạn không có quyền truy cập trang này, cần phải đăng nhập đúng quyền.');
-            localStorage.setItem('authMessage', 'Bạn không có quyền truy cập trang này, cần phải đăng nhập đúng quyền.');
+        } else if (requiredRole && !roles.includes(requiredRole)) {
+            setMessage('Bạn không có quyền truy cập trang này.');
+            localStorage.setItem('authMessage', 'Bạn không có quyền truy cập trang này.');
             setIsAuthorized(false);
         }
     }, [token, roles, requiredRole]);

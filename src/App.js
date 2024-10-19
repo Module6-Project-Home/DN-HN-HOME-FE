@@ -25,6 +25,7 @@ import UserBooking from "./components/booking/UserBooking";
 import OwnerBookingHistory from "./components/host/OwnerBookingHistory";
 import HostChatWindow from "./components/comunication/HostChatWindow";
 
+
 const MainLayout = () => (
     <>
         <Header />
@@ -63,10 +64,14 @@ const App = () => {
 
                         <Route path="/user/history-booking" element={<UserBooking />} />
                         <Route path="/register" element={<RegisterForm />} />
+
+                        <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                         <Route path="/success-page" element={<SuccessPage />} />
                         <Route path="/profile-update" element={<UpdateUserProfile />} />
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/user/view-profile" element={<ViewUserProfile />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
                     </Route>
 
                     {/* Các route dùng HostLayout */}
@@ -83,6 +88,9 @@ const App = () => {
                     <Route element={<LoginLayout />}>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<RegisterForm />} />
+
+
+
                     </Route>
 
                     <Route element={<AdminLayout />}>
@@ -90,6 +98,8 @@ const App = () => {
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     </Route>
+
+
 
 
 

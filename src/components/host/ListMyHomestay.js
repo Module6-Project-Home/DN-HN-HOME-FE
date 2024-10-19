@@ -10,8 +10,6 @@ const ListMyHomestay = () => {
     const [properties, setProperties] = useState([]);
     const [error, setError] = useState('');
     const location = useLocation();
-    const hostName = location.state?.hostName||''; // Lấy hostName từ location.state
-
     const { login } = useAuth();
     // Function to get token from query string
     const getQueryParams = (urlSearchParams) => {
@@ -44,10 +42,15 @@ const ListMyHomestay = () => {
 
 
     useEffect(() => {
-        let jwtToken = localStorage.getItem("jwtToken");
+        let jwtToken = localStorage.getItem("jwtToken"); // Lấy token từ localStorage
+        if (!jwtToken) {
+            setError("JWT token is missing.");
+            console.error("JWT token is missing.");
+            return;
+        }
 
         // Gọi API để lấy danh sách tài sản của chủ nhà
-        axios.get('http://localhost:8080/api/host/listMyHomestay', {
+        axios.get(`http://localhost:8080/api/host/listMyHomestay`, {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`, // Gửi token ở đây
                 'Content-Type': 'application/json', // Thêm Content-Type nếu cần
@@ -64,7 +67,6 @@ const ListMyHomestay = () => {
     return (
         <div className="table-responsive">
             <HeroBanner></HeroBanner>
-            {hostName && <h2>Danh sách nhà của {hostName}</h2>} {/* Hiển thị tên chủ nhà */}
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                 <tr>

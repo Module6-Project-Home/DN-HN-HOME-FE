@@ -59,14 +59,21 @@ const Header = () => {
                     'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
                 }
             });
-            logout();
+
+            // Hiển thị thông báo trước khi logout
             toast.success('Đăng xuất thành công!');
-            navigate('/login');
+
+            // Đảm bảo chờ một chút trước khi điều hướng để Toastify hiển thị
+            setTimeout(() => {
+                logout();
+                navigate('/login');
+            }, 1500); // Chờ 1 giây trước khi điều hướng
         } catch (error) {
             console.error('Logout failed', error);
             toast.error('Đăng xuất không thành công.');
         }
     };
+
 
     const renderDropdownMenu = () => {
         if (!user) {

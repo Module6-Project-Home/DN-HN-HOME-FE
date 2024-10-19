@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import ReactPaginate from 'react-paginate';
-// import {Button, Modal} from "react-bootstrap";
-import {Button, Modal, Pagination} from "antd";
+import {Button, Modal} from "antd";
 import {ExclamationCircleOutlined, InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
 import ReactPaginate from "react-paginate";
-import PropertyCount from "../host/PropertyCount";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -38,10 +35,6 @@ const  HostTable = () => {
             setLoading(false);
         }
     };
-
-
-
-
 
     const showConfirmLock = (userId) => {
         confirm({
@@ -101,8 +94,12 @@ const  HostTable = () => {
         fetchUsers(page);
     }, [page]);
 
+
+
+
     const token = localStorage.getItem('jwtToken');
     const navigate = useNavigate();
+
 
     return (
         <div>
@@ -125,17 +122,17 @@ const  HostTable = () => {
                         <tr key={user.userId}>
                             <td>{user.fullName}
                                 <Button color="default" variant="text" style={{marginLeft: '10px'}}
-                                        onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined />}>
+                                        onClick={() => handleInfoClick(user)} icon={<InfoCircleOutlined/>}>
                                 </Button>
                             </td>
                             <td>{user.phoneNumber}</td>
-                            <td>{user.totalRevenue ? user.totalRevenue.toLocaleString() : '0'} VND</td>
-                            <td><PropertyCount ownerId={user.userId} token={token}/></td>
-                            <td>{user.status === 'ACTIVE'?'Đang hoạt động':'Khoá'}</td>
+                            <td>{user.totalRevenue !== null && user.totalRevenue !== undefined ? user.totalRevenue : 'Chưa có doanh thu'}</td>
+                            <td>{user.propertyCount !==null && user.propertyCount !== undefined ? user.propertyCount : 'Chưa có tài sản'}</td>
+                            <td>{user.status === 'ACTIVE' ? 'Đang hoạt động' : 'Khoá'}</td>
                             <td>
 
                                 {user.status === 'ACTIVE' ? (
-                                    <Button type="primary" icon={<LockOutlined />} style={{ backgroundColor: 'indianred' }}
+                                    <Button type="primary" icon={<LockOutlined/>} style={{backgroundColor: 'indianred'}}
                                             onClick={() => showConfirmLock(user.userId)}>Khoá</Button>
                                 ) : (
                                     <Button type="primary" icon={<UnlockOutlined/>}
@@ -149,7 +146,7 @@ const  HostTable = () => {
                 </table>
             )}
             <div>
-                <ReactPaginate
+            <ReactPaginate
                     previousLabel={'<'}
                     nextLabel={'>'}
                     breakLabel={'...'}
@@ -187,11 +184,9 @@ const  HostTable = () => {
                         <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
                         <p><strong>Địa chỉ:</strong> {selectedUser.address}</p>
                         <p><strong>Trạng thái:</strong> {selectedUser.status}</p>
-                        <p><strong>Tổng doanh thu:</strong> </p>
-                        {/*<p><strong>Danh sách nhà đang cho thuê:</strong> </p>*/}
-                    <Button type="primary" onClick={() => navigate('/host/listMyHome',{state:{hostName:selectedUser.fullName}})}>
-                        Danh sách nhà đang cho thuê
-                    </Button>
+                        <p><strong>Tổng doanh thu:</strong>{selectedUser.totalRevenue}</p>
+                        <Button type="primary">Xem danh sách</Button>
+
                 </div>
             )}
                 </Modal>
