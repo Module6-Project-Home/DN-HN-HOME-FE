@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
-import { Client } from '@stomp/stompjs'; // Sử dụng Client từ @stomp/stompjs
+import { Client } from '@stomp/stompjs';
+import {API_URL} from "../constants/constants"; // Sử dụng Client từ @stomp/stompjs
 
-const HostChatWindow = () => {
-    const { chatRoomId, propertyId } = useParams();
+const HostChatWindow = ({ onClose, chatRoomId}) => {
+    const {  propertyId } = useParams();
     const [messages, setMessages] = useState([]);  // Mảng lưu tin nhắn
     const [newMessage, setNewMessage] = useState('');  // Tin nhắn mới
     const token = localStorage.getItem('jwtToken');
     const userId = localStorage.getItem('userId');
     let stompClient = null; // Khởi tạo WebSocket
+    const messagesEndRef = useRef(null);
 
     // Hàm kết nối tới WebSocket
     const connectWebSocket = () => {
-        const socket = new SockJS('http://localhost:8080/ws'); // URL kết nối
+        const socket = new SockJS(`${API_URL}/api/chat/chat-websocket?token=${token}`); // URL kết nối
         stompClient = new Client({
             webSocketFactory: () => socket,
             debug: (str) => console.log(str), // Debug nếu cần thiết
@@ -27,7 +29,7 @@ const HostChatWindow = () => {
     // Hàm xử lý khi kết nối WebSocket thành công
     const onConnected = () => {
         // Đăng ký kênh lắng nghe tin nhắn mới từ WebSocket
-        stompClient.subscribe(`/topic/notifications/${userId}`, onMessageReceived);
+        stompClient.subscribe(`/topic/chat/${chatRoomId}`, onMessageReceived);
     };
 
     // Hàm xử lý khi có lỗi kết nối
@@ -42,17 +44,19 @@ const HostChatWindow = () => {
     };
 
     useEffect(() => {
-        // Load lịch sử tin nhắn từ server khi component được render
         const fetchChatHistory = async () => {
             try {
-                const response = await axios.post('http://localhost:8080/api/chat/hostChatRoom', null, {
+                console.log("chatRoomId: ",chatRoomId);
+                const response = await axios.get(`${API_URL}/api/chat/hostChatRoom`, {
                     params: { chatRoomId },
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                if (response.data && Array.isArray(response.data.messages)) {
-                    setMessages(response.data.messages);  // Cập nhật tin nhắn cũ
+                console.log("response", response.data);
+                console.log(response.data.chatRoom.chatMessages);
+                if (response.data && Array.isArray(response.data.chatMessages)) {
+                    setMessages(response.data.chatMessages);  // Cập nhật tin nhắn cũ
                 }
             } catch (error) {
                 console.error("Lỗi khi lấy lịch sử phòng chat:", error);
@@ -74,7 +78,7 @@ const HostChatWindow = () => {
         if (newMessage.trim() === '') return;
 
         try {
-            const response = await axios.post('http://localhost:8080/api/chat/sendMessage', {
+            const response = await axios.post(`${API_URL}/api/chat/sendMessage`, {
                 senderId: userId,
                 chatRoomId: chatRoomId,
                 content: newMessage
@@ -92,31 +96,61 @@ const HostChatWindow = () => {
         }
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+            e.preventDefault();
+        }
+    };
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();  // Tự động cuộn khi mảng messages thay đổi
+    }, [messages]);
+
+    useEffect(() => {
+        scrollToBottom();  // Tự động cuộn khi cửa sổ chat được mở
+    }, []);
+
     return (
-        <div>
-            <h2>Phòng Chat {chatRoomId}</h2>
-            <Link className="text-decoration-none btn btn-primary" to="/host/dashboard">Quay lại</Link>
-            <div className="chat-messages">
+        <div className="chat-window mb-2">
+            <div className="chat-header">
+                <span>Phòng Chat {chatRoomId}</span>
+                <button className="btn btn-danger" onClick={onClose}>x</button>
+            </div>
+
+            {/*<Link className="text-decoration-none btn btn-primary" to="/host/dashboard">Quay lại</Link>*/}
+            <div className="chat-body" >
                 {Array.isArray(messages) && messages.length > 0 ? (
-                    messages.map((message, index) => (
+                    <>
+                    {messages.map((message, index) => (
                         <div key={index} className="chat-message">
                             <strong>{message.sender?.username}: </strong>
-                            <span>{message.content}</span>
-                            <small> ({new Date(message.sentAt).toLocaleTimeString()})</small>
+                            <span>{message.content || 'Không có nội dung'}</span>
+                            <small> ({message.sentAt ? new Date(message.sentAt).toLocaleTimeString() : 'Unknown time'})</small>
                         </div>
-                    ))
+                        ))}
+                        <div ref={messagesEndRef}/>
+                    </>
+
                 ) : (
                     <p>Không có tin nhắn nào.</p>
                 )}
             </div>
-            <div className="chat-input">
+            <div className="chat-footer">
                 <input
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Nhập tin nhắn..."
+                    onKeyPress={handleKeyPress}
                 />
-                <button onClick={sendMessage}>Gửi</button>
+                <button className="btn btn-primary" onClick={sendMessage}>Gửi</button>
             </div>
         </div>
     );

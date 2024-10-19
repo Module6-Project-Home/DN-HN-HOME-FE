@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import axios from 'axios';
 import './ChatWindow.css';
+import {API_URL} from "../constants/constants";
 
 const ChatWindow = ({ onClose}) => {
     const [chatRoomId, setChatRoomId] = useState(localStorage.getItem('chatRoomId') || null);
@@ -19,7 +20,7 @@ const ChatWindow = ({ onClose}) => {
         const openChatRoom = async () => {
             console.log("open chat");
             try {
-                const response = await axios.post('http://localhost:8080/api/chat/openChatRoom', null, {
+                const response = await axios.post(`${API_URL}/api/chat/openChatRoom`, null, {
                     params: { propertyId },
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -46,7 +47,7 @@ const ChatWindow = ({ onClose}) => {
 
     const fetchChatHistory = async (chatRoomId) => {
         try {
-            const response = await axios.get('http://localhost:8080/api/chat/history', {
+            const response = await axios.get(`${API_URL}/api/chat/history`, {
                 params: { chatRoomId },
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -69,7 +70,7 @@ const ChatWindow = ({ onClose}) => {
 
             try {
                 // Gửi tin nhắn đến backend để lưu
-                const response = await axios.post('http://localhost:8080/api/chat/sendMessage', newMessage, {
+                const response = await axios.post(`${API_URL}/api/chat/sendMessage`, newMessage, {
                     headers: {
                         Authorization: `Bearer ${token}` // Đảm bảo thêm token vào header
                     }
@@ -89,11 +90,19 @@ const ChatWindow = ({ onClose}) => {
         }
     };
 
-    useEffect(() => {
-        if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    const scrollToBottom = () => {
+        if (chatBodyRef.current) {
+            chatBodyRef.current.scrollIntoView({ behavior: 'smooth' });
         }
+    };
+
+    useEffect(() => {
+        scrollToBottom();  // Tự động cuộn khi mảng messages thay đổi
     }, [message]);
+
+    useEffect(() => {
+        scrollToBottom();  // Tự động cuộn khi cửa sổ chat được mở
+    }, []);
 
     return (
         <div className="chat-window mb-2">
@@ -102,16 +111,20 @@ const ChatWindow = ({ onClose}) => {
                 <button className="btn btn-danger" onClick={onClose}>x</button>
             </div>
 
-            <div className="chat-body" ref={chatBodyRef}>
-                {message.map((message, index) => (
-                    <div
-                        key={index} className={`chat-message ${message.sender === 'user' ? 'user' : 'other'}`}
-                    >
-                        <strong>{message.sender?.username}: </strong>
-                        <span>{message.content}</span>
-                        <small> ({new Date(message.sentAt).toLocaleTimeString()})</small>
-                    </div>
-                ))}
+            <div className="chat-body" >
+                <>
+                    {message.map((message, index) => (
+                        <div
+                            key={index} className={`chat-message ${message.sender === 'user' ? 'user' : 'other'}`}
+                        >
+                            <strong>{message.sender?.username}: </strong>
+                            <span>{message.content}</span>
+                            <small> ({new Date(message.sentAt).toLocaleTimeString()})</small>
+                        </div>
+                    ))}
+                    <div ref={chatBodyRef}/>
+                </>
+
             </div>
             <div ref={bottomRef}/>
 

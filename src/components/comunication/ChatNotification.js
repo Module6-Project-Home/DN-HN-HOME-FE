@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, Button} from 'react-bootstrap';
+import {Dropdown, Button} from 'react-bootstrap';
 import {Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import HostChatWindow from "./HostChatWindow";
 
 const ChatNotification = () => {
     const [chatRooms, setChatRooms] = useState([]);  // Danh sách phòng chat
     const [unreadMessages, setUnreadMessages] = useState({}); // Đếm số tin nhắn chưa đọc cho mỗi phòng
-    const [showModal, setShowModal] = useState(false); // Hiển thị modal danh sách chat
     const [hasNewMessage, setHasNewMessage] = useState(false); // Kiểm tra có tin nhắn mới
     const token = localStorage.getItem('jwtToken');
+    const [showChat, setShowChat] = useState(false);
+    const [selectedChatRoomId, setSelectedChatRoomId] = useState(null); // Lưu phòng chat được chọn
+    const [activeChatRoomId, setActiveChatRoomId] = useState(null);
 
     // Kết nối WebSocket khi component được render
     useEffect(() => {
@@ -63,48 +66,58 @@ const ChatNotification = () => {
         };
     }, []);
 
-    const handleShowModal = () => setShowModal(true);
+    const handleOpenChat = (roomId) => {
+        setActiveChatRoomId(roomId); // Cập nhật phòng chat đang hoạt động
+    };
 
-    const handleCloseModal = () => setShowModal(false);
+    const handleCloseChat = () => {
+        setActiveChatRoomId(null); // Đóng phòng chat
+    };
 
     return (
         <div>
-            {/* Nút tin nhắn */}
-            <Button variant="dark" onClick={handleShowModal}>
-                <i className="fas fa-envelope"></i> {/* Biểu tượng tin nhắn */}
-                {hasNewMessage && <span className="badge bg-danger">!</span>} {/* Hiển thị ! nếu có tin nhắn mới */}
-            </Button>
+            {/* Dropdown danh sách phòng chat */}
+            <Dropdown align="end">
+                <Dropdown.Toggle variant="dark" id="dropdown-chat-notifications">
+                    <i className="fas fa-envelope"></i>
+                    {hasNewMessage && <span className="badge bg-danger">!</span>} {/* Hiển thị ! nếu có tin nhắn mới */}
+                </Dropdown.Toggle>
 
-            {/* Modal danh sách phòng chat */}
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Danh sách phòng chat</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+                <Dropdown.Menu style={{ width: '300px' }}>
                     {chatRooms.length > 0 ? (
-                        <ul className="list-group">
-                            {chatRooms.map((room) => (
-                                <li key={room.chatRoom.id}
-                                    className="list-group-item d-flex justify-content-between align-items-center">
-                                    <Link className="text-decoration-none" to={`/host/chat-room/${room.chatRoom.id}`}>
+                        chatRooms.map((room) => (
+                            <div key={room.chatRoom.id} className="dropdown-item">
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <span style={{
+                                        display: 'inline-block',
+                                        maxWidth: '150px',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}>
                                         {room.chatRoom?.property?.name || "No Property"} - {room.chatRoom?.user?.username || "No User"}
-                                    </Link>
-                                    {unreadMessages[room.chatRoom.id] > 0 && (
-                                        <span className="badge bg-danger">{unreadMessages[room.chatRoom.id]}</span> // Hiển thị số tin nhắn chưa đọc
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
+                                        {unreadMessages[room.chatRoom.id] > 0 && (
+                                            <span className="badge bg-danger ms-2">{unreadMessages[room.chatRoom.id]}</span> // Hiển thị số tin nhắn chưa đọc
+                                        )}
+                                    </span>
+                                    <Button
+                                        className="btn btn-primary ms-2"
+                                        onClick={() => handleOpenChat(room.chatRoom.id)} // Mở chat window ngay tại chỗ
+                                    >
+                                        💬
+                                    </Button>
+                                </div>
+                            </div>
+                        ))
                     ) : (
-                        <p>Không có phòng chat nào</p>
+                        <Dropdown.Item disabled>Không có phòng chat nào</Dropdown.Item>
                     )}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Đóng
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                </Dropdown.Menu>
+            </Dropdown>
+
+            {activeChatRoomId && (
+                <HostChatWindow chatRoomId={activeChatRoomId} onClose={handleCloseChat} />
+            )}
         </div>
     );
 };
