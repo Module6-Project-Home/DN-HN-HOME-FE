@@ -237,21 +237,33 @@ const PropertyList = () => {
                                         {/*<input type="text" className="form-control mb-2" placeholder="Loại phòng" value={roomType} onChange={(e) => setRoomType(e.target.value)} />*/}
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="bedroom" className="mr-2 mb-2 fw-bold">Phòng Ngủ: </label>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng ngủ tối thiểu" value={minBedrooms}
-                                                   onChange={(e) => setMinBedrooms(e.target.value)}/>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng ngủ tối đa" value={maxBedrooms}
-                                                   onChange={(e) => setMaxBedrooms(e.target.value)}/>
+                                            <input
+                                                type="number"
+                                                className="form-control mb-2"
+                                                placeholder="Số phòng ngủ"
+                                                value={minBedrooms} // cả min và max đều dùng chung giá trị này
+                                                onChange={(e) => {
+                                                    const value = e.target.value;
+                                                    setMinBedrooms(value);
+                                                    setMaxBedrooms(value); // cập nhật cả maxBedrooms
+                                                }}
+                                            />
                                         </div>
+
+
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="bathroom" className="mr-2 mb-2 fw-bold">Phòng Tắm: </label>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng tắm tối thiểu" value={minBathrooms}
-                                                   onChange={(e) => setMinBathrooms(e.target.value)}/>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Số phòng tắm tối đa" value={maxBathrooms}
-                                                   onChange={(e) => setMaxBathrooms(e.target.value)}/>
+                                            <input
+                                                type="number"
+                                                className="form-control mb-2"
+                                                placeholder="Số phòng tắm"
+                                                value={minBathrooms} // cả min và max đều dùng chung giá trị này
+                                                onChange={(e) => {
+                                                    const value = e.target.value;
+                                                    setMinBathrooms(value);
+                                                    setMaxBathrooms(value); // cập nhật cả maxBathrooms
+                                                }}
+                                            />
                                         </div>
 
                                         <div className="form-group mr-2 mb-3">
@@ -276,15 +288,26 @@ const PropertyList = () => {
 
 
                                         <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="checkInDate" className="mr-2 mb-2 fw-bold">Khoảng thời
-                                                gian: </label>
-                                            <input type="date" className="form-control mb-2" placeholder="Ngày check-in"
-                                                   value={checkInDate}
-                                                   onChange={(e) => setCheckInDate(e.target.value)}/>
-                                            <input type="date" className="form-control mb-2"
-                                                   placeholder="Ngày check-out" value={checkOutDate}
-                                                   onChange={(e) => setCheckOutDate(e.target.value)}/>
+                                            <label htmlFor="dateRange" className="mr-2 mb-2 fw-bold">Chọn khoảng thời
+                                                gian:</label>
+                                            <div className="d-flex flex-column">
+                                                <label htmlFor="startDate" className="mb-1">Từ ngày:</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control mb-2"
+                                                    value={checkInDate}
+                                                    onChange={(e) => setCheckInDate(e.target.value)}
+                                                />
+                                                <label htmlFor="endDate" className="mb-1">Đến ngày:</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control mb-2"
+                                                    value={checkOutDate}
+                                                    onChange={(e) => setCheckOutDate(e.target.value)}
+                                                />
+                                            </div>
                                         </div>
+
                                         <button type="submit" className="btn btn-primary">Tìm kiếm</button>
                                     </form>
                                 </div>
