@@ -71,7 +71,7 @@ const HeaderAdmin = () => {
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             {/* Navbar Brand */}
-            <Link className="navbar-brand ps-3" to="/home">3NKQ Homestay</Link>
+            <Link className="navbar-brand ps-3" to="/home">Nhà Tốt</Link>
 
             {/* Sidebar Toggle */}
             <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
