@@ -204,3 +204,74 @@
 .star.filled {
     color: gold; /* Màu ngôi sao đã chọn */
 }
+
+/* Nút tròn liên hệ chủ nhà */
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.chat-button:hover {
+    background-color: #0056b3;
+}
+
+/* Cửa sổ chat */
+.chat-window {
+    position: fixed;
+    bottom: 80px; /* Cách nút chat một chút */
+    right: 20px;
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-body {
+    padding: 10px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-footer {
+    display: flex;
+    padding: 10px;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 5px;
+}
+
+.chat-footer button {
+    margin-left: 10px;
+}
+
+.chat-message.user {
+    text-align: right;
+}

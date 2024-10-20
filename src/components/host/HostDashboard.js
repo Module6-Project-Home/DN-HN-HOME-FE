@@ -4,7 +4,6 @@ import HeaderAdmin from "./layout/HeaderAdmin";
 import SidebarAdmin from "./layout/SidebarAdmin";
 import { Link } from "react-router-dom";
 
-
 import {useLocation} from "react-router-dom";
 import {useAuth} from "../auth/AuthContext";
 import {jwtDecode} from "jwt-decode";
@@ -19,13 +18,16 @@ const HostDashboard = () => {
     const [searchStatus, setSearchStatus] = useState(''); // Tìm kiếm theo trạng thái
     const location = useLocation();
     const { login } = useAuth();
+
     // Function to get token from query string
     const getQueryParams = (urlSearchParams) => {
         const params = new URLSearchParams(urlSearchParams);
         return params.get('token'); // Get token value
     };
+
     const tokenFromParams = getQueryParams(location.search);
     console.log('tokenFromParams', tokenFromParams);
+
     useEffect(() => {
         const fetchUser = async () => {
             if (tokenFromParams) {
@@ -45,7 +47,6 @@ const HostDashboard = () => {
         };
         fetchUser();
     }, []);
-
 
     useEffect(() => {
         const jwtToken = localStorage.getItem("jwtToken");
