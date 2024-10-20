@@ -165,7 +165,7 @@ const PropertyList = () => {
                                 </div>
                                 <div className="p-2 border border-secondary border-top-0 rounded-bottom">
                                     <h5 className="property-name">{property.name}</h5>
-                                    <h6 className="property-name">{property.address}</h6>
+                                    <h6 className="property-address">{property.address}</h6>
                                     <p className="text-muted">{property.pricePerNight.toLocaleString()} VNĐ/Đêm</p>
                                 </div>
                             </div>
@@ -313,21 +313,23 @@ const PropertyList = () => {
                                 </div>
                             </div>
 
-                            <div className="col-lg-9">
+                            <div className="col-lg-9 ">
                                 <div className="row g-4 justify-content-center">
                                     {properties.length === 0 ? (
                                         <p>Không có sản phẩm phù hợp</p>
                                     ) : (
                                         properties.map((property) => (
                                             <div className="col-md-6 col-lg-6 col-xl-4" key={property.id}>
-                                                <div className="rounded position-relative fruite-item">
-                                                    <div className="fruite-img">
+                                                <div className="rounded shadow position-relative property-item">
+                                                    <div className="property-img">
                                                         <Link to={`/property/detail/${property.id}`}>
                                                             <img
                                                                 style={{
                                                                     width: '100%',
-                                                                    height: '200px',
-                                                                    objectFit: 'cover'
+                                                                    height: '250px',
+                                                                    objectFit: 'cover',
+                                                                    borderTopLeftRadius: '0.375rem',
+                                                                    borderTopRightRadius: '0.375rem'
                                                                 }}
                                                                 src={
                                                                     property.imageUrls.length > 0
@@ -335,30 +337,24 @@ const PropertyList = () => {
                                                                         : "https://firebasestorage.googleapis.com/v0/b/home-dn.appspot.com/o/biet-thu-2.jpg?alt=media&token=5fbefe7b-8a85-488a-9f53-b6be11fcaece"
                                                                 }
                                                                 alt="Property Image"
-                                                                className="img-fluid w-100 rounded-top"
+                                                                className="img-fluid w-100"
                                                             />
                                                         </Link>
                                                     </div>
                                                     <div
                                                         className="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                        style={{top: '10px', left: '10px'}}>
+                                                        style={{ top: '10px', left: '10px', opacity: '0.8' }}>
                                                         {property.propertyType}
                                                     </div>
-                                                    <div
-                                                        className="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                    <div className="p-4 border border-secondary border-top-0 rounded-bottom bg-light">
                                                         <h5 className="property-name">{property.name}</h5>
-                                                        <h6 className="property-name">{property.address}</h6>
-                                                        <h6 className="property-name">{property.roomType}</h6>
-                                                        <h6 className="property-name">{property.bedrooms} Phòng Ngủ
-                                                            - {property.bathrooms} Phòng Tắm</h6>
+                                                        <h6 className="property-address">{property.address}</h6>
+                                                        <h6 className="property-room-type text-muted">{property.roomType}</h6>
+                                                        <h6 className="property-details text-muted">{property.bedrooms} Phòng Ngủ - {property.bathrooms} Phòng Tắm</h6>
                                                         <div className="d-flex justify-content-between flex-lg-wrap">
-                                                            <p className="text-dark fs-5 fw-bold mb-0">
+                                                            <p className="text-dark fs-5 fw-bold mb-0  property-price">
                                                                 {property.pricePerNight.toLocaleString()} VNĐ/Đêm
                                                             </p>
-                                                            <a href={`/bookings/create/${property.id}`}
-                                                               className="btn border border-secondary rounded-pill px-3 text-primary">
-                                                                Đặt phòng
-                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -367,14 +363,15 @@ const PropertyList = () => {
                                     )}
                                 </div>
 
+
                                 {/* Pagination */}
-                                <div className="col-12 d-flex justify-content-center">
-                                    <div className="pagination mt-5">
-                                        <ul className="pagination justify-content-center">
-                                            {/* Logic phân trang ở đây */}
-                                        </ul>
-                                    </div>
-                                </div>
+                                {/*<div className="col-12 d-flex justify-content-center">*/}
+                                {/*    <div className="pagination mt-5">*/}
+                                {/*        <ul className="pagination justify-content-center">*/}
+                                {/*            /!* Logic phân trang ở đây *!/*/}
+                                {/*        </ul>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </div>
                         </div>
                     </div>
