@@ -5,6 +5,7 @@ import './PropertyList.css'
 import {Link, useLocation} from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../auth/AuthContext";
+import { Slider } from '@mui/material';  // Import Slider từ Material-UI
 
 
 const PropertyList = () => {
@@ -14,6 +15,7 @@ const PropertyList = () => {
     // Tạo các state cho từng tham số tìm kiếm
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
+    const [priceRange, setPriceRange] = useState([0, 10000000]);
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [propertyType, setPropertyType] = useState('');
@@ -111,8 +113,8 @@ const PropertyList = () => {
                 params: {
                     name,
                     address,
-                    minPrice,
-                    maxPrice,
+                    minPrice: priceRange[0], // Sử dụng giá trị min từ thanh kéo
+                    maxPrice: priceRange[1], // Sử dụng giá trị max từ thanh kéo
                     propertyType,
                     roomType,
                     minBedrooms,
@@ -244,16 +246,31 @@ const PropertyList = () => {
                                                    placeholder="Số phòng tắm tối đa" value={maxBathrooms}
                                                    onChange={(e) => setMaxBathrooms(e.target.value)}/>
                                         </div>
+
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="price" className="mr-2 mb-2 fw-bold">Giá: </label>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Giá tối thiểu" value={minPrice}
-                                                   onChange={(e) => setMinPrice(e.target.value)}/>
-                                            <input type="number" className="form-control mb-2" placeholder="Giá tối đa"
-                                                   value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
+                                            {/* Thanh kéo cho giá */}
+                                            <Slider
+                                                value={priceRange}
+                                                onChange={(event, newValue) => setPriceRange(newValue)}
+                                                valueLabelDisplay="auto"
+                                                min={0}
+                                                max={10000000} // Giới hạn tối đa là 10 triệu VNĐ
+                                                step={100000}
+                                                marks={[
+                                                    {value: 0, label: '0 VNĐ'},
+                                                    {value: 5000000, label: '5 triệu VNĐ'},
+                                                    {value: 10000000, label: '10 triệu VNĐ'}
+                                                ]}
+                                            />
+                                            <p>Giá từ {priceRange[0].toLocaleString()} VNĐ
+                                                đến {priceRange[1].toLocaleString()} VNĐ</p>
                                         </div>
+
+
                                         <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="checkInDate" className="mr-2 mb-2 fw-bold">Khoảng thời gian: </label>
+                                            <label htmlFor="checkInDate" className="mr-2 mb-2 fw-bold">Khoảng thời
+                                                gian: </label>
                                             <input type="date" className="form-control mb-2" placeholder="Ngày check-in"
                                                    value={checkInDate}
                                                    onChange={(e) => setCheckInDate(e.target.value)}/>
