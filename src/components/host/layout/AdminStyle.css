@@ -13180,3 +13180,30 @@ body {
 .navbar-right {
     margin-right: 10%;
 }
+
+/* AdminStyle.css */
+
+.dropdown-menu {
+    max-height: 300px; /* Giới hạn chiều cao để tránh overflow */
+    overflow-y: auto;  /* Cuộn khi có nhiều thông báo */
+    border-radius: 8px; /* Bo tròn các góc */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho dropdown */
+}
+
+.dropdown-item {
+    padding: 10px 15px; /* Thêm khoảng cách cho các item */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(226, 175, 24, 0.1); /* Màu nền khi hover */
+}
+
+.notification-read {
+    background-color: white; /* Nền cho thông báo đã đọc */
+}
+
+.notification-unread {
+    background-color: rgba(255, 255, 0, 0.4); /* Nền cho thông báo chưa đọc */
+    font-weight: bold; /* Làm nổi bật thông báo chưa đọc */
+}
