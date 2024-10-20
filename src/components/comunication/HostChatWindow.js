@@ -1,77 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
-import SockJS from 'sockjs-client';
-import { Client } from '@stomp/stompjs';
+import {useParams} from 'react-router-dom';
 import {API_URL} from "../constants/constants"; // Sử dụng Client từ @stomp/stompjs
 
-const HostChatWindow = ({ onClose, chatRoomId}) => {
-    const {  propertyId } = useParams();
+const HostChatWindow = ({onClose, chatRoomId}) => {
+    const {propertyId} = useParams();
     const [messages, setMessages] = useState([]);  // Mảng lưu tin nhắn
     const [newMessage, setNewMessage] = useState('');  // Tin nhắn mới
     const token = localStorage.getItem('jwtToken');
     const userId = localStorage.getItem('userId');
-    let stompClient = null; // Khởi tạo WebSocket
     const messagesEndRef = useRef(null);
 
-    // Hàm kết nối tới WebSocket
-    const connectWebSocket = () => {
-        const socket = new SockJS(`${API_URL}/api/chat/chat-websocket?token=${token}`); // URL kết nối
-        stompClient = new Client({
-            webSocketFactory: () => socket,
-            debug: (str) => console.log(str), // Debug nếu cần thiết
-            onConnect: onConnected,
-            onStompError: onError,
-        });
-        stompClient.activate(); // Kích hoạt kết nối WebSocket
-    };
-
-    // Hàm xử lý khi kết nối WebSocket thành công
-    const onConnected = () => {
-        // Đăng ký kênh lắng nghe tin nhắn mới từ WebSocket
-        stompClient.subscribe(`/topic/chat/${chatRoomId}`, onMessageReceived);
-    };
-
-    // Hàm xử lý khi có lỗi kết nối
-    const onError = (err) => {
-        console.error("Lỗi kết nối WebSocket:", err);
-    };
-
-    // Hàm xử lý khi nhận tin nhắn mới qua WebSocket
-    const onMessageReceived = (payload) => {
-        const newMessage = JSON.parse(payload.body);  // Parse dữ liệu từ payload
-        setMessages((prevMessages) => [...prevMessages, newMessage]);  // Cập nhật tin nhắn vào state
+    const fetchChatHistory = async () => {
+        try {
+            console.log("chatRoomId: ", chatRoomId);
+            const response = await axios.get(`${API_URL}/api/chat/hostChatRoom`, {
+                params: {chatRoomId},
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log("response", response.data);
+            if (response.data && Array.isArray(response.data.chatMessages)) {
+                setMessages(response.data.chatMessages);  // Cập nhật tin nhắn cũ
+            }
+        } catch (error) {
+            console.error("Lỗi khi lấy lịch sử phòng chat:", error);
+        }
     };
 
     useEffect(() => {
-        const fetchChatHistory = async () => {
-            try {
-                console.log("chatRoomId: ",chatRoomId);
-                const response = await axios.get(`${API_URL}/api/chat/hostChatRoom`, {
-                    params: { chatRoomId },
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                console.log("response", response.data);
-                console.log(response.data.chatRoom.chatMessages);
-                if (response.data && Array.isArray(response.data.chatMessages)) {
-                    setMessages(response.data.chatMessages);  // Cập nhật tin nhắn cũ
-                }
-            } catch (error) {
-                console.error("Lỗi khi lấy lịch sử phòng chat:", error);
-            }
-        };
-
         fetchChatHistory();
-        connectWebSocket();  // Kết nối WebSocket khi component được render
+        const intervalId = setInterval(() => {
+            fetchChatHistory();  // Tải lại tin nhắn sau mỗi 10 giây
+        }, 10000);
 
-        return () => {
-            if (stompClient !== null) {
-                stompClient.deactivate();  // Ngắt kết nối khi component bị hủy
-            }
-        };
-    }, [chatRoomId, propertyId]);
+        return () => clearInterval(intervalId);
+    }, [chatRoomId, token]);
 
     // Hàm gửi tin nhắn
     const sendMessage = async () => {
@@ -105,7 +70,7 @@ const HostChatWindow = ({ onClose, chatRoomId}) => {
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            messagesEndRef.current.scrollIntoView({behavior: 'smooth'});
         }
     };
 
@@ -125,15 +90,15 @@ const HostChatWindow = ({ onClose, chatRoomId}) => {
             </div>
 
             {/*<Link className="text-decoration-none btn btn-primary" to="/host/dashboard">Quay lại</Link>*/}
-            <div className="chat-body" >
+            <div className="chat-body">
                 {Array.isArray(messages) && messages.length > 0 ? (
                     <>
-                    {messages.map((message, index) => (
-                        <div key={index} className="chat-message">
-                            <strong>{message.sender?.username}: </strong>
-                            <span>{message.content || 'Không có nội dung'}</span>
-                            <small> ({message.sentAt ? new Date(message.sentAt).toLocaleTimeString() : 'Unknown time'})</small>
-                        </div>
+                        {messages.map((message, index) => (
+                            <div key={index} className="chat-message">
+                                <strong>{message.sender?.username}: </strong>
+                                <span>{message.content || 'Không có nội dung'}</span>
+                                <small> ({message.sentAt ? new Date(message.sentAt).toLocaleTimeString() : 'Unknown time'})</small>
+                            </div>
                         ))}
                         <div ref={messagesEndRef}/>
                     </>

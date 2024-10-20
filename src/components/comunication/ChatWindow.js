@@ -59,6 +59,16 @@ const ChatWindow = ({ onClose}) => {
         }
     };
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (chatRoomId) {
+                fetchChatHistory(chatRoomId);
+            }
+        }, 10000);
+
+        return () => clearInterval(intervalId);
+    }, [chatRoomId, token]);
+
     const handleSendMessage = async () => {
         const storedChatRoomId = localStorage.getItem('chatRoomId');
         if (inputMessage.trim() !== '' && storedChatRoomId) {
