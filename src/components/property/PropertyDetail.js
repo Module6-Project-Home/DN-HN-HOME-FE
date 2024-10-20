@@ -60,8 +60,16 @@ const PropertyDetail = () => {
     };
 
 
+    useEffect(() => {
+        if (checkInDate && checkOutDate && property && property.pricePerNight) {
+            const calculatedTotalPrice = calculateTotalPrice(checkInDate, checkOutDate, property.pricePerNight);
+            setTotalPrice(calculatedTotalPrice);
+        }
+    }, [checkInDate, checkOutDate, property]);
+
+
     const calculateTotalPrice = (checkInDate, checkOutDate, pricePerNight) => {
-        const totalDays = differenceInDays(checkOutDate, checkInDate);
+        const totalDays = differenceInDays(checkOutDate, checkInDate) ; // tính thêm 1 ngày để bao gồm ngày checkOut
         return totalDays * pricePerNight;
     };
 
