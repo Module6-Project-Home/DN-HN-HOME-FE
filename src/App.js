@@ -23,6 +23,10 @@ import AddNewProperty from "./components/host/AddProperty";
 import MonthlyRevenue from "./components/host/MonthlyRevenue";
 import UserBooking from "./components/booking/UserBooking";
 import OwnerBookingHistory from "./components/host/OwnerBookingHistory";
+import HostTable from "./components/admin/HostTable";
+import HostProperties from "./components/admin/HostProperties";
+import UserTable from "./components/admin/UserTable";
+
 import HostChatWindow from "./components/comunication/HostChatWindow";
 
 
@@ -95,9 +99,11 @@ const App = () => {
                     </Route>
 
                     <Route element={<AdminLayout />}>
+                        <Route path="admin/users" element={<UserTable/>}/>
+                        <Route path="admin/hosts" element={<HostTable />} />
+                        <Route path="/host-properties/:hostId" element={<HostProperties />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     </Route>
 
 

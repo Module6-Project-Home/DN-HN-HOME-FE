@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Button, Modal, Table, notification, Spin, Input} from 'antd';
+import {Button, Modal, Table, notification, Spin, Input, Tag} from 'antd';
 import ReactPaginate from 'react-paginate';
 import {ModalBody, ModalFooter, ModalHeader, ModalTitle} from "react-bootstrap";
 import {InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
@@ -142,162 +142,178 @@ const UserTable = () => {
 
     return (
         <div>
-            {loading ? (
-                <Spin size="large" tip="Loading..."/>
-            ) : (
-                <Table
-                    dataSource={users}
-                    rowKey="userId"
-                    pagination={false}
-                    columns={[
-                        {
-                            title: 'Họ & Tên',
-                            dataIndex: 'fullName',
-                            key: 'fullName',
-                            render: (text, user) => (
-                                <span>
+
+                    {loading ? (
+                        <Spin size="large" tip="Loading..."/>
+                    ) : (
+                        <Table
+                            dataSource={users}
+                            rowKey="userId"
+                            pagination={false}
+                            columns={[
+                                {
+                                    title: 'Họ & Tên',
+                                    dataIndex: 'fullName',
+                                    key: 'fullName',
+                                    render: (text, user) => (
+                                        <span>
                                     {text}{' '}
-                                    <Button
-                                        icon={<InfoCircleOutlined/>}
-                                        onClick={() => handleInfoClick(user)}
-                                        size="small"
+                                            <Button
+                                                icon={<InfoCircleOutlined />}
+                                                onClick={() => handleInfoClick(user)}
+                                                size="small"
+                                            />
+                                </span>
+                                    ),
+                                },
+                                {title: 'SĐT', dataIndex: 'phoneNumber', key: 'phoneNumber'},
+                                {
+                                    title: 'Trạng thái',
+                                    dataIndex: 'status',
+                                    key: 'status',
+                                    render: (status) => (
+                                        <span>
+                                {status === 'ACTIVE' ? (<Tag color="green">Đang hoạt động</Tag>) : (<Tag color="red">Đã khoá</Tag>)}
+                                </span>
+                                    ),
+                                },
+                                {
+                                    title: 'Hành động',
+                                    key: 'action',
+                                    render: (user) => (
+                                        <span>
+                                            {user.status === 'ACTIVE' ? (
+                                                <Button
+                                                    type="primary"
+                                                    icon={<LockOutlined/>}
+                                                    style={{backgroundColor: 'indianred'}}
+                                                    danger
+                                                    onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}
+                                                >
+                                                    Khoá
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    type="primary"
+                                                    icon={<UnlockOutlined/>}
+                                                    style={{backgroundColor: '#5b8c00'}}
+                                                    onClick={() => handleStatusChange(user.userId, 'ACTIVE')}
+                                                >
+                                                    Mở Khoá
+                                                </Button>
+                                            )}
+                                        </span>
+                                    ),
+                                },
+                                {
+                                    title: 'Nâng cấp',
+                                    render: (user) => (
+                                        <span>
+                                            {user.upgradeRequested ? (
+                                                <div>
+                                                    <Button
+                                                        type="dashed"
+                                                        onClick={() => openDecisionModal(user.userId, true)}
+                                                        style={{marginRight: 5,  backgroundColor:'#e6f7ff' }}
+                                                    >
+                                                        Duyệt
+                                                    </Button>
+                                                    <Button
+                                                        type="dashed"
+                                                        onClick={() => openDecisionModal(user.userId, false)}
+                                                    >
+                                                        Từ chối
+                                                    </Button>
+                                                </div>
+                                            ):(<span style={{fontStyle:"italic"}}>Không có yêu cầu</span>)}
+                                        </span>
+                                    ),
+                                }
+                            ]}
+                        />
+                    )}
+
+                                <ReactPaginate
+                                    previousLabel={'<'}
+                                    nextLabel={'>'}
+                                    breakLabel={'...'}
+                                    pageCount={pageCount}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={5}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={'pagination justify-content-center'}
+                                    pageClassName={'page-item'}
+                                    pageLinkClassName={'page-link'}
+                                    previousClassName={'page-item'}
+                                    previousLinkClassName={'page-link'}
+                                    nextClassName={'page-item'}
+                                    nextLinkClassName={'page-link'}
+                                    activeClassName={'active'}
+                        disabledClassName={'disabled'}
+                    />
+
+                    {/* Modal for user information */}
+                    <Modal
+                        title="Thông tin chi tiết"
+                        visible={showInfoModal}
+                        onCancel={() => setShowInfoModal(false)}
+                        footer={[
+                            <Button key="close" onClick={() => setShowInfoModal(false)}>
+                                Đóng
+                            </Button>
+                        ]}
+                    >
+                        {selectedUser && (
+                            <div>
+                                <div className="text-center">
+                                    <img
+                                        src={selectedUser.avatar}
+                                        alt="Avatar"
+                                        className="img-thumbnail"
+                                        style={{width: '150px', height: '150px'}}
                                     />
-                                </span>
-                            ),
-                        },
-                        {title: 'SĐT', dataIndex: 'phoneNumber', key: 'phoneNumber'},
-                        {
-                            title: 'Trạng thái',
-                            dataIndex: 'status',
-                            key: 'status',
-                            render: (status) => (
-                                <span>
-                                {status === 'ACTIVE' ? 'Đang hoạt động' : 'Đã khóa'}
-                                </span>
-                            ),
-                        },
-                        {
-                            title: 'Hành động',
-                            key: 'action',
-                            render: (user) => (
-                                <div>
-                                    {user.status === 'ACTIVE' ? (
-                                        <Button
-                                            type="primary"
-                                            icon={<LockOutlined/>}
-                                            danger
-                                            onClick={() => handleStatusChange(user.userId, 'SUSPENDED')}
-                                        >
-                                            Khoá
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            type="primary"
-                                            icon={<UnlockOutlined/>}
-                                            onClick={() => handleStatusChange(user.userId, 'ACTIVE')}
-                                        >
-                                            Mở Khoá
-                                        </Button>
-                                    )}
-                                    {user.upgradeRequested && (
-                                        <div style={{marginTop: 10}}>
-                                            <Button
-                                                type="primary"
-                                                onClick={() => openDecisionModal(user.userId, true)}
-                                                style={{marginRight: 5}}
-                                            >
-                                                Duyệt
-                                            </Button>
-                                            <Button
-                                                danger
-                                                onClick={() => openDecisionModal(user.userId, false)}
-                                            >
-                                                Từ chối
-                                            </Button>
-                                        </div>
-                                    )}
                                 </div>
-                            ),
-                        },
-                    ]}
-                />
-            )}
+                                <p><strong>Username:</strong> {selectedUser.username}</p>
+                                <p><strong>Họ và tên:</strong> {selectedUser.fullName}</p>
+                                <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
+                                <p><strong>Trạng
+                                    thái:</strong> {selectedUser.userStatus === 1 ? 'Đang hoạt động' : 'Khoá'}
+                                </p>
+                                <p><strong>Số tiền đã chi tiêu:</strong> {temp} VND</p>
+                                <Button type="primary"
+                                        onClick={() => handleViewHistory(selectedUser.id, selectedUser.fullName)}>Xem
+                                    Lịch
+                                    Sử
+                                    Thuê Nhà</Button>
+                            </div>
+                        )}
+                    </Modal>
 
-            <ReactPaginate
-                previousLabel={'<'}
-                nextLabel={'>'}
-                breakLabel={'...'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination justify-content-center'}
-                pageClassName={'page-item'}
-                pageLinkClassName={'page-link'}
-                previousClassName={'page-item'}
-                previousLinkClassName={'page-link'}
-                nextClassName={'page-item'}
-                nextLinkClassName={'page-link'}
-                activeClassName={'active'}
-                disabledClassName={'disabled'}
-            />
+                    {/* Modal for upgrade decision */}
+                    <Modal
+                        title="Xác nhận quyết định"
+                        visible={showDecisionModal}
+                        onCancel={() => setShowDecisionModal(false)}
+                        footer={[
+                            <Button key="back" onClick={() => setShowDecisionModal(false)}>
+                                Hủy
+                            </Button>,
+                            <Button key="submit" type="primary" onClick={handleUpgradeDecision}>
+                                {isApprove ? 'Duyệt' : 'Từ chối'}
+                            </Button>,
+                        ]}
+                    >
+                        <p>{isApprove ? 'Bạn có chắc chắn muốn duyệt yêu cầu này không?' : 'Bạn có chắc chắn muốn từ chối yêu cầu này không?'}</p>
+                        <Input
+                            placeholder="Lý do"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                        />
+                    </Modal>
 
-            {/* Modal for user information */}
-            <Modal
-                title="Thông tin chi tiết"
-                visible={showInfoModal}
-                onCancel={() => setShowInfoModal(false)}
-                footer={[
-                    <Button key="close" onClick={() => setShowInfoModal(false)}>
-                        Đóng
-                    </Button>
-                ]}
-            >
-                {selectedUser && (
-                    <div>
-                        <div className="text-center">
-                            <img
-                                src={selectedUser.avatar}
-                                alt="Avatar"
-                                className="img-thumbnail"
-                                style={{width: '150px', height: '150px'}}
-                            />
-                        </div>
-                        <p><strong>Username:</strong> {selectedUser.username}</p>
-                        <p><strong>Họ và tên:</strong> {selectedUser.fullName}</p>
-                        <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
-                        <p><strong>Trạng thái:</strong> {selectedUser.userStatus === 1 ? 'Đang hoạt động' : 'Khoá'}</p>
-                        <p><strong>Số tiền đã chi tiêu:</strong> {temp} VND</p>
-                        <Button type="primary"
-                                onClick={() => handleViewHistory(selectedUser.id, selectedUser.fullName)}>Xem Lịch Sử
-                            Thuê Nhà</Button>
-                    </div>
-                )}
-            </Modal>
 
-            {/* Modal for upgrade decision */}
-            <Modal
-                title="Xác nhận quyết định"
-                visible={showDecisionModal}
-                onCancel={() => setShowDecisionModal(false)}
-                footer={[
-                    <Button key="back" onClick={() => setShowDecisionModal(false)}>
-                        Hủy
-                    </Button>,
-                    <Button key="submit" type="primary" onClick={handleUpgradeDecision}>
-                        {isApprove ? 'Duyệt' : 'Từ chối'}
-                    </Button>,
-                ]}
-            >
-                <p>{isApprove ? 'Bạn có chắc chắn muốn duyệt yêu cầu này không?' : 'Bạn có chắc chắn muốn từ chối yêu cầu này không?'}</p>
-                <Input
-                    placeholder="Lý do"
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                />
-            </Modal>
-        </div>
-    );
-};
+            </div>
+            );
+            };
 
-export default UserTable;
+            export default UserTable;
