@@ -5,7 +5,8 @@ import { Dropdown } from 'react-bootstrap';
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../../auth/AuthContext";
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
+import 'react-toastify/dist/ReactToastify.css';
+import ChatNotification from "../../comunication/ChatNotification"; // Import CSS của react-toastify
 
 const HeaderAdmin = () => {
     const { logout } = useAuth();
@@ -70,7 +71,7 @@ const HeaderAdmin = () => {
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             {/* Navbar Brand */}
-            <Link className="navbar-brand ps-3" to="/home">3NKQ Homestay</Link>
+            <Link className="navbar-brand ps-3" to="/home">Nhà Tốt</Link>
 
             {/* Sidebar Toggle */}
             <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
@@ -105,6 +106,11 @@ const HeaderAdmin = () => {
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
+                </li>
+
+                {/* Chat Notification Component */}
+                <li className="nav-item">
+                    <ChatNotification />
                 </li>
 
                 {/* User Icon and Dropdown */}

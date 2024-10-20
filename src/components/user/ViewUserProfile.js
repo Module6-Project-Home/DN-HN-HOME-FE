@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const ViewUserProfile = () => {
     const [userProfile, setUserProfile] = useState(null);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -31,6 +33,32 @@ const ViewUserProfile = () => {
     if (!userProfile) {
         return <p>Loading...</p>;
     }
+
+    const handleUpgradeRequest = async () => {
+        if (!userProfile || !userProfile.id) {
+            console.error('User is not defined or user ID is missing.');
+            toast.error('Bạn cần đăng nhập để thực hiện yêu cầu này.');
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('jwtToken');
+            const response = await axios.put('http://localhost:8080/api/users/request-upgrade', null, {
+                params: { userId: userProfile.id },
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            if (response.status === 200) {
+                toast.success('Yêu cầu nâng cấp của bạn đã được gửi thành công!');
+                navigate('/success-page');
+            }
+        } catch (error) {
+            console.error('Error sending upgrade request:', error.response ? error.response.data : error.message);
+            toast.error('Đã xảy ra lỗi, vui lòng thử lại sau.');
+        }
+    };
 
     return (
         <div className="container mt-5 custom-margin ">
@@ -76,6 +104,9 @@ const ViewUserProfile = () => {
             <Link to="/change-password" className="btn btn-secondary m-1">
                 Đổi mật khẩu
             </Link>
+            <button type="button" className="btn btn-warning m-1" onClick={handleUpgradeRequest}>
+                Trở thành chủ nhà
+            </button>
         </div>
     );
 };

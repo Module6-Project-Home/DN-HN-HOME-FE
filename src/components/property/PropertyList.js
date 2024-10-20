@@ -5,6 +5,7 @@ import './PropertyList.css'
 import {Link, useLocation} from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../auth/AuthContext";
+import { Slider } from '@mui/material';  // Import Slider từ Material-UI
 
 
 const PropertyList = () => {
@@ -14,6 +15,7 @@ const PropertyList = () => {
     // Tạo các state cho từng tham số tìm kiếm
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
+    const [priceRange, setPriceRange] = useState([0, 10000000]);
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [propertyType, setPropertyType] = useState('');
@@ -111,8 +113,8 @@ const PropertyList = () => {
                 params: {
                     name,
                     address,
-                    minPrice,
-                    maxPrice,
+                    minPrice: priceRange[0], // Sử dụng giá trị min từ thanh kéo
+                    maxPrice: priceRange[1], // Sử dụng giá trị max từ thanh kéo
                     propertyType,
                     roomType,
                     minBedrooms,
@@ -134,12 +136,15 @@ const PropertyList = () => {
         fetchProperties();
     };
 
+
+
     return (
-        <div className="container-fluid fruite py-5">
-            <HeroBanner />
+        <div className=" fruite py-5">
+            <HeroBanner/>
+            <hr className="my-5"/>
             {/* Danh sách 5 property có lượt booking cao nhất */}
             <div className="container py-5">
-                <h2 className="text-center mb-5">Top 5 Nhà Được Đặt Nhiều Nhất</h2>
+                <h2 className="text-center mb-5" style={{color: 'blue'}}>5 Nhà Được Đặt Nhiều Nhất</h2>
                 <div className="row g-4 justify-content-center">
                     {topBookingProperties.map((property) => (
                         <div className="col-md-2" key={property.id}>
@@ -152,7 +157,7 @@ const PropertyList = () => {
                                                 height: '150px',
                                                 objectFit: 'cover'
                                             }}
-                                            src={property.images?property.images: "https://via.placeholder.com/200"} // Đặt ảnh mặc định nếu không có ảnh
+                                            src={property.images ? property.images : "https://via.placeholder.com/200"} // Đặt ảnh mặc định nếu không có ảnh
                                             alt="Property Image"
                                             className="img-fluid w-100 rounded"
                                         />
@@ -168,6 +173,9 @@ const PropertyList = () => {
                     ))}
                 </div>
             </div>
+
+            <hr className="my-5"/>
+
 
             {/* Form tìm kiếm và danh sách property */}
             <div className="container py-5">
@@ -186,7 +194,8 @@ const PropertyList = () => {
                                         </div>
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="address" className="mr-2 mb-2 fw-bold">Địa chỉ: </label>
-                                            <input id={"address"} type="text" className="form-control mb-2" placeholder="Địa chỉ"
+                                            <input id={"address"} type="text" className="form-control mb-2"
+                                                   placeholder="Địa chỉ"
                                                    value={address} onChange={(e) => setAddress(e.target.value)}/>
                                         </div>
                                         {/*<div className="form-group mr-2 mb-3">*/}
@@ -244,16 +253,31 @@ const PropertyList = () => {
                                                    placeholder="Số phòng tắm tối đa" value={maxBathrooms}
                                                    onChange={(e) => setMaxBathrooms(e.target.value)}/>
                                         </div>
+
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="price" className="mr-2 mb-2 fw-bold">Giá: </label>
-                                            <input type="number" className="form-control mb-2"
-                                                   placeholder="Giá tối thiểu" value={minPrice}
-                                                   onChange={(e) => setMinPrice(e.target.value)}/>
-                                            <input type="number" className="form-control mb-2" placeholder="Giá tối đa"
-                                                   value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
+                                            {/* Thanh kéo cho giá */}
+                                            <Slider
+                                                value={priceRange}
+                                                onChange={(event, newValue) => setPriceRange(newValue)}
+                                                valueLabelDisplay="auto"
+                                                min={0}
+                                                max={10000000} // Giới hạn tối đa là 10 triệu VNĐ
+                                                step={100000}
+                                                marks={[
+                                                    {value: 0, label: '0 VNĐ'},
+                                                    {value: 5000000, label: '5 triệu VNĐ'},
+                                                    {value: 10000000, label: '10 triệu VNĐ'}
+                                                ]}
+                                            />
+                                            <p>Giá từ {priceRange[0].toLocaleString()} VNĐ
+                                                đến {priceRange[1].toLocaleString()} VNĐ</p>
                                         </div>
+
+
                                         <div className="form-group mr-2 mb-3">
-                                            <label htmlFor="checkInDate" className="mr-2 mb-2 fw-bold">Khoảng thời gian: </label>
+                                            <label htmlFor="checkInDate" className="mr-2 mb-2 fw-bold">Khoảng thời
+                                                gian: </label>
                                             <input type="date" className="form-control mb-2" placeholder="Ngày check-in"
                                                    value={checkInDate}
                                                    onChange={(e) => setCheckInDate(e.target.value)}/>

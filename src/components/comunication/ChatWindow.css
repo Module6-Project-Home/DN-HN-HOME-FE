@@ -1,0 +1,48 @@
+/* ChatWindow.css */
+.chat-window {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-body {
+    padding: 10px;
+    flex: 1;
+    max-height: 300px; /* Giới hạn chiều cao */
+    overflow-y: scroll; /* Tạo thanh cuộn khi nội dung vượt quá chiều cao */
+    background-color: #fafafa;
+}
+
+.chat-footer {
+    display: flex;
+    padding: 10px;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 5px;
+}
+
+.chat-footer button {
+    margin-left: 10px;
+}
+
+.chat-message.user {
+    text-align: right;
+}

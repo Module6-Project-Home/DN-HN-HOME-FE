@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useParams, useNavigate, Link} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { differenceInDays, isBefore, isToday } from 'date-fns';
@@ -10,6 +10,8 @@ import './PropertyDetail.css';
 import { toast, ToastContainer } from "react-toastify";
 import { Modal, Button } from 'react-bootstrap';
 import {Pagination} from "antd";
+import {AlertLink} from "react-bootstrap";
+import ChatWindow from "../comunication/ChatWindow";
 
 const PropertyDetail = () => {
     const { id } = useParams();
@@ -19,6 +21,7 @@ const PropertyDetail = () => {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const token = localStorage.getItem('jwtToken');
+    const [showChat, setShowChat] = useState(false);
 
     // State cho việc đặt phòng
     const [checkInDate, setCheckInDate] = useState(null);
@@ -39,11 +42,22 @@ const PropertyDetail = () => {
         fetchProperty();
     }, [id]);
 
+
+    useEffect(() => {
+        if (checkInDate && checkOutDate && property && property.pricePerNight) {
+            const calculatedTotalPrice = calculateTotalPrice(checkInDate, checkOutDate, property.pricePerNight);
+            setTotalPrice(calculatedTotalPrice);
+        }
+    }, [checkInDate, checkOutDate, property]);
+
+
     const fetchProperty = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/api/properties/detail/${id}`);
             setProperty(response.data);
             setLoading(false);
+
+            localStorage.setItem('propertyId', id);
         } catch (error) {
             console.error('Error fetching property:', error);
             setLoading(false);
@@ -245,7 +259,7 @@ const PropertyDetail = () => {
 
     return (
         <div>
-            <HeroBanner />
+            <br/><br/><br/><br/><br/><br/>
             <ToastContainer />
             <div className="property-detail-container">
                 {/* Cột bên trái - thông tin ngôi nhà */}
@@ -306,6 +320,15 @@ const PropertyDetail = () => {
                             {totalBooking ? totalBooking.total : 0} Đánh giá
                         </h5>
                     </div>
+                    <button
+                        className="chat-button"
+                        onClick={() => setShowChat(true)} // Hiển thị cửa sổ chat
+                    >
+                        💬
+                    </button>
+                    {showChat && (
+                        <ChatWindow onClose={() => setShowChat(false)} /> // Đóng chat
+                    )}
                 </div>
 
                 {/* Cột bên phải - form đặt phòng */}
