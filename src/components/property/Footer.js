@@ -1,23 +1,31 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Tùy chọn để cuộn mượt mà
+        });
+    };
+
     return (
-        <div className="bg-dark text-white-50 footer pt-4 mt-5" >
+        <div className="bg-dark text-white-50 footer pt-4 mt-5">
             <div className="container-fluid">
-            <div className="pb-4 mb-4" style={{ borderBottom: '1px solid rgba(226, 175, 24, 0.5)' }}>
+                <div className="pb-4 mb-4" style={{ borderBottom: '1px solid rgba(226, 175, 24, 0.5)' }}>
                     <div className="row g-4 justify-content-between">
                         <div className="col-lg-3">
-                            <a className="text-decoration-none" href="#">
+                            <a className="text-decoration-none" href="#" onClick={scrollToTop}>
                                 <h1 className="text-primary mb-0">Nhà Tốt</h1>
                                 <p className="text-secondary mb-0">Ngôi nhà xinh đẹp</p>
                             </a>
                         </div>
                         <div className="col-lg-3">
                             <div className="d-flex justify-content-end pt-3">
-                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="#"><i className="fab fa-twitter"></i></a>
-                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="#"><i className="fab fa-facebook-f"></i></a>
-                                <a className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="#"><i className="fab fa-youtube"></i></a>
-                                <a className="btn btn-outline-secondary btn-md-square rounded-circle" href="#"><i className="fab fa-linkedin-in"></i></a>
+                                <Link className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" to="#"><i className="fab fa-twitter"></i></Link>
+                                <Link className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" to="#"><i className="fab fa-facebook-f"></i></Link>
+                                <Link className="btn btn-outline-secondary me-2 btn-md-square rounded-circle" to="#"><i className="fab fa-youtube"></i></Link>
+                                <Link className="btn btn-outline-secondary btn-md-square rounded-circle" to="#"><i className="fab fa-linkedin-in"></i></Link>
                             </div>
                         </div>
                     </div>
@@ -33,23 +41,23 @@ const Footer = () => {
                     <div className="col-lg-3 col-md-6">
                         <div className="d-flex flex-column text-start footer-item">
                             <h4 className="text-light mb-3">Thông tin Nhà Tốt</h4>
-                            <a className="btn-link text-decoration-none" href="">Về chúng tôi</a>
-                            <a className="btn-link text-decoration-none" href="">Liên hệ với chúng tôi</a>
-                            <a className="btn-link text-decoration-none" href="">Chính sách bảo mật</a>
-                            <a className="btn-link text-decoration-none" href="">Điều khoản & Điều kiện</a>
-                            <a className="btn-link text-decoration-none" href="">Chính sách</a>
-                            <a className="btn-link text-decoration-none" href="">Hỗ trợ</a>
+                            <Link className="btn-link text-decoration-none" to="/home/about" onClick={scrollToTop}>Về chúng tôi</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Liên hệ với chúng tôi</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Chính sách bảo mật</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Điều khoản & Điều kiện</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Chính sách</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Hỗ trợ</Link>
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-6">
                         <div className="d-flex flex-column text-start footer-item">
                             <h4 className="text-light mb-3">Tài khoản</h4>
-                            <a className="btn-link text-decoration-none" href="">Tài khoản của chúng tôi</a>
-                            <a className="btn-link text-decoration-none" href="">Chi tiết nhà</a>
-                            <a className="btn-link text-decoration-none" href="">Đặt phòng</a>
-                            <a className="btn-link text-decoration-none" href="">Danh sách yêu thích</a>
-                            <a className="btn-link text-decoration-none" href="">Lịch sử đặt nhà</a>
-                            <a className="btn-link text-decoration-none" href="">Thông tin đặt nhà</a>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Tài khoản của chúng tôi</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Chi tiết nhà</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Đặt phòng</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Danh sách yêu thích</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Lịch sử đặt nhà</Link>
+                            <Link className="btn-link text-decoration-none" to="" onClick={scrollToTop}>Thông tin đặt nhà</Link>
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-6">
