@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {Button, Modal, notification} from "antd";
+import {Button, Modal, notification, Tag} from "antd";
 import {ExclamationCircleOutlined, InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from 'react-router-dom';
-import HeaderAdmin from "./layout/HeaderAdmin";
-import SidebarAdmin from "./layout/SidebarAdmin";
-
 
 
 const { confirm } = Modal; //tạo hộp thoại xác nhận
@@ -120,13 +117,6 @@ const  HostTable = () => {
 
     return (
         <div>
-            <div className="sb-nav-fixed">
-                <HeaderAdmin/>
-                <div id="layoutSidenav">
-                    <SidebarAdmin/>
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div className="container-fluid px-4">
                                 {loading ? (
                                     <p>Loading...</p>
                                 ) : (
@@ -153,7 +143,7 @@ const  HostTable = () => {
                                                 <td>{user.phoneNumber}</td>
                                                 <td>{user.totalRevenue !== null && user.totalRevenue !== undefined ? formatCurrency(user.totalRevenue) : 'Chưa có doanh thu'}</td>
                                                 <td>{user.propertyCount !== null && user.propertyCount !== undefined ? user.propertyCount : 'Chưa có tài sản'}</td>
-                                                <td>{user.status === 'ACTIVE' ? 'Đang hoạt động' : 'Khoá'}</td>
+                                                <td>{user.status === 'ACTIVE' ? (<Tag color="green">Đang hoạt động</Tag>) : (<Tag color="red">Đã khoá</Tag>)}</td>
                                                 <td>
 
                                                     {user.status === 'ACTIVE' ? (
@@ -162,7 +152,7 @@ const  HostTable = () => {
                                                                 onClick={() => showConfirmLock(user.id)}>Khoá</Button>
                                                     ) : (
                                                         <Button type="primary" icon={<UnlockOutlined/>}
-                                                                style={{backgroundColor: 'cornflowerblue'}}
+                                                                style={{backgroundColor: '#d3f261'}}
                                                                 onClick={() => showConfirmUnlock(user.id)}>Mở
                                                             Khoá</Button>
                                                     )}
@@ -216,16 +206,12 @@ const  HostTable = () => {
                                                 thu: </strong>{formatCurrency(selectedUser.totalRevenue)}</p>
                                             <Button type="primary"
                                                     onClick={() => handleViewPropertiesClick(selectedUser.id, selectedUser.fullName)}>Xem
-                                                danh sách</Button>
+                                                danh sách
+                                            </Button>
 
                                         </div>
                                     )}
                                 </Modal>
-                            </div>
-                        </main>
-                    </div>
-                </div>
-            </div>
                             </div>
                             );
                             };

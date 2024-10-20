@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/admin/HostProperties.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/admin/layout/AdminStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/admin/layout/HeaderAdmin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/admin/layout/SidebarAdmin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/HostProperties.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/HostProperties.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/admin/HostTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/HostTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/admin/UserTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/UserTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/layout/AdminStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/layout/HeaderAdmin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/layout/SidebarAdmin.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/HostDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/HostDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/layout/SidebarAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/layout/SidebarAdmin.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +86,7 @@
       <workItem from="1728814651328" duration="7342000" />
       <workItem from="1729323491440" duration="5759000" />
       <workItem from="1729350702883" duration="12616000" />
-      <workItem from="1729393119645" duration="399000" />
+      <workItem from="1729393119645" duration="4902000" />
     </task>
     <servers />
   </component>

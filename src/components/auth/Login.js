@@ -61,7 +61,7 @@ const Login = () => {
             if (roles.includes('ROLE_HOST')) {
                 navigate('/host/dashboard');
             } else if (roles.includes('ROLE_ADMIN')) {
-                navigate('/admin/users');
+                navigate('/admin/dashboard');
             } else {
                 navigate('/home');
             }

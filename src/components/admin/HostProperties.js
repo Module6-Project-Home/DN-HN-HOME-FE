@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {useLocation, useParams} from 'react-router-dom';
-import { Button, Table } from 'antd';
-import HeaderAdmin from "./layout/HeaderAdmin";
-import SidebarAdmin from "./layout/SidebarAdmin";
+import {Button, Table, Tag} from 'antd';
+import Header from "../property/Header";
 
 const HostProperties = () => {
     const { hostId } = useParams();
@@ -42,11 +41,11 @@ const HostProperties = () => {
     const getStatusInVietnamese = (status) => {
         switch (status) {
             case 'RENTED':
-                return 'đang cho thuê';
+                return (<Tag color='#69b1ff'>Đang cho thuê</Tag>);
             case 'VACANT':
-                return 'còn trống';
+                return (<Tag color='lime'>Còn trống</Tag>);
             case 'MAINTENANCE':
-                return 'bảo trì';
+                return (<Tag color='#d46b08'>Bảo trì</Tag>);;
             default:
                 return status;
         }
@@ -83,14 +82,8 @@ const HostProperties = () => {
 
     return (
         <div>
-            <div className="sb-nav-fixed">
-                <HeaderAdmin/>
-                <div id="layoutSidenav">
-                    <SidebarAdmin/>
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div className="container-fluid px-4">
-                                <h2>Danh sách nhà cho thuê của {fullName}</h2>
+            <Header/>
+                                <h2 style={{marginTop:'100px'}}>Danh sách nhà cho thuê của {fullName}</h2>
                                 <Table
                                     dataSource={properties}
                                     columns={columns}
@@ -98,12 +91,8 @@ const HostProperties = () => {
                                     loading={loading}
                                     pagination={false}
                                 />
-                                <Button onClick={() => window.history.back()}>Quay lại</Button>
-                            </div>
-                        </main>
-                    </div>
-                </div>
-            </div>
+                                <Button type='primary' style={{backgroundColor:'#001d66'}} onClick={() => window.history.back()}>Quay lại</Button>
+
                             </div>
                             );
                             };

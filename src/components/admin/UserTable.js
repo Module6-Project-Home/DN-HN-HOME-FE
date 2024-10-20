@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Button, Modal, Table, notification, Spin, Input} from 'antd';
+import {Button, Modal, Table, notification, Spin, Input, Tag} from 'antd';
 import ReactPaginate from 'react-paginate';
 import {ModalBody, ModalFooter, ModalHeader, ModalTitle} from "react-bootstrap";
 import {InfoCircleOutlined, LockOutlined, UnlockOutlined} from "@ant-design/icons";
 import UserDetail from "../user/UserDetail";
 // import {Button, Modal} from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
-import HeaderAdmin from "./layout/HeaderAdmin";
-import SidebarAdmin from "./layout/SidebarAdmin";
 
 
 const UserTable = () => {
@@ -144,13 +142,7 @@ const UserTable = () => {
 
     return (
         <div>
-            <div className="sb-nav-fixed">
-                <HeaderAdmin/>
-                <div id="layoutSidenav">
-                    <SidebarAdmin/>
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div className="container-fluid px-4">
+
                     {loading ? (
                         <Spin size="large" tip="Loading..."/>
                     ) : (
@@ -181,7 +173,7 @@ const UserTable = () => {
                                     key: 'status',
                                     render: (status) => (
                                         <span>
-                                {status === 'ACTIVE' ? 'Đang hoạt động' : 'Đã khóa'}
+                                {status === 'ACTIVE' ? (<Tag color="green">Đang hoạt động</Tag>) : (<Tag color="red">Đã khoá</Tag>)}
                                 </span>
                                     ),
                                 },
@@ -204,7 +196,7 @@ const UserTable = () => {
                                                 <Button
                                                     type="primary"
                                                     icon={<UnlockOutlined/>}
-                                                    style={{backgroundColor: '#3f6600'}}
+                                                    style={{backgroundColor: '#5b8c00'}}
                                                     onClick={() => handleStatusChange(user.userId, 'ACTIVE')}
                                                 >
                                                     Mở Khoá
@@ -222,7 +214,7 @@ const UserTable = () => {
                                                     <Button
                                                         type="dashed"
                                                         onClick={() => openDecisionModal(user.userId, true)}
-                                                        style={{marginRight: 5}}
+                                                        style={{marginRight: 5,  backgroundColor:'#e6f7ff' }}
                                                     >
                                                         Duyệt
                                                     </Button>
@@ -318,11 +310,8 @@ const UserTable = () => {
                             onChange={(e) => setReason(e.target.value)}
                         />
                     </Modal>
-                            </div>
-                        </main>
-                    </div>
-                </div>
-                </div>
+
+
             </div>
             );
             };
