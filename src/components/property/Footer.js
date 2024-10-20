@@ -8,7 +8,7 @@ const Footer = () => {
                     <div className="row g-4 justify-content-between">
                         <div className="col-lg-3">
                             <a className="text-decoration-none" href="#">
-                                <h1 className="text-primary mb-0">3NKQ Homestay</h1>
+                                <h1 className="text-primary mb-0">Nhà Tốt</h1>
                                 <p className="text-secondary mb-0">Ngôi nhà xinh đẹp</p>
                             </a>
                         </div>
@@ -25,14 +25,14 @@ const Footer = () => {
                 <div className="row g-5">
                     <div className="col-lg-3 col-md-6">
                         <div className="footer-item">
-                            <h4 className="text-light mb-3">Tại sao lại lựa chọn 3NKQ Homestay!</h4>
+                            <h4 className="text-light mb-3">Tại sao lại lựa chọn Nhà Tốt!</h4>
                             <p className="mb-4">Chúng tôi mang đến cho bạn cảm giác như đang ở chính ngôi nhà của mình, với không gian ấm cúng và thoải mái.
                                 Hãy để chúng tôi làm cho hành trình của bạn trở nên đáng nhớ.</p>
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-6">
                         <div className="d-flex flex-column text-start footer-item">
-                            <h4 className="text-light mb-3">Thông tin 3NKQ Homestay</h4>
+                            <h4 className="text-light mb-3">Thông tin Nhà Tốt</h4>
                             <a className="btn-link text-decoration-none" href="">Về chúng tôi</a>
                             <a className="btn-link text-decoration-none" href="">Liên hệ với chúng tôi</a>
                             <a className="btn-link text-decoration-none" href="">Chính sách bảo mật</a>
@@ -56,7 +56,7 @@ const Footer = () => {
                         <div className="footer-item">
                             <h4 className="text-light mb-3">Liên hệ</h4>
                             <p>Địa chỉ: Codegym Đà Nẵng, Hà Nội</p>
-                            <p>Email: 3Nqkhomestay@gmail.com</p>
+                            <p>Email: NhaTot2024@gmail.com</p>
                             <p>Phone: +0123 4567 8910</p>
                             <p>Thông tin thanh toán</p>
                             <img src="https://dauthau.asia/uploads/page/vietqr-thanh-toan-dauthau.info.png" className="img-fluid" alt="Thông tin thanh toán"

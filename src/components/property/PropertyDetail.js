@@ -42,6 +42,15 @@ const PropertyDetail = () => {
         fetchProperty();
     }, [id]);
 
+
+    useEffect(() => {
+        if (checkInDate && checkOutDate && property && property.pricePerNight) {
+            const calculatedTotalPrice = calculateTotalPrice(checkInDate, checkOutDate, property.pricePerNight);
+            setTotalPrice(calculatedTotalPrice);
+        }
+    }, [checkInDate, checkOutDate, property]);
+
+
     const fetchProperty = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/api/properties/detail/${id}`);
@@ -250,8 +259,7 @@ const PropertyDetail = () => {
 
     return (
         <div>
-            <HeroBanner />
-            <Link to="/home" className="text-decoration-none m-lg-5">Trang chủ</Link>
+            <br/><br/><br/><br/><br/><br/>
             <ToastContainer />
             <div className="property-detail-container">
                 {/* Cột bên trái - thông tin ngôi nhà */}

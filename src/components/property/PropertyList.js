@@ -136,12 +136,15 @@ const PropertyList = () => {
         fetchProperties();
     };
 
+
+
     return (
         <div className=" fruite py-5">
-            <HeroBanner />
+            <HeroBanner/>
+            <hr className="my-5"/>
             {/* Danh sách 5 property có lượt booking cao nhất */}
             <div className="container py-5">
-                <h2 className="text-center mb-5">Top 5 Nhà Được Đặt Nhiều Nhất</h2>
+                <h2 className="text-center mb-5" style={{color: 'blue'}}>5 Nhà Được Đặt Nhiều Nhất</h2>
                 <div className="row g-4 justify-content-center">
                     {topBookingProperties.map((property) => (
                         <div className="col-md-2" key={property.id}>
@@ -154,7 +157,7 @@ const PropertyList = () => {
                                                 height: '150px',
                                                 objectFit: 'cover'
                                             }}
-                                            src={property.images?property.images: "https://via.placeholder.com/200"} // Đặt ảnh mặc định nếu không có ảnh
+                                            src={property.images ? property.images : "https://via.placeholder.com/200"} // Đặt ảnh mặc định nếu không có ảnh
                                             alt="Property Image"
                                             className="img-fluid w-100 rounded"
                                         />
@@ -170,6 +173,9 @@ const PropertyList = () => {
                     ))}
                 </div>
             </div>
+
+            <hr className="my-5"/>
+
 
             {/* Form tìm kiếm và danh sách property */}
             <div className="container py-5">
@@ -188,7 +194,8 @@ const PropertyList = () => {
                                         </div>
                                         <div className="form-group mr-2 mb-3">
                                             <label htmlFor="address" className="mr-2 mb-2 fw-bold">Địa chỉ: </label>
-                                            <input id={"address"} type="text" className="form-control mb-2" placeholder="Địa chỉ"
+                                            <input id={"address"} type="text" className="form-control mb-2"
+                                                   placeholder="Địa chỉ"
                                                    value={address} onChange={(e) => setAddress(e.target.value)}/>
                                         </div>
                                         {/*<div className="form-group mr-2 mb-3">*/}
