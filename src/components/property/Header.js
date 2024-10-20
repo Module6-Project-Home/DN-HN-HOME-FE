@@ -176,8 +176,8 @@ const Header = () => {
                         <div className="navbar-nav mx-auto">
                             <Link to="/home" className="nav-item nav-link text-white active">Trang
                                 chủ</Link> {/* Đổi màu chữ thành trắng */}
-                            <Link to="/property"
-                                  className="nav-item nav-link text-white">Homestay</Link> {/* Đổi màu chữ thành trắng */}
+                            <Link to="/home/founders"
+                                  className="nav-item nav-link text-white">Nhà Sáng Lập</Link> {/* Đổi màu chữ thành trắng */}
                             <Link to="/home/about" className="nav-item nav-link text-white">Về chúng
                                 tôi</Link> {/* Đổi màu chữ thành trắng */}
                         </div>

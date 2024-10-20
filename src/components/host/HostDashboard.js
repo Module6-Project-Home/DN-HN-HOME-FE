@@ -214,7 +214,6 @@ const HostDashboard = () => {
                                         <div className="col-12 mx-auto">
                                             <div className="d-flex justify-content-between">
                                                 <Link to="/host/create-property" className="btn btn-primary">Thêm nhà mới</Link>
-                                                <Link to="/host/history" className="btn btn-primary">Quản lý cho thuê</Link>
                                             </div>
 
                                             <hr />

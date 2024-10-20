@@ -28,6 +28,8 @@ import HostProperties from "./components/admin/HostProperties";
 import UserTable from "./components/admin/UserTable";
 
 import HostChatWindow from "./components/comunication/HostChatWindow";
+import AboutUs from "./components/property/AboutUs";
+import Founders from "./components/property/Founders";
 
 
 const MainLayout = () => (
@@ -65,6 +67,8 @@ const App = () => {
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
+                        <Route path="/home/about" element={<AboutUs />} />
+                        <Route path="/home/founders" element={<Founders />} />
 
                         <Route path="/user/history-booking" element={<UserBooking />} />
 
