@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './AdminStyle.css'
 
-const SidebarAdmin = () => {
+const  SidebarAdmin = () => {
     return (
         <div id="layoutSidenav_nav">
             <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">

@@ -46,13 +46,13 @@ const AdminDashboard = () => {
     return (
         <AdminLayout>
             <div className="card mt-5" >
-                <h1 style={{ marginTop: '70px' }}>Admin Dashboard</h1>
+                <h1 style={{ marginTop: '70px' }}>Quản lý người dùng</h1>
                 <Tab.Container defaultActiveKey="userTable">
                     <Row>
                         <Col sm={3}>
-                            <Nav variant="pills" className="flex-column">
+                            <Nav variant="pills" className="flex-column" style={{}}>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="userTable">Người dùng</Nav.Link>
+                                    <Nav.Link  eventKey="userTable">Người dùng</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link eventKey="hostTable">Chủ nhà</Nav.Link>

@@ -4,82 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="aaf97639-7061-46c2-8750-4beda639f1ef" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/constants/constants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/AdminDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/AuthContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/AuthContext.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/booking/BookingForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/booking/BookingForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/HostDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/HostDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/ListMyHomestay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/ListMyHomestay.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/UpdateProperty.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/UpdateProperty.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/property/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/user/ChangePassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/user/ChangePassword.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/user/UpdateUserProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/user/UpdateUserProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/user/ViewUserProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/user/ViewUserProfile.js" afterDir="false" />
-=======
-    <list default="true" id="3b2ef606-9334-41c5-a26b-336ab7e24c51" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
->>>>>>> 9c01d7d7d92479d5cf33856606294a437db48311
-    </list>
+    <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-<<<<<<< HEAD
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="2nSyOnTooRzVErXGDfxBHxi5S0I" />
-=======
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
-  <component name="ProjectId" id="2nS5hLLvmdsuT8t87HaOuyg5tuE" />
->>>>>>> 9c01d7d7d92479d5cf33856606294a437db48311
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2nERA9Job09bZhfAaXdJH0facY1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< HEAD
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="aaf97639-7061-46c2-8750-4beda639f1ef" name="Changes" comment="" />
-      <created>1728980749653</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1728980749653</updated>
-      <workItem from="1728980751598" duration="828000" />
-=======
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "kien-fix-login",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "E:/Project_Module6/DN-HN-HOME-FE/src/components/admin/layout",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -87,41 +51,59 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Project_Module6\DN-HN-HOME-FE\src\components\admin\layout" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-2e7d6887c066-JavaScript-WS-241.15989.47" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23339.15" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3b2ef606-9334-41c5-a26b-336ab7e24c51" name="Changes" comment="" />
-      <created>1728953756769</created>
+      <changelist id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="" />
+      <created>1728536106404</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1728953756769</updated>
-      <workItem from="1728953758564" duration="13439000" />
->>>>>>> 9c01d7d7d92479d5cf33856606294a437db48311
+      <updated>1728536106404</updated>
+      <workItem from="1728536108039" duration="13321000" />
+      <workItem from="1728719758894" duration="10250000" />
+      <workItem from="1728814651328" duration="7342000" />
+      <workItem from="1729323491440" duration="5759000" />
+      <workItem from="1729350702883" duration="12616000" />
+      <workItem from="1729393119645" duration="4902000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-<<<<<<< HEAD
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
-=======
->>>>>>> 9c01d7d7d92479d5cf33856606294a437db48311
 </project>

@@ -102,9 +102,9 @@ const Login = () => {
                         <MDBCardBody className='p-5 shadow-5 text-center'>
                             <Link to="/home">
                                 <img
-                                    src="https://img3.thuthuatphanmem.vn/uploads/2019/09/30/hinh-tron-dep_111539274.jpg"
-                                    alt="THUÊ TRỌ LUXURY Logo"
-                                    style={{ width: '200px', cursor: 'pointer' }}
+                                    src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
+                                    alt="Chợ Tốt"
+                                    style={{ width: '300px', cursor: 'pointer',marginLeft: 100 , marginRight: 'auto',marginBottom:50 }}
                                 />
                             </Link>
                             {error && <p className="text-danger">{error}</p>}

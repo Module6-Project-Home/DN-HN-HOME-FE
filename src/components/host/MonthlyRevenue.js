@@ -32,9 +32,7 @@ const MonthlyRevenue = () => {
     const [startDate, setStartDate] = useState(formatDateToInput(firstDayOfMonth));
     const [endDate, setEndDate] = useState(formatDateToInput(today));
 
-    useEffect(() => {
-        fetchRevenue(); // Gọi hàm fetchRevenue ngay khi component được render lần đầu tiên
-    }, []);
+
 
     const validateData = () => {
         if (!startDate || !endDate) {

@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import PropertyList from './components/property/PropertyList';
 import PropertyDetail from './components/property/PropertyDetail';
-import PostForm from './components/property/PostForm';
 import Login from './components/auth/Login';
 import Header from "./components/property/Header";
 import Footer from "./components/property/Footer";
@@ -21,12 +20,16 @@ import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import S
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
 import AddNewProperty from "./components/host/AddProperty";
-
 import MonthlyRevenue from "./components/host/MonthlyRevenue";
-
 import UserBooking from "./components/booking/UserBooking";
 import OwnerBookingHistory from "./components/host/OwnerBookingHistory";
+import HostTable from "./components/admin/HostTable";
+import HostProperties from "./components/admin/HostProperties";
+import UserTable from "./components/admin/UserTable";
 
+import HostChatWindow from "./components/comunication/HostChatWindow";
+import AboutUs from "./components/property/AboutUs";
+import Founders from "./components/property/Founders";
 
 
 const MainLayout = () => (
@@ -64,9 +67,11 @@ const App = () => {
                         <Route path="/home" element={<PropertyList />} />
                         <Route path="/property/detail/:id" element={<PropertyDetail />} />
                         <Route path="/booking/:id" element={<BookingForm />} />
+                        <Route path="/home/about" element={<AboutUs />} />
+                        <Route path="/home/founders" element={<Founders />} />
 
                         <Route path="/user/history-booking" element={<UserBooking />} />
-                        <Route path="/register" element={<RegisterForm />} />
+
 
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                         <Route path="/success-page" element={<SuccessPage />} />
@@ -74,6 +79,7 @@ const App = () => {
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/user/view-profile" element={<ViewUserProfile />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
 
                     </Route>
 
@@ -85,6 +91,7 @@ const App = () => {
                         <Route path="/host/create-property" element={<AddNewProperty />} />
                         <Route path="/host/monthlyRevenue" element={<MonthlyRevenue />} />
                         <Route path="/host/ownerBookingHistory" element={<OwnerBookingHistory />} />
+                        <Route path="/host/chat-room/:chatRoomId" element={<HostChatWindow />} />
 
                     </Route>
                     <Route element={<LoginLayout />}>
@@ -96,9 +103,11 @@ const App = () => {
                     </Route>
 
                     <Route element={<AdminLayout />}>
+                        <Route path="admin/users" element={<UserTable/>}/>
+                        <Route path="admin/hosts" element={<HostTable />} />
+                        <Route path="/host-properties/:hostId" element={<HostProperties />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     </Route>
 
 
