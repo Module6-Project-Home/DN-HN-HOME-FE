@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import PropertyList from './components/property/PropertyList';
 import PropertyDetail from './components/property/PropertyDetail';
-import PostForm from './components/property/PostForm';
 import Login from './components/auth/Login';
 import Header from "./components/property/Header";
 import Footer from "./components/property/Footer";
@@ -21,12 +20,10 @@ import UpdateUserProfile from "./components/user/UpdateUserProfile"; // Import S
 import ChangePassword from "./components/user/ChangePassword"
 import UpdateProperty from "./components/host/UpdateProperty";
 import AddNewProperty from "./components/host/AddProperty";
-
 import MonthlyRevenue from "./components/host/MonthlyRevenue";
-
 import UserBooking from "./components/booking/UserBooking";
 import OwnerBookingHistory from "./components/host/OwnerBookingHistory";
-
+import HostChatWindow from "./components/comunication/HostChatWindow";
 
 
 const MainLayout = () => (
@@ -85,6 +82,7 @@ const App = () => {
                         <Route path="/host/create-property" element={<AddNewProperty />} />
                         <Route path="/host/monthlyRevenue" element={<MonthlyRevenue />} />
                         <Route path="/host/ownerBookingHistory" element={<OwnerBookingHistory />} />
+                        <Route path="/host/chat-room/:chatRoomId" element={<HostChatWindow />} />
 
                     </Route>
                     <Route element={<LoginLayout />}>
