@@ -10,7 +10,7 @@ const Founders = () => {
             birthYear: 1997,
             location: 'CodeGym Hà Nội',
             color: '#007BFF',
-            image: 'https://via.placeholder.com/150?text=Tô+Thanh+Ngọc', // Thay thế bằng đường dẫn ảnh thực tế
+            image: 'https://ca.slack-edge.com/T062S4QFUJZ-U06LKCWNNQN-40dd477500fc-512', // Thay thế bằng đường dẫn ảnh thực tế
         },
         {
             name: 'Hán Bảo Ngọc',
@@ -18,7 +18,7 @@ const Founders = () => {
             birthYear: 1997,
             location: 'CodeGym Hà Nội',
             color: '#28A745',
-            image: 'https://via.placeholder.com/150?text=Hán+Bảo+Ngọc', // Thay thế bằng đường dẫn ảnh thực tế
+            image: 'https://ca.slack-edge.com/T062S4QFUJZ-U06RRF18DH9-40833e6b3714-512', // Thay thế bằng đường dẫn ảnh thực tế
         },
         {
             name: 'Nguyễn Đức Kiên',
@@ -26,7 +26,7 @@ const Founders = () => {
             birthYear: 1999,
             location: 'CodeGym Hà Nội',
             color: '#DC3545',
-            image: 'https://via.placeholder.com/150?text=Nguyễn+Đức+Kiên', // Thay thế bằng đường dẫn ảnh thực tế
+            image: 'https://ca.slack-edge.com/T062S4QFUJZ-U070S098XD1-40f8dab535cc-512', // Thay thế bằng đường dẫn ảnh thực tế
         },
         {
             name: 'Nguyễn Đức Thảo Nguyên',
@@ -34,7 +34,7 @@ const Founders = () => {
             birthYear: 1997,
             location: 'CodeGym Đà Nẵng',
             color: '#6F42C1',
-            image: 'https://via.placeholder.com/150?text=Nguyễn+Đức+Thảo+Nguyên', // Thay thế bằng đường dẫn ảnh thực tế
+            image: 'https://ca.slack-edge.com/T062S4QFUJZ-U070UHH75CL-3297140ad074-512', // Thay thế bằng đường dẫn ảnh thực tế
         },
         {
             name: 'Đỗ Trung Quyết',
@@ -42,7 +42,7 @@ const Founders = () => {
             birthYear: 1994,
             location: 'CodeGym Đà Nẵng',
             color: '#FFC107',
-            image: 'https://via.placeholder.com/150?text=Đỗ+Trung+Quyết', // Thay thế bằng đường dẫn ảnh thực tế
+            image: 'https://ca.slack-edge.com/T062S4QFUJZ-U070UHHA2GL-5221a017d487-512', // Thay thế bằng đường dẫn ảnh thực tế
         },
     ];
 
