@@ -201,9 +201,8 @@ const  HostTable = () => {
                                             <p><strong>Họ và tên: </strong> {selectedUser.fullName}</p>
                                             <p><strong>Số điện thoại: </strong> {selectedUser.phoneNumber}</p>
                                             <p><strong>Địa chỉ: </strong> {selectedUser.address}</p>
-                                            <p><strong>Trạng thái: </strong> {selectedUser.status}</p>
-                                            <p><strong>Tổng doanh
-                                                thu: </strong>{formatCurrency(selectedUser.totalRevenue)}</p>
+                                            <p><strong>Trạng thái: </strong> {selectedUser.status = 'ACTIVE'?'Đang hoạt động':'Khoá'}</p>
+                                            <p><strong>Tổng doanh thu: </strong>{formatCurrency(selectedUser.totalRevenue)}</p>
                                             <Button type="primary"
                                                     onClick={() => handleViewPropertiesClick(selectedUser.id, selectedUser.fullName)}>Xem
                                                 danh sách
