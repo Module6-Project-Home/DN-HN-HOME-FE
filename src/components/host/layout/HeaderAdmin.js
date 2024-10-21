@@ -98,7 +98,14 @@ const HeaderAdmin = () => {
                                         className={notification.isRead ? 'notification-read' : 'notification-unread'}
                                         onClick={() => markNotificationAsRead(notification.id)}
                                     >
-                                        {notification.message}
+                                        {notification.message} - {new Date(notification.timestamp).toLocaleString('vi-VN', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit',
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    })}
                                     </Dropdown.Item>
                                 ))
                             )}

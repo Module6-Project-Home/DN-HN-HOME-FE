@@ -166,7 +166,7 @@ const PropertyList = () => {
                                 <div className="p-2 border border-secondary border-top-0 rounded-bottom">
                                     <h5 className="property-name">{property.name}</h5>
                                     <h6 className="property-address">{property.address}</h6>
-                                    <p className="text-muted">{property.pricePerNight.toLocaleString()} VNĐ/Đêm</p>
+                                    <p className="text-danger">{property.pricePerNight.toLocaleString()} VNĐ/Đêm</p>
                                 </div>
                             </div>
                         </div>
@@ -352,7 +352,7 @@ const PropertyList = () => {
                                                         <h6 className="property-room-type text-muted">{property.roomType}</h6>
                                                         <h6 className="property-details text-muted">{property.bedrooms} Phòng Ngủ - {property.bathrooms} Phòng Tắm</h6>
                                                         <div className="d-flex justify-content-between flex-lg-wrap">
-                                                            <p className="text-dark fs-5 fw-bold mb-0  property-price">
+                                                            <p className="text-danger fs-5 fw-bold mb-0  property-price">
                                                                 {property.pricePerNight.toLocaleString()} VNĐ/Đêm
                                                             </p>
                                                         </div>

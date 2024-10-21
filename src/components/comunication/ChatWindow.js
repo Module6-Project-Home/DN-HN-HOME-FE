@@ -128,8 +128,18 @@ const ChatWindow = ({ onClose}) => {
                             key={index} className={`chat-message ${message.sender === 'user' ? 'user' : 'other'}`}
                         >
                             <strong>{message.sender?.username}: </strong>
-                            <span>{message.content}</span>
-                            <small> ({new Date(message.sentAt).toLocaleTimeString()})</small>
+                            <span>{message.content +' ' || 'Không có nội dung'}</span>
+                            <small
+                                title={message.sentAt ? new Date(message.sentAt).toLocaleString('vi-VN', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit',
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric'}) : 'Không rõ thời gian'}
+                            >
+                                ({message.sentAt ? new Date(message.sentAt).toLocaleTimeString() : 'Không rõ thời gian'})
+                            </small>
                         </div>
                     ))}
                     <div ref={chatBodyRef}/>

@@ -36,6 +36,7 @@ const OwnerBookingHistory = () => {
                 }
             });
             if (Array.isArray(response.data)) {
+                const sortedBooking = response.data.sort ((a,b) => b.id - a.id);
                 setBookings(response.data);
             } else {
                 setError("Invalid response format");
@@ -220,6 +221,9 @@ const OwnerBookingHistory = () => {
                                                 )}
                                                 {booking.bookingStatus === "Đã trả phòng" && (
                                                     <Badge status="success" text="Đã trả phòng" />
+                                                )}
+                                                {booking.bookingStatus === "Đã hủy" && (
+                                                    <Badge status="error" text="Đã huỷ" />
                                                 )}
                                             </td>
                                             <td className="flex justify-content-center">

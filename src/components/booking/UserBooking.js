@@ -40,6 +40,7 @@ const UserBooking = () => {
     };
 
     useEffect(() => {
+        document.title = "Lịch sử thuê nhà";
         fetchBookingHistory();
     }, [userId]);
 
