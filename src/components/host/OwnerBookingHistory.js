@@ -36,7 +36,9 @@ const OwnerBookingHistory = () => {
                 }
             });
             if (Array.isArray(response.data)) {
-                setBookings(response.data);
+                // Sắp xếp theo ID giảm dần
+                const sortedBookings = response.data.sort((a, b) => b.id - a.id);
+                setBookings(sortedBookings);
             } else {
                 setError("Invalid response format");
             }
