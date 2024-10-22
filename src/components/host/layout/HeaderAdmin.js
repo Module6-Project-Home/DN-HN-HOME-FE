@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../../auth/AuthContext";
 import 'react-toastify/dist/ReactToastify.css';
-import ChatNotification from "../../comunication/ChatNotification"; // Import CSS của react-toastify
+import ChatNotification from "../../comunication/ChatNotification";
 
 const HeaderAdmin = () => {
     const { logout } = useAuth();
@@ -28,7 +28,7 @@ const HeaderAdmin = () => {
             setNotifications(response.data);
         } catch (error) {
             console.error('Failed to fetch notifications', error);
-            toast.error('Không thể tải thông báo.');
+            toast.error('Có lỗi xảy ra khi tải thông báo. Vui lòng thử lại sau.');
         }
     };
 
@@ -46,7 +46,7 @@ const HeaderAdmin = () => {
             fetchNotifications(); // Lấy lại thông báo sau khi cập nhật
         } catch (error) {
             console.error('Failed to mark notification as read', error);
-            // toast.error('Không thể đánh dấu thông báo.');
+            toast.error('Không thể đánh dấu thông báo là đã đọc. Vui lòng thử lại.');
         }
     };
 
@@ -60,11 +60,11 @@ const HeaderAdmin = () => {
             });
 
             logout(); // Gọi hàm logout từ context
-            toast.success('Đăng xuất thành công!');
+            toast.success('Đăng xuất thành công! Hẹn gặp lại bạn!');
             setTimeout(() => navigate('/login'), 1000);
         } catch (error) {
             console.error('Logout failed', error);
-            toast.error('Đăng xuất không thành công.');
+            toast.error('Đăng xuất không thành công. Vui lòng thử lại.');
         }
     };
 
@@ -90,17 +90,22 @@ const HeaderAdmin = () => {
 
                         <Dropdown.Menu>
                             {notifications.length === 0 ? (
-                                <Dropdown.Item>Không có thông báo</Dropdown.Item>
+                                <Dropdown.Item className="text-center">Hiện tại không có thông báo mới!</Dropdown.Item>
                             ) : (
                                 notifications.map(notification => (
                                     <Dropdown.Item
                                         key={notification.id}
-                                        style={{ backgroundColor: notification.isRead ? 'white' : 'yellow' }}
+                                        className={notification.isRead ? 'notification-read' : 'notification-unread'}
                                         onClick={() => markNotificationAsRead(notification.id)}
                                     >
-                                        {notification.message}
-
-                                        {/*{notification.message} - {new Date(notification.timestamp).toLocaleString()}*/}
+                                        {notification.message} - {new Date(notification.timestamp).toLocaleString('vi-VN', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit',
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    })}
                                     </Dropdown.Item>
                                 ))
                             )}

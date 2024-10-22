@@ -74,8 +74,16 @@ const PropertyDetail = () => {
     };
 
 
+    useEffect(() => {
+        if (checkInDate && checkOutDate && property && property.pricePerNight) {
+            const calculatedTotalPrice = calculateTotalPrice(checkInDate, checkOutDate, property.pricePerNight);
+            setTotalPrice(calculatedTotalPrice);
+        }
+    }, [checkInDate, checkOutDate, property]);
+
+
     const calculateTotalPrice = (checkInDate, checkOutDate, pricePerNight) => {
-        const totalDays = differenceInDays(checkOutDate, checkInDate);
+        const totalDays = differenceInDays(checkOutDate, checkInDate) ; // tính thêm 1 ngày để bao gồm ngày checkOut
         return totalDays * pricePerNight;
     };
 
@@ -99,7 +107,9 @@ const PropertyDetail = () => {
 
         if (!token) {
             toast.success('Bạn cần đăng nhập để đặt phòng. Vui lòng đăng ký tài khoản.');
-            navigate('/login'); // Điều hướng đến trang đăng nhập
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
             return;
         }
 
@@ -123,7 +133,7 @@ const PropertyDetail = () => {
             toast.success(`Đặt phòng thành công! Bạn đã đặt ${totalDays} ngày, tổng tiền của bạn là ${totalPrice.toLocaleString()} VND`);
             setTimeout(() => {
                 navigate('/user/history-booking');
-            }, 5000);
+            }, 3000);
         } catch (error) {
             console.error('Error creating booking:', error);
             if (error.response && error.response.data) {
@@ -313,7 +323,7 @@ const PropertyDetail = () => {
                     </div>
                     <div className="total-booking">
                         <h5>
-                            <i className="fas fa-star"></i> {totalBooking && totalBooking.reviewed ? totalBooking.reviewed.toFixed(1) : 'N/A'}
+                            <i className="fas fa-star"></i> {totalBooking && totalBooking.reviewed ? totalBooking.reviewed.toFixed(1) : 'Chưa đánh giá'}
                         </h5>
                         <span className="separator">|</span>
                         <h5 className="underlined" onClick={handleShow} style={{ cursor: 'pointer' }}>
@@ -369,8 +379,8 @@ const PropertyDetail = () => {
                     </div>
 
                     <div className="total-price">
-                        <p>{property.pricePerNight.toLocaleString()} Đ/Đêm</p>
-                        <p>Tổng tiền: {totalPrice.toLocaleString()} Đ</p>
+                        <p className = "text-danger">{property.pricePerNight.toLocaleString()} Đ/Đêm</p>
+                        <p className = "text-danger">Tổng tiền: {totalPrice.toLocaleString()} Đ</p>
                     </div>
 
                     <button className="btn btn-primary" onClick={handleBooking}>Đặt phòng</button>
@@ -435,7 +445,7 @@ const PropertyDetail = () => {
                                     ★
                                 </span>
                                         ))}
-                                        <p className="mb-0 ms-2">{new Date(review.createdAt).toLocaleDateString()}</p>
+                                        <p className="mb-0 ms-2">{new Date(review.createdAt).toLocaleDateString('vi-VN', {day:'2-digit', month:'2-digit', year: 'numeric'})}</p>
                                     </div>
 
                                     <div className="d-flex justify-content-between align-items-center">
@@ -457,32 +467,34 @@ const PropertyDetail = () => {
                     )}
                 </Modal.Body>
 
-                <Modal.Footer className="d-flex justify-content-between align-items-center">
-                    <div className="pagination d-flex justify-content-center align-items-center w-100">
-                        <Button
-                            variant="light"
-                            disabled={currentPage === 1}
-                            onClick={() => paginate(currentPage - 1)}
-                            className="mx-2"
-                        >
-                            Trang trước
-                        </Button>
+                {currentReviews.length > 0 && (
+                    <Modal.Footer className="d-flex justify-content-between align-items-center">
+                        <div className="pagination d-flex justify-content-center align-items-center w-100">
+                            <Button
+                                variant="light"
+                                disabled={currentPage === 1}
+                                onClick={() => paginate(currentPage - 1)}
+                                className="mx-2"
+                            >
+                                Trang trước
+                            </Button>
 
-                        <span className="mx-3">{currentPage} / {totalPages}</span>
+                            <span className="mx-3">{currentPage} / {totalPages}</span>
 
-                        <Button
-                            variant="light"
-                            disabled={currentPage === totalPages}
-                            onClick={() => paginate(currentPage + 1)}
-                            className="mx-2"
-                        >
-                            Trang sau
+                            <Button
+                                variant="light"
+                                disabled={currentPage === totalPages}
+                                onClick={() => paginate(currentPage + 1)}
+                                className="mx-2"
+                            >
+                                Trang sau
+                            </Button>
+                        </div>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Đóng
                         </Button>
-                    </div>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Đóng
-                    </Button>
-                </Modal.Footer>
+                    </Modal.Footer>
+                )}
 
                 {/* Modal Xác Nhận */}
                 <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} className="custom-modal">

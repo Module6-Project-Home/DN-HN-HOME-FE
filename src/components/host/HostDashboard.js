@@ -8,6 +8,9 @@ import {useLocation} from "react-router-dom";
 import {useAuth} from "../auth/AuthContext";
 import {jwtDecode} from "jwt-decode";
 import axios from "axios";
+import { Modal } from 'antd';
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const HostDashboard = () => {
     const [properties, setProperties] = useState([]);
@@ -110,49 +113,60 @@ const HostDashboard = () => {
     };
 
     const handleStatusChange = async (propertyId, newStatus) => {
-        console.log('propertyId', propertyId);
-        console.log('newStatus', newStatus);
         const property = properties.find(p => p.id === propertyId);
-        console.log(property);
         if (property.status === 'RENTED') {
-            alert('Không thể thay đổi trạng thái khi nhà đang cho thuê.');
+            Modal.error({
+                title: 'Lỗi',
+                content: 'Không thể thay đổi trạng thái khi nhà đang cho thuê.',
+            });
             return;
         }
-        console.log('property', property);
-        const confirmChange = window.confirm('Bạn có chắc chắn muốn thay đổi trạng thái?');
-        if (confirmChange) {
-            try {
-                const jwtToken = localStorage.getItem("jwtToken");
-                console.log('jwtToken', jwtToken);
-                const response = await axios.put(`http://localhost:8080/api/properties/change-status/${propertyId}`, null, {
-                    params: { newStatus },
-                    headers: {
-                        'Authorization': `Bearer ${jwtToken}`,
-                        'Content-Type': 'application/json',
+        Modal.confirm({
+            title: 'Xác nhận',
+            content: 'Bạn có chắc chắn muốn thay đổi trạng thái?',
+            onOk: async () => {
+                try {
+                    const jwtToken = localStorage.getItem("jwtToken");
+                    console.log('jwtToken', jwtToken);
+                    const response = await axios.put(`http://localhost:8080/api/properties/change-status/${propertyId}`, null, {
+                        params: { newStatus },
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`,
+                            'Content-Type': 'application/json',
+                        }
+                    });
+
+
+                    if (response.status === 200) {
+                        setProperties(properties.map(p => p.id === propertyId ? { ...p, status: newStatus } : p));
+                        toast.success('Trạng thái đã được cập nhật thành công.');
+                    } else if (response.status === 400) {
+                        Modal.error({
+                            title: 'Lỗi',
+                            content: 'Không thể thay đổi trạng thái khi nhà đang cho thuê.',
+                        });
+                    } else {
+                        Modal.error({
+                            title: 'Lỗi',
+                            content: 'Có lỗi xảy ra khi thay đổi trạng thái.',
+                        });
                     }
-                });
-
-                console.log('response', response.data);
-
-                if (response.status === 200) {
-                    const updatedProperty = response.data;
-                    console.log('updatedProperty', updatedProperty);
-                    setProperties(properties.map(p => p.id === propertyId ? {...p,status:newStatus} : p));
-                    console.log(properties[0].status);
-                }else if(response.status==400){
-                    alert('Không thể thay đổi trạng thái khi nhà đang cho thuê.');
-                } else{
-                    alert('Có lỗi xảy ra khi thay đổi trạng thái.');
-                }
-            } catch (error) {
-                if (error && error.status === 400) {
-                    alert('Không thể thay đổi trạng thái khi nhà đang cho thuê.');
-                } else {
+                } catch (error) {
+                    if (error && error.response && error.response.status === 400) {
+                        Modal.error({
+                            title: 'Lỗi',
+                            content: 'Không thể thay đổi trạng thái khi nhà đang cho thuê.',
+                        });
+                    } else {
                         console.error('Lỗi khi thay đổi trạng thái:', error);
-                    alert('Có lỗi xảy ra khi thay đổi trạng thái.');
+                        Modal.error({
+                            title: 'Lỗi',
+                            content: 'Có lỗi xảy ra khi thay đổi trạng thái.',
+                        });
+                    }
                 }
-            }
-        }
+            },
+        });
     };
 
 
@@ -249,7 +263,7 @@ const HostDashboard = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                {property.revenue} VNĐ
+                                                                {property.revenue.toLocaleString()} VNĐ
                                                             </td>
                                                             <td>
 
@@ -307,7 +321,9 @@ const HostDashboard = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
+
     );
 };
 
