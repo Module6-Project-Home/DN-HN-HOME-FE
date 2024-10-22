@@ -78,14 +78,25 @@ const App = () => {
                         <Route path="/profile-update" element={<UpdateUserProfile />} />
                         <Route path="/change-password" element={<ChangePassword />} />
                         <Route path="/user/view-profile" element={<ViewUserProfile />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                        <Route
+                            path="/admin/dashboard"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_ADMIN" element={<AdminDashboard />} />
+                            }
+                        />
+
 
 
                     </Route>
 
                     {/* Các route dùng HostLayout */}
                     <Route element={<HostLayout />}>
-                        <Route path="/host/dashboard" element={<HostDashboard />} />
+                        <Route
+                            path="/host/dashboard"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_HOST" element={<HostDashboard />} />
+                            }
+                        />
                         <Route path="/host/update-property/:id" element={<UpdateProperty />} />
                         <Route path="/host/listMyHome" element={<ListMyHomestay />} />
                         <Route path="/host/create-property" element={<AddNewProperty />} />
@@ -94,6 +105,8 @@ const App = () => {
                         <Route path="/host/chat-room/:chatRoomId" element={<HostChatWindow />} />
 
                     </Route>
+
+
                     <Route element={<LoginLayout />}>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<RegisterForm />} />
@@ -106,7 +119,12 @@ const App = () => {
                         <Route path="admin/users" element={<UserTable/>}/>
                         <Route path="admin/hosts" element={<HostTable />} />
                         <Route path="/host-properties/:hostId" element={<HostProperties />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                        <Route
+                            path="/admin/dashboard"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_ADMIN" element={<AdminDashboard />} />
+                            }
+                        />
                         <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
                     </Route>
 
@@ -121,6 +139,7 @@ const App = () => {
                     <Route
                         path="/admin/*"
                         element={<PrivateRoute requiredRole="ROLE_ADMIN" />}
+
                     />
                 </Routes>
             </Router>
