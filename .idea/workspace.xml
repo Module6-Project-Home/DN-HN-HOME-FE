@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="60d91f1c-5603-43de-b5ba-84b36e51864b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/HostTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/HostTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/booking/UserBooking.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/booking/UserBooking.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/comunication/ChatWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/comunication/ChatWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/HostDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/HostDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/OwnerBookingHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/OwnerBookingHistory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/host/layout/HeaderAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/host/layout/HeaderAdmin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/property/PropertyList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/property/PropertyList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PrivateRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PrivateRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/PrivateRoute.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,9 +30,6 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 0
@@ -50,10 +42,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;kien-fix-login&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;E:/Project_Module6/DN-HN-HOME-FE/src/components/admin/layout&quot;,
@@ -92,8 +82,6 @@
       <workItem from="1729323491440" duration="5759000" />
       <workItem from="1729350702883" duration="12616000" />
       <workItem from="1729393119645" duration="4902000" />
-      <workItem from="1729472559220" duration="3728000" />
-      <workItem from="1729477917612" duration="1851000" />
     </task>
     <servers />
   </component>
