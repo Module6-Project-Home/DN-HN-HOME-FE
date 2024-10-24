@@ -37,7 +37,7 @@ const OwnerBookingHistory = () => {
             });
             if (Array.isArray(response.data)) {
                 const sortedBooking = response.data.sort ((a,b) => b.id - a.id);
-                setBookings(response.data);
+                setBookings(sortedBooking);
             } else {
                 setError("Invalid response format");
             }
@@ -58,8 +58,8 @@ const OwnerBookingHistory = () => {
     const handleDateChange = (dates) => {
         setSearchCriteria({
             ...searchCriteria,
-            startDate: dates ? dates[0].startOf('day').toISOString() : null,
-            endDate: dates ? dates[1].endOf('day').toISOString() : null
+            startDate: dates ? dates[0].startOf('day').toDate() : null,
+            endDate: dates ? dates[1].endOf('day').toDate() : null
         });
     };
 
@@ -68,13 +68,27 @@ const OwnerBookingHistory = () => {
     };
 
     const filteredBookings = bookings.filter((booking) => {
+        // Parse the dates from DD/MM/YYYY format to Date objects
+        const parseDate = (dateStr) => {
+            const [day, month, year] = dateStr.split('/').map(Number);
+            return new Date(year, month - 1, day); // Month is 0-indexed
+        };
+
+        const bookingCheckInDate = parseDate(booking.checkInDate);
+        const bookingCheckOutDate = parseDate(booking.checkOutDate);
+
+        const startDate = searchCriteria.startDate ? new Date(searchCriteria.startDate) : null;
+        const endDate = searchCriteria.endDate ? new Date(searchCriteria.endDate) : null;
+
         const matchesHouseName = booking.propertyName.toLowerCase().includes(searchCriteria.houseName.toLowerCase());
-        const matchesDateRange = (!searchCriteria.startDate || new Date(booking.checkInDate) >= new Date(searchCriteria.startDate)) &&
-            (!searchCriteria.endDate || new Date(booking.checkOutDate) <= new Date(searchCriteria.endDate));
+        const matchesDateRange = (!startDate || bookingCheckInDate >= startDate) &&
+            (!endDate || bookingCheckOutDate <= endDate);
         const matchesStatus = !searchCriteria.status || booking.bookingStatus === searchCriteria.status;
 
         return matchesHouseName && matchesDateRange && matchesStatus;
     });
+
+
 
     const indexOfLastBooking = currentPage * itemsPerPage;
     const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
