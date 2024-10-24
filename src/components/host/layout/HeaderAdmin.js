@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './AdminStyle.css';
 import { Link, useNavigate } from "react-router-dom";
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Badge, Menu, Button } from 'antd';
+import {BellOutlined, UserOutlined, LogoutOutlined, MenuOutlined} from '@ant-design/icons';
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../../auth/AuthContext";
@@ -12,6 +13,8 @@ const HeaderAdmin = () => {
     const { logout } = useAuth();
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
+
+
 
     // Lấy danh sách thông báo từ API
     useEffect(() => {
@@ -68,74 +71,92 @@ const HeaderAdmin = () => {
         }
     };
 
+    const notificationMenu = (
+        <Menu>
+            {notifications.length === 0 ? (
+                <Menu.Item>Hiện tại không có thông báo mới!</Menu.Item>
+            ) : (
+                notifications.map(notification => (
+                    <Menu.Item
+                        key={notification.id}
+                        className={notification.isRead ? 'notification-read' : 'notification-unread'}
+                        onClick={() => markNotificationAsRead(notification.id)}
+                        style={{ marginBottom: '2px' }}
+                    >
+                        {notification.message} - {new Date(notification.timestamp).toLocaleString('vi-VN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    })}
+                    </Menu.Item>
+                ))
+            )}
+        </Menu>
+    );
+
+    const userMenu = (
+        <Menu>
+            <Menu.Item>
+                <Link to="/user/view-profile" style={{ textDecoration: 'none' }}>Quản lý tài khoản</Link>
+            </Menu.Item>
+            <Menu.Item>
+                <Link to="/user/history-booking" style={{ textDecoration: 'none' }}>Lịch sử thuê nhà</Link>
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item>
+                <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout}>Đăng xuất</Button>
+            </Menu.Item>
+        </Menu>
+    );
+
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             {/* Navbar Brand */}
             <Link className="navbar-brand ps-3" to="/home">Nhà Tốt</Link>
 
             {/* Sidebar Toggle */}
-            <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
-                <i className="fas fa-bars"></i>
-            </button>
-
+            <Button
+                className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+                id="sidebarToggle"
+                type="text" // Đặt type là "text" để nút không có background
+            >
+                <MenuOutlined style={{ color: '#fff' }} /> {/* Đặt icon trực tiếp bên trong nút */}
+            </Button>
             {/* Navbar Right Side */}
             <ul className="navbar-nav ms-auto me-3">
                 {/* Bell Icon for Notifications */}
-                <li className="nav-item">
-                    <Dropdown align="end">
-                        <Dropdown.Toggle variant="dark" id="dropdown-notifications">
-                            <i className="fas fa-bell"></i>
-                            {unreadCount > 0 && <span className="badge badge-danger">{unreadCount}</span>}
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            {notifications.length === 0 ? (
-                                <Dropdown.Item className="text-center">Hiện tại không có thông báo mới!</Dropdown.Item>
-                            ) : (
-                                notifications.map(notification => (
-                                    <Dropdown.Item
-                                        key={notification.id}
-                                        className={notification.isRead ? 'notification-read' : 'notification-unread'}
-                                        onClick={() => markNotificationAsRead(notification.id)}
-                                    >
-                                        {notification.message} - {new Date(notification.timestamp).toLocaleString('vi-VN', {
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        second: '2-digit',
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric'
-                                    })}
-                                    </Dropdown.Item>
-                                ))
-                            )}
-                        </Dropdown.Menu>
+                <li className="nav-item mx-2"> {/* Thêm lớp mx-2 */}
+                    <Dropdown overlay={notificationMenu} trigger={['click']} placement="bottomRight">
+                        <Badge count={unreadCount}>
+                            <Button
+                                type="text"
+                                icon={<BellOutlined style={{ color: '#fff' }} />}
+                                style={{ color: '#fff' }}
+                            />
+                        </Badge>
                     </Dropdown>
                 </li>
 
                 {/* Chat Notification Component */}
-                <li className="nav-item">
+                <li className="nav-item mx-2"> {/* Thêm lớp mx-2 */}
                     <ChatNotification />
                 </li>
 
                 {/* User Icon and Dropdown */}
-                <li className="nav-item">
-                    <Dropdown align="end">
-                        <Dropdown.Toggle variant="dark" id="dropdown-user">
-                            <i className="fas fa-user fa-fw"></i>
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item as={Link} to="/user/view-profile">Quản lý tài khoản</Dropdown.Item>
-                            <Dropdown.Item as={Link} to="/user/history-booking">Lịch sử thuê nhà</Dropdown.Item>
-                            <Dropdown.Divider />
-                            <Dropdown.Item as="button">
-                                <button type="button" className="dropdown-item" onClick={handleLogout}>Đăng xuất</button>
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
+                <li className="nav-item mx-2"> {/* Thêm lớp mx-2 */}
+                    <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
+                        <Button
+                            type="text"
+                            icon={<UserOutlined style={{ color: '#fff' }} />}
+                            style={{ color: '#fff' }}
+                        />
                     </Dropdown>
                 </li>
             </ul>
+
 
             {/* Toast Container for Notifications */}
             <ToastContainer

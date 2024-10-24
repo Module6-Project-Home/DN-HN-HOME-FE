@@ -4421,15 +4421,14 @@ fieldset:disabled .btn {
 
 .navbar-nav {
     --bs-nav-link-padding-x: 0;
-    --bs-nav-link-padding-y: 0.5rem;
-    --bs-nav-link-font-weight: ;
+    --bs-nav-link-padding-y: 2rem;
     --bs-nav-link-color: var(--bs-navbar-color);
     --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
     --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
     display: flex;
     flex-direction: column;
     padding-left: 0;
-    margin-bottom: 0;
+    margin-bottom: 0 ;
     list-style: none;
 }
 
@@ -13200,10 +13199,38 @@ body {
 }
 
 .notification-read {
-    background-color: white; /* Nền cho thông báo đã đọc */
+    background-color: #f1f1f1; /* Màu nền nhẹ nhàng cho thông báo đã đọc */
+    border-left: 5px solid #4caf50; /* Đường viền màu xanh lá tượng trưng cho đã đọc */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
 }
 
 .notification-unread {
-    background-color: rgba(255, 255, 0, 0.4); /* Nền cho thông báo chưa đọc */
-    font-weight: bold; /* Làm nổi bật thông báo chưa đọc */
+    background-color: aquamarine; /* Màu vàng nhạt cho thông báo chưa đọc */
+    border-left: 5px solid #ff9800; /* Đường viền màu cam nổi bật */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-weight: bold;
+    font-size: 14px;
 }
+
+.notification-unread:hover, .notification-read:hover {
+    background-color: #e7e7e7; /* Hiệu ứng khi hover */
+    cursor: pointer;
+}
+
+.nav-item button:focus,
+.nav-item button:hover {
+    color: #f0f0f0; /* Thay đổi màu icon khi focus */
+    background-color: #444; /* Thêm màu nền khi focus */
+    border-radius: 50%; /* Bo tròn để tạo hiệu ứng nổi bật */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Thêm bóng sáng */
+}
+
+/* AdminStyle.css */
+
