@@ -97,12 +97,51 @@ const App = () => {
                                 <PrivateRoute requiredRole="ROLE_HOST" element={<HostDashboard />} />
                             }
                         />
-                        <Route path="/host/update-property/:id" element={<UpdateProperty />} />
-                        <Route path="/host/listMyHome" element={<ListMyHomestay />} />
-                        <Route path="/host/create-property" element={<AddNewProperty />} />
-                        <Route path="/host/monthlyRevenue" element={<MonthlyRevenue />} />
-                        <Route path="/host/ownerBookingHistory" element={<OwnerBookingHistory />} />
-                        <Route path="/host/chat-room/:chatRoomId" element={<HostChatWindow />} />
+
+                        <Route
+                            path="/host/update-property/:id"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_HOST" element={<UpdateProperty />} />
+                            }
+                        />
+
+
+                        <Route
+                            path="/host/listMyHome"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_HOST" element={<ListMyHomestay />} />
+                            }
+                        />
+
+
+                        <Route path="/host/create-property" element={
+                            <PrivateRoute requiredRole="ROLE_HOST"
+                               element={<AddNewProperty />} />
+                        }
+                        />
+
+                        <Route
+                            path="/host/monthlyRevenue"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_HOST" element={<MonthlyRevenue />} />
+                            }
+                        />
+
+
+                        <Route
+                            path="/host/ownerBookingHistory"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_HOST" element={<OwnerBookingHistory />} />
+                            }
+                        />
+
+
+                        <Route
+                            path="/host/chat-room/:chatRoomId"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_HOST" element={<HostChatWindow />} />
+                            }
+                        />
 
                     </Route>
 
@@ -125,7 +164,13 @@ const App = () => {
                                 <PrivateRoute requiredRole="ROLE_ADMIN" element={<AdminDashboard />} />
                             }
                         />
-                        <Route path="/admin/user-detail/:userId" element={<UserHistoryBooking />} />
+                        <Route
+                            path="/admin/user-detail/:userId"
+                            element={
+                                <PrivateRoute requiredRole="ROLE_ADMIN" element={<UserHistoryBooking />} />
+                            }
+                        />
+
                     </Route>
 
 
